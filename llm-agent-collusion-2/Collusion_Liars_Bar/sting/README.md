@@ -39,7 +39,7 @@ cd Collusion_Liars_Bar                     # every command below runs from here
 ## Step 0 - zero-cost dry run (5 minutes, $0)
 
 ```bash
-(cd ../sting_tests && python -m pytest -q)          # 38 tests, ~40 s
+(cd ../sting_tests && python -m pytest -q)          # 46 tests, ~45 s
 python -m sting stage-a  --stub
 python -m sting live     --stub --pilot && python -m sting checkpoint --runs sting_runs_stub
 python -m sting live     --stub
@@ -57,7 +57,7 @@ has planted effects; the pipeline test checks they are recovered and that the nu
 | Step | Command | Calls | Cost (est.) | Wall clock (est.) |
 |---|---|---|---|---|
 | 0b. Real smoke test | `python -m sting smoke` (keys, routing, parsing, time per game; cents) | ~160 | < $0.05 | 5 min |
-| 1. Freeze | `python -m sting freeze`, then commit + `git tag prereg-v1`; paste the hash into PREREG.md | - | - | 5 min |
+| 1. Freeze | Review `PREREG.md`, then `python -m sting freeze` (writes `sting/FREEZE.json`), then commit + `git tag -a prereg-v1` as printed. Before any real data (PREREG section 9) | - | - | 5 min |
 | 2. Stage A | `python -m sting stage-a` | 12,100 | ~$2 | 30-60 min |
 | 3. Pilot + go/no-go | `python -m sting live --pilot` then `python -m sting checkpoint` | ~10k | < $1 | 30-45 min |
 | 4. Stage L (main) | `python -m sting live` (resumes the pilot; 60 sequences at LIVE_N) | ~70k | ~$3-5 | 2-3 h at 6 workers |

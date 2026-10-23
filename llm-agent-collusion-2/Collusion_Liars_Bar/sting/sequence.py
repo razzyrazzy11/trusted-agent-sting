@@ -24,6 +24,7 @@ from typing import Callable, Dict, Optional
 from . import STUDY_VERSION, texts
 from .client import ClientPool, JsonlSink
 from .config import ARMS, ARRANGEMENTS, NAMES, ROLES, SequenceConfig
+from .freeze import record as protocol_record
 from .game import StingGame
 from .offers import record_for_offer, run_offer
 from .players import StingPlayer, TrackedPlayer
@@ -166,7 +167,7 @@ def run_sequence(cfg: SequenceConfig, root: Path, stub_factory: Optional[Callabl
                 cost_usd_estimate=round(sum(c["cost_usd_estimate"] for c in pool.stats()), 4),
                 n_calls=sum(c["n_calls"] for c in pool.stats()),
                 duration_s=round(time.time() - t_start, 1), stub=stub_factory is not None,
-                git_commit=git_commit(), python=platform.python_version(),
+                git_commit=git_commit(), protocol=protocol_record(), python=platform.python_version(),
                 finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
     (tmp / "meta.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False))
     (tmp / "DONE").write_text("ok\n")

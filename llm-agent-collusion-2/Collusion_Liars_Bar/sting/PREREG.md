@@ -5,12 +5,15 @@ that offers to collude has not yet been tested"). AsPredicted-style questions, t
 plan. Everything here is implemented in `sting/` exactly as written; section numbers are referenced
 from the code.
 
-**Freeze procedure.** Before any real-model run beyond the pilot, run `python -m sting freeze` (prints
-SHA-256 hashes of this file and the protocol code), commit, and tag `prereg-v1`. Record the protocol
-hash and tag time here:
-
-- Protocol hash: `<fill in from python -m sting freeze>`
-- Tagged at (UTC): `<fill in>`
+**Freeze procedure.** Before any real-model data collection (everything after the smoke test, whose
+output folder is never analysed), run `python -m sting freeze`. It writes `sting/FREEZE.json`: the
+SHA-256 of this file and of every protocol file (prompts, parsing, sampling settings, game logic,
+runners, checkpoint, judge, analysis), the protocol hash and the UTC time. Then commit and create the
+annotated tag `prereg-v1` carrying the hash (the command prints both steps). The hash is recorded in
+`FREEZE.json` and in the tag, not in this file, so recording it cannot change it;
+`python -m sting freeze --check` re-verifies it at any time. Every data folder records the protocol
+hash it was collected under; the checkpoint applies section 9 to those hashes, and the analysis
+reports whether all data were collected under the frozen hash.
 
 Any change after the tag is logged in `DEVIATIONS.md` (section D) with a timestamp and whether any
 real data had been seen.

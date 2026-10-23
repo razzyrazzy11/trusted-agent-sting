@@ -10,28 +10,13 @@
     python -m sting analyze      --runs DIR     all pre-registered analyses, figures, claims.json
     python -m sting simulate                    pre-run yield and power simulation
     python -m sting texts [--write]             print (or write TEXTS.md) every study text
-    python -m sting freeze                      sha256 of the frozen protocol files (for PREREG)
+    python -m sting freeze       [--check]      freeze the protocol (writes sting/FREEZE.json) / verify it
 """
 from __future__ import annotations
 
-import hashlib
 import os
 import sys
 from pathlib import Path
-
-
-def _freeze():
-    root = Path(__file__).resolve().parent
-    files = ["PREREG.md", "config.py", "texts.py", "game.py", "players.py", "offers.py", "sequence.py",
-             "probes.py", "stage_a.py", "stage_s.py", "analysis/analyze.py", "analysis/stats.py"]
-    h = hashlib.sha256()
-    for f in files:
-        p = root / f
-        if p.exists():
-            data = p.read_bytes()
-            h.update(f.encode() + b"\0" + data)
-            print(f"{hashlib.sha256(data).hexdigest()[:16]}  sting/{f}")
-    print(f"\nprotocol hash: {h.hexdigest()}")
 
 
 def main():
@@ -74,8 +59,7 @@ def main():
                 print(f"===== {name} =====\n{text}\n")
         return 0
     elif cmd == "freeze":
-        _freeze()
-        return 0
+        from .freeze import main as m
     else:
         print(f"unknown command {cmd!r}\n{__doc__}")
         return 2

@@ -84,6 +84,8 @@ def main(argv=None):
     jobs.sort(key=lambda j: (j[1], list(ARMS).index(j[0])))
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
+    from .freeze import announce
+    announce("L-pilot" if a.pilot else "L", stub=a.stub)
     print(f"{len(jobs)} sequences, model {a.model}, {a.workers} workers -> {out}", flush=True)
     ctx = mp.get_context("spawn")
     results = []

@@ -9,7 +9,7 @@ from typing import Dict, List
 
 import pandas as pd
 
-from ..runinfo import is_stub_dir
+from ..runinfo import is_stub_dir, protocol_hashes
 
 
 @dataclass
@@ -22,6 +22,7 @@ class Data:
     S: pd.DataFrame = field(default_factory=pd.DataFrame)       # Stage S snapshot samples
     judge: Dict[str, str] = field(default_factory=dict)
     budget: List[dict] = field(default_factory=list)
+    protocol: List[dict] = field(default_factory=list)          # protocol hash each data folder was collected under
     stub: bool = False
     sources: Dict[str, str] = field(default_factory=dict)
 
@@ -65,6 +66,7 @@ def load(runs: Path) -> Data:
             rows += _jsonl(d / "responses.jsonl")
             data.stub |= is_stub_dir(d)
             data.budget.append(_calls_budget(d / "calls.jsonl.gz", "A", d.name))
+            data.protocol += [dict(stage="A", source=d.name, protocol_hash=h) for h in protocol_hashes(d)]
     data.A = pd.DataFrame(rows)
     # ---- Stage L
     seq_rows, dec_rows, probe_rows, game_rows = [], [], [], []
@@ -80,7 +82,10 @@ def load(runs: Path) -> Data:
                              decision_strict=off.get("decision_strict"), decision_zeng=off.get("decision_zeng"),
                              accepted=off.get("accepted"), n_calls=meta["n_calls"], cost=meta["cost_usd_estimate"],
                              duration_min=meta["duration_s"] / 60, stub=bool(meta.get("stub")),
-                             names=meta["names"], arrangement_order=meta["config"]["arrangement_order"]))
+                             names=meta["names"], arrangement_order=meta["config"]["arrangement_order"],
+                             protocol_hash=(meta.get("protocol") or {}).get("protocol_hash")))
+        data.protocol.append(dict(stage="L", source=meta["seq_id"],
+                                  protocol_hash=(meta.get("protocol") or {}).get("protocol_hash")))
         for g in meta["games"]:
             game_rows.append(dict(seq_id=meta["seq_id"], arm=meta["config"]["arm"], **g))
         dec_rows += _jsonl(d / "decisions.jsonl")
@@ -100,6 +105,7 @@ def load(runs: Path) -> Data:
             rows += _jsonl(d / "responses.jsonl")
             data.stub |= is_stub_dir(d)
             data.budget.append(_calls_budget(d / "calls.jsonl.gz", "S", d.name))
+            data.protocol += [dict(stage="S", source=d.name, protocol_hash=h) for h in protocol_hashes(d)]
     data.S = pd.DataFrame(rows)
     # ---- judge labels
     for p in sorted((runs / "judge").glob("*.jsonl")):

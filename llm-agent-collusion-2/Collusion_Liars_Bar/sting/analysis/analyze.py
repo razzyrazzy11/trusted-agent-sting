@@ -448,7 +448,20 @@ def health_section(data: Data) -> dict:
     if not data.S.empty:
         h["snapshot_fallback_rate"] = float(data.S["fallback"].mean())
         h["snapshot_template_reply_share"] = float((data.S["reply_source"] == "template").mean())
+    h["protocol"] = protocol_summary(data)
     return h
+
+
+def protocol_summary(data: Data) -> dict:
+    """Were all data collected under the frozen protocol (PREREG.md, freeze procedure)?"""
+    from ..freeze import status
+    st = status()
+    hashes = [p["protocol_hash"] for p in data.protocol]
+    return dict(frozen=st["frozen"], frozen_hash=(st["frozen_hash"] or "")[:16] or None,
+                frozen_at_utc=st["frozen_at_utc"], code_unchanged_since_freeze=st["match"],
+                data_folders=len(hashes), data_protocol_hashes=sorted({(h or "none")[:16] for h in hashes}),
+                all_data_under_frozen_protocol=bool(st["frozen"] and hashes and
+                                                    all(h == st["frozen_hash"] for h in hashes)))
 
 
 # =========================================================================== orchestration

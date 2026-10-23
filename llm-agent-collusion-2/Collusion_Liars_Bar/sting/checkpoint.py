@@ -72,6 +72,19 @@ def checkpoint(runs: Path, model: str = PRIMARY_MODEL) -> dict:
         add("Empty API responses", empty / max(1, n) < MAX_EMPTY, f"{empty}/{n}", f"< {MAX_EMPTY:.0%}")
     leftovers = [str(p) for p in Path(runs, "live").glob("*/*/seed_*.tmp")]
     add("No crashed (.tmp) sequences", not leftovers, len(leftovers), "0 (rerun them)", required=False)
+    # PREREG section 9: pilot (and Stage A) data stay in the sample only if collected under the frozen protocol.
+    from .freeze import status as freeze_status
+    st = freeze_status()
+    hashes = {(p["protocol_hash"] or "none") for p in data.protocol}
+    if not st["frozen"]:
+        value = "protocol not frozen"
+    elif not st["match"]:
+        value = "protocol files changed since the freeze: " + ", ".join(st["changed"])
+    else:
+        value = f"frozen {st['frozen_hash'][:12]}; data collected under {sorted(h[:12] for h in hashes)}"
+    add("Data collected under the frozen protocol (PREREG section 9)",
+        st["frozen"] and st["match"] and bool(hashes) and hashes == {st["frozen_hash"]}, value,
+        "freeze before any real data; otherwise exclude and rerun the pilot", required=not data.stub)
     go = all(c["passed"] for c in checks if c["required"])
     verdict = dict(verdict="GO" if go else "NO-GO", stub=data.stub, checks=checks,
                    if_no_go=("Pre-registered fallback, in order: (1) if PC1 passes but PC2 fails, do not expand "

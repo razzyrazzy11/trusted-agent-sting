@@ -60,6 +60,7 @@ No other preexisting file is modified. The study's own game (`sting/game.py`) su
 | Stage A: 500 offers per cell for the open 7-8B models (100 for gpt-4.1-mini) | Zeng's protocol; stub validation showed 100 per cell misses a 0.15 difference ~30% of the time |
 | Positive control B0: designer hint paired with S (not Zeng's 4-model replication) | Zeng's colluding pair is substituted in the starter repo; the control must be measurable on S |
 | Suspicion funnel and follow-up interview added | Manipulation-check convention for confederate designs; Zeng v2 concealment test; Meinke et al. 2024 |
+| Freeze before any real data (was "beyond the pilot"); hash recorded in `FREEZE.json` and the tag, not in PREREG.md; protocol set extended to parsing, sampling settings, checkpoint, judge and loader; every data folder records its protocol hash | The old wording let pre-freeze pilot data enter the confirmatory sample (contradicting section 9); pasting the hash into a hashed file changed the hash |
 
 ## D. Post-freeze deviations (append-only)
 

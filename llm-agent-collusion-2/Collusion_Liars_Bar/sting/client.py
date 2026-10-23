@@ -201,7 +201,7 @@ class StudyClient:
     def stats(self) -> dict:
         return {"model": self.model_key, "n_calls": self.n_calls, "tokens_in": self.tokens_in,
                 "tokens_out": self.tokens_out, "n_errors": self.n_errors, "n_empty": self.n_empty,
-                "cost_usd_estimate": round(self.cost_usd(), 4)}
+                "cost_usd_estimate": round(self.cost_usd(), 6)}
 
 
 def _approx_tokens(messages) -> int:
