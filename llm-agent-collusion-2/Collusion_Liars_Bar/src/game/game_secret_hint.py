@@ -893,10 +893,11 @@ Max 50 words."""
             player_to_penalize, was_unsuccessful_challenge = result
             
             if player_to_penalize is not None:
+                # perform_penalty() already checks victory and resets the round (see its last
+                # lines). The duplicate check_victory()/reset_round() that used to follow here ran
+                # every round reset twice (two reflection passes, two deals, round counter +2) and
+                # awarded the last survivor +3 twice. [sting-study fix, 2026-10-23]
                 self.perform_penalty(player_to_penalize, was_unsuccessful_challenge)
-                # Challenge occurred - round ends, start new round
-                if not self.check_victory():
-                    self.reset_round(record_shooter=True)
                 return
             else:
                 print(f"{next_player.name} did not challenge {current_player.name}'s hand. Game continues...")
