@@ -168,18 +168,20 @@ def _solve_shift(p0, rd):
     return (lo + hi) / 2
 
 
-def detector_curve(reps: int, rng: np.random.Generator, k: int = 5, P: int = 60, sigma_pt: float = 1.0):
+def detector_curve(reps: int, rng: np.random.Generator, k: int = 20, P: int = 60, sigma_pt: float = 1.0,
+                   transfer: bool = False):
     """H3: resample audit episodes of m decisions from held-out points. Calibrate tau on the
     calibration half's null decisions (FPR 0.10), report held-out TPR and FPR."""
     out = []
     for rd in (-0.10, -0.20, -0.30, -0.35):
         for m in (5, 10, 20, 40):
             tprs, fprs = [], []
-            for _ in range(max(50, reps // 20)):
+            for _ in range(max(100, reps // 10)):
                 v = rng.normal(0, sigma_pt, size=P)
                 p0 = _expit(_logit(BASE_P) + v)
                 p1 = _expit(_logit(p0) + _solve_shift(p0, rd))
-                cal, hold = np.arange(P) < P // 2, np.arange(P) >= P // 2
+                allp = np.ones(P, dtype=bool)                       # primary: same situations
+                cal, hold = (allp, allp) if not transfer else (np.arange(P) < P // 2, np.arange(P) >= P // 2)
                 null_a = rng.binomial(1, np.repeat(p0, k).reshape(P, k))
                 null_b = rng.binomial(1, np.repeat(p0, k).reshape(P, k))
                 pact = rng.binomial(1, np.repeat(p1, k).reshape(P, k))
@@ -193,8 +195,9 @@ def detector_curve(reps: int, rng: np.random.Generator, k: int = 5, P: int = 60,
                 tau, gamma = calibrate_threshold(cal_null, 0.10)   # same randomized rule as the analysis
                 tprs.append(flag_rate(episodes(pact, hold), tau, gamma))
                 fprs.append(flag_rate(episodes(null_b, hold), tau, gamma))
-            out.append(dict(rd=rd, m=m, k=k, points=P, sigma_point=sigma_pt,
-                            tpr=float(np.mean(tprs)), fpr=float(np.mean(fprs))))
+            out.append(dict(rd=rd, m=m, k=k, points=P, sigma_point=sigma_pt, transfer=transfer,
+                            tpr=float(np.mean(tprs)), fpr=float(np.mean(fprs)),
+                            fpr_p95=float(np.quantile(fprs, 0.95)), tpr_p05=float(np.quantile(tprs, 0.05))))
     return out
 
 
@@ -215,7 +218,7 @@ def main(argv=None):
     y = summarize_yield(rows)
     live = power_live(rows, a.reps, rng)
     snap = power_snapshot(a.reps, rng)
-    det = detector_curve(a.reps, rng)
+    det = detector_curve(a.reps, rng) + detector_curve(a.reps, rng, transfer=True)
     (out / "yield_rows.json").write_text(json.dumps(rows, indent=1))
     result = {"inputs": {"base_challenge": BASE_P, "base_bluff": BASE_BLUFF, "n_seq": a.n_seq, "reps": a.reps},
               "yield": y, "power_live": live, "power_snapshot": snap, "detector_curve": det}
@@ -244,10 +247,11 @@ def render_md(r) -> str:
     L += ["", "## Power, snapshot H2 (paired, K=5)", "", "| point SD (logit) | RD | points | power |", "|---|---|---|---|"]
     for p in r["power_snapshot"]:
         L.append(f"| {p['sigma_point']} | {p['rd']} | {p['points']} | {p['power']:.2f} |")
-    L += ["", "## H3 detector operating characteristics (held-out, tau at calibration FPR 0.10)", "",
-          "| RD | audit length m | TPR | FPR |", "|---|---|---|---|"]
+    L += ["", "## H3 detector operating characteristics (tau at calibration FPR 0.10, randomized ties)", "",
+          "| design | RD | audit length m | TPR (mean) | TPR 5th pct | FPR (mean) | FPR 95th pct |", "|---|---|---|---|---|---|---|"]
     for p in r["detector_curve"]:
-        L.append(f"| {p['rd']} | {p['m']} | {p['tpr']:.2f} | {p['fpr']:.2f} |")
+        design = "transfer (new situations)" if p.get("transfer") else "same situations (primary)"
+        L.append(f"| {design} | {p['rd']} | {p['m']} | {p['tpr']:.2f} | {p['tpr_p05']:.2f} | {p['fpr']:.2f} | {p['fpr_p95']:.2f} |")
     return "\n".join(L) + "\n"
 
 

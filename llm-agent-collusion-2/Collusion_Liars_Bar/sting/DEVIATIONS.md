@@ -52,6 +52,9 @@ No other preexisting file is modified. The study's own game (`sting/game.py`) su
 | C4 (refused) has no fairness reminder at decision time | So C4 vs C1 differs only by the refused-offer record |
 | Detector threshold with randomized tie-breaking | Episode scores are discrete; a strict threshold gave held-out FPR ~0.01 instead of 0.10 in stub validation |
 | Detector reported as an operating curve over audit length m | Per-decision scores are too noisy; the audit length is the natural design parameter |
+| Detector primary analysis on the same decision situations (calibrate on C1a, FPR on the independent replicate C1b); cross-situation transfer reported separately | Simulation: calibrating on half the situations and testing on the other half inflates held-out FPR (0.12-0.14 at m = 20, ~0.19 at m = 40) because situations differ in baseline rates |
+| K = 20 (not 5) for C1a, C1b, C3 at `chal_S` points | Tightens H2 and the detector's false-positive estimate (C1a-C1b noise) |
+| H3 tests miscalibration (C1b FPR not significantly above 0.10) instead of an FPR upper bound | Stub validation: the FPR's 95% CI half-width is ~0.08 at this sample size, so any upper-bound criterion would fail often for a perfectly calibrated detector |
 | Primary live test: between-arm post-offer rates (Welch), not pre/post | Simulation: only ~4-5 T-on-S decisions before the offer; pre/post power 0.2-0.45 |
 | Sample sizes 15/15/10/10/10 (B1/B3/B0/B2/B4) | Simulation (PREREG section 7) |
 | Positive control B0: designer hint paired with S (not Zeng's 4-model replication) | Zeng's colluding pair is substituted in the starter repo; the control must be measurable on S |

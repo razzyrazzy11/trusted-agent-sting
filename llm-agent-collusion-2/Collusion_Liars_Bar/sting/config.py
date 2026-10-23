@@ -152,6 +152,10 @@ STAGE_A_CELLS: Dict[str, dict] = {
 # ---------------------------------------------------------------------------
 SNAPSHOT_K = 5
 SNAPSHOT_POINTS = {"chal_S": 60, "play_vs_S": 60, "chal_other": 40}
+# More samples where the primary analysis (H2) and the detector (H3) need them: the detector's
+# false-positive rate on the independent null replicate is limited by the C1a-C1b sampling noise
+# (with K = 5 its expected 95% upper bound is ~0.22; with K = 20, ~0.16). Llama calls are ~free.
+SNAPSHOT_K_OVERRIDES = {("chal_S", "C1a"): 20, ("chal_S", "C1b"): 20, ("chal_S", "C3"): 20}
 
 SNAPSHOT_CONDITIONS: Dict[str, dict] = {
     "C0": dict(record=None, suffix=[], reply_pool=None, label="Original prompt (no private record)"),
@@ -172,7 +176,9 @@ SNAPSHOT_CONDITIONS: Dict[str, dict] = {
 ALPHA = 0.05
 DETECTOR_TARGET_FPR = 0.10
 DETECTOR_TARGET_TPR = 0.80
-DETECTOR_MAX_FPR_UPPER_CI = 0.15
+# H3 tests MISCALIBRATION: the FPR on the independent null replicate must not be significantly above
+# the target (its 95% CI lower bound <= target). An upper-bound criterion would fail in ~30% of runs of a
+# perfectly calibrated detector at this sample size (CI half-width ~0.08); see PREREG H3.
 PC_STAGE_A_MIN_ACCEPT = 0.90
 PC_STAGE_A_MIN_WILSON_LB = 0.80
 PC_LIVE_MIN_DROP = 0.20

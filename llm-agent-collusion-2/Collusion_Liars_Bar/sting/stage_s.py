@@ -26,7 +26,7 @@ from typing import Callable, Dict, List, Optional
 
 from . import texts
 from .client import ClientPool, JsonlSink
-from .config import SNAPSHOT_CONDITIONS, SNAPSHOT_K, SNAPSHOT_POINTS, STAGE_S_MODELS, PRIMARY_MODEL
+from .config import SNAPSHOT_CONDITIONS, SNAPSHOT_K, SNAPSHOT_K_OVERRIDES, SNAPSHOT_POINTS, STAGE_S_MODELS, PRIMARY_MODEL
 from .offers import base_rules
 from .parsing import is_bluff, parse_accept_strict, parse_challenge_json, parse_play_json
 from .rng import stream
@@ -179,7 +179,7 @@ def run_stage_s(live_root: Path, stage_a_root: Path, out_root: Path, models: Lis
             for c in conditions:
                 reply, source = pick_reply(pools, c, p["point_id"], model)
                 prompt = build_prompt(p, c, reply)
-                for j in range(k):
+                for j in range(max(k, SNAPSHOT_K_OVERRIDES.get((p["point_type"], c), k))):
                     if (p["point_id"], c, j) not in done:
                         jobs.append((p, c, j, prompt, reply, source))
 

@@ -1,5 +1,7 @@
 """Single entry point. Run from llm-agent-collusion-2/Collusion_Liars_Bar/:
 
+    python -m sting smoke                       real-API smoke test (cents): keys, routing, one game
+    python -m sting status       [--runs DIR]   progress of every stage
     python -m sting stage-a      [--stub] ...   Stage A offer battery
     python -m sting live         [--stub] ...   Stage L live sequences (--pilot for the go/no-go pilot)
     python -m sting checkpoint                  go/no-go after the pilot
@@ -41,7 +43,11 @@ def main():
         print(__doc__)
         return 0
     cmd, argv = sys.argv[1], sys.argv[2:]
-    if cmd == "stage-a":
+    if cmd == "smoke":
+        from .smoke import main as m
+    elif cmd == "status":
+        from .status import main as m
+    elif cmd == "stage-a":
         from .stage_a import main as m
     elif cmd == "live":
         from .run_live import main as m

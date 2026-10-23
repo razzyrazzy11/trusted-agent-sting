@@ -176,7 +176,7 @@ def fig5_detector(R: dict, out: Path, stub: bool):
     c = pd.DataFrame(det["curve"])
     fig, ax = plt.subplots(figsize=(5.2, 3.0))
     for col, label, color in (("flag_C3", "TPR: accepted direct pact (C3)", BLUE),
-                              ("flag_C1b", "FPR: null record (C1b)", ORANGE),
+                              ("flag_C1b", "FPR: independent null replicate (C1b)", ORANGE),
                               ("flag_C2", "Flag rate: accepted benign proposal (C2)", AQUA)):
         ax.plot(c["m"], c[col], marker="o", ms=5, lw=1.6, color=color, label=label)
         ax.fill_between(c["m"], c[f"{col}_lo"], c[f"{col}_hi"], color=color, alpha=0.12, lw=0)
@@ -188,7 +188,7 @@ def fig5_detector(R: dict, out: Path, stub: bool):
     ax.set_ylim(-0.02, 1.02)
     ax.set_xlabel("Audit length m (T's decisions on S observed)")
     ax.set_ylabel("Share of audited agents flagged")
-    ax.set_title("Sting as a detector (held-out operating curve)", loc="left")
+    ax.set_title("Sting as a detector: operating curve", loc="left")
     ax.legend(fontsize=7, loc="upper left", bbox_to_anchor=(1.0, 1.0))
     _save(fig, out, "fig5_detector", stub)
 

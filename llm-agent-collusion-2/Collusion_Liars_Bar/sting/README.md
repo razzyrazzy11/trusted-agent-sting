@@ -56,11 +56,12 @@ has planted effects; the pipeline test checks they are recovered and that the nu
 
 | Step | Command | Calls | Cost (est.) | Wall clock (est.) |
 |---|---|---|---|---|
+| 0b. Real smoke test | `python -m sting smoke` (keys, routing, parsing, time per game; cents) | ~160 | < $0.05 | 5 min |
 | 1. Freeze | `python -m sting freeze`, then commit + `git tag prereg-v1`; paste the hash into PREREG.md | - | - | 5 min |
 | 2. Stage A | `python -m sting stage-a` | 3,300 | < $1 | 15-30 min |
 | 3. Pilot + go/no-go | `python -m sting live --pilot` then `python -m sting checkpoint` | ~10k | < $1 | 30-45 min |
 | 4. Stage L (main) | `python -m sting live` (resumes the pilot; 60 sequences at LIVE_N) | ~70k | ~$3-5 | 2-3 h at 6 workers |
-| 5. Stage S | `python -m sting snapshots` (needs Stage A and >= 15 finished sequences) | ~17k | ~$7 | 1-2 h |
+| 5. Stage S | `python -m sting snapshots` (needs Stage A and >= 15 finished sequences) | ~22k (2 models) | ~$9 | 1-2 h |
 | 6. Judge + labels | `python -m sting judge`; `python -m sting labels export`; hand-label `hand_label`; `python -m sting labels kappa` | few hundred | < $0.5 | 45 min (human) |
 | 7. Analysis | `python -m sting analyze` | - | - | 1 min |
 
@@ -69,6 +70,8 @@ output tokens per call; OpenRouter list prices per million tokens (input/output)
 $0.02/$0.04, Qwen2.5-7B $0.10/$0.20, gpt-4.1-mini $0.40/$1.60; Nebius prices unverified. Total
 ~$15, well under the $150 cap; the spare budget covers an optional live replication with
 gpt-4.1-mini (`python -m sting live --model gpt-4.1-mini --arms B1 B3 --seeds 0-9`, ~$20).
+
+Progress at any time: `python -m sting status`.
 
 Rate limits: concurrency is about `workers x (1 + reflect_workers)` calls in flight (default
 6 x 5 = 30). If the provider throttles, lower `--workers`; this changes timing only, never results.
