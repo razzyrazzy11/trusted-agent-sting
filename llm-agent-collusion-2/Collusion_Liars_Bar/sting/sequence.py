@@ -30,6 +30,7 @@ from .offers import record_for_offer, run_offer
 from .players import StingPlayer, TrackedPlayer
 from .probes import run_interview, run_suspicion, series_summary
 from .rng import stream
+from .runinfo import keep_out_of_git
 
 
 class StudyLogger:
@@ -79,6 +80,7 @@ def run_sequence(cfg: SequenceConfig, root: Path, stub_factory: Optional[Callabl
     if tmp.exists():
         shutil.rmtree(tmp)
     tmp.mkdir(parents=True)
+    keep_out_of_git(tmp)
 
     arm = ARMS[cfg.arm]
     seq_id = f"{cfg.arm}-{cfg.model}-s{cfg.seed:03d}"

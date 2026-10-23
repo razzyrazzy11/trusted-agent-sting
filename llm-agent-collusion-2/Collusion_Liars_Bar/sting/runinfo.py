@@ -12,9 +12,27 @@ from pathlib import Path
 from . import STUDY_VERSION
 
 
+RAW_GITIGNORE = ("# Raw study data: not for git. The starter repo's .gitignore hides *.json but not *.jsonl,\n"
+                 "# so `git add -A` would commit half of every folder. Publish as an archive instead\n"
+                 "# (sting/README.md, 'What goes into git').\n*\n")
+
+
+def keep_out_of_git(directory: Path) -> None:
+    """Give the raw-data root (the nearest sting_runs* folder at or above `directory`) a catch-all .gitignore."""
+    d = Path(directory).resolve()
+    for p in (d, *d.parents):
+        if p.name.startswith("sting_runs"):
+            p.mkdir(parents=True, exist_ok=True)
+            gi = p / ".gitignore"
+            if not gi.exists():
+                gi.write_text(RAW_GITIGNORE)
+            return
+
+
 def write_run_info(directory: Path, *, stub: bool, stage: str) -> None:
     from .freeze import announce
     from .sequence import git_commit
+    keep_out_of_git(directory)
     path = Path(directory) / "RUN_INFO.json"
     info = json.loads(path.read_text()) if path.exists() else {"runs": []}
     previous = {r["stub"] for r in info["runs"]}

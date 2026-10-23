@@ -1,0 +1,5 @@
+# The starter repo's .gitignore hides *.json, *.csv and *.png; every analysis output belongs in git
+# (claims.json is the only source of the paper's numbers).
+!*.json
+!*.csv
+!*.png

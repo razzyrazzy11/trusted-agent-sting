@@ -102,6 +102,8 @@ def main(argv=None):
     a = ap.parse_args(argv)
     v = checkpoint(Path(a.runs), a.model)
     Path(a.runs).mkdir(parents=True, exist_ok=True)
+    from .runinfo import keep_out_of_git
+    keep_out_of_git(Path(a.runs))
     (Path(a.runs) / "checkpoint.json").write_text(json.dumps(v, indent=2))
     if v["stub"]:
         print("STUB DATA - this checkpoint validates the pipeline only")

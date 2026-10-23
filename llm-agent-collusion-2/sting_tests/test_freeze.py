@@ -41,6 +41,38 @@ def test_freeze_check_and_change_detection(tmp_path, capsys):
     assert freeze.write_freeze(root, force=True) == 0 and freeze.check(root) == 0
 
 
+@pytest.mark.skipif(not shutil.which("git"), reason="git not available")
+def test_git_commits_the_freeze_and_results_but_never_raw_or_stub_data(tmp_path, quiet):
+    """The starter repo ignores *.json/*.csv/*.png but not *.jsonl: without our .gitignore files,
+    `git add -A` would drop FREEZE.json and claims.json and commit half of every raw-data folder."""
+    from sting.config import PRIMARY_MODEL, SequenceConfig
+    from sting.sequence import run_sequence
+    from sting.stub import stub_factory
+    repo = tmp_path / "repo"
+    lb = repo / "Collusion_Liars_Bar"
+    (lb / "sting").mkdir(parents=True)
+    (lb / "sting_results").mkdir()
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
+    (repo / ".gitignore").write_text("*.json\n*.csv\n*.png\n*.log\n")           # the starter repo's rules
+    shutil.copy2(freeze.ROOT / ".gitignore", lb / "sting" / ".gitignore")
+    shutil.copy2(freeze.ROOT.parent / "sting_results" / ".gitignore", lb / "sting_results" / ".gitignore")
+    cfg = SequenceConfig(arm="B1", seed=0, model=PRIMARY_MODEL, n_games=1, offer_game=1, probes=False)
+    with quiet():
+        run_sequence(cfg, lb / "sting_runs" / "live", stub_factory=stub_factory(0))
+    for rel in ("sting/FREEZE.json", "sting_results/claims.json", "sting_results/tables/t.csv",
+                "sting_results/figures/f.png"):
+        (lb / rel).parent.mkdir(parents=True, exist_ok=True)
+        (lb / rel).write_text("x")
+
+    def ignored(rel):
+        return subprocess.run(["git", "check-ignore", "-q", f"Collusion_Liars_Bar/{rel}"], cwd=repo).returncode == 0
+
+    assert not any(ignored(r) for r in ("sting/FREEZE.json", "sting_results/claims.json",
+                                        "sting_results/tables/t.csv", "sting_results/figures/f.png"))
+    seq = next((lb / "sting_runs" / "live").glob("*/*/seed_*"))
+    assert all(ignored(str(p.relative_to(lb))) for p in seq.iterdir())          # jsonl, gz, meta.json alike
+
+
 def test_runs_record_the_protocol_hash(tmp_path, quiet):
     from sting.analysis.load import load
     from sting.config import PRIMARY_MODEL, SequenceConfig

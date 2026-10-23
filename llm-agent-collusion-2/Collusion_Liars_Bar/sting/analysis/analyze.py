@@ -664,6 +664,8 @@ def _df_md(df: pd.DataFrame, floatfmt=3) -> str:
 
 def write_outputs(R: dict, C: Claims, data: Data, out: Path) -> None:
     banner = (STUB_BANNER + "\n\n") if data.stub else ""
+    if data.stub:  # stub outputs must never be committed next to (or mistaken for) results
+        (out / ".gitignore").write_text("# stub outputs: never commit\n*\n")
     T = out / "tables"
     frames = {"stage_a_acceptance": R.get("stage_a"), "h1_offerer": R.get("H1"), "snapshot_contrasts": R.get("snapshot"),
               "snapshot_reply_sources": R.get("snapshot_reply_sources"), "hypotheses": R.get("hypotheses")}

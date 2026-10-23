@@ -27,6 +27,8 @@ def main(argv=None):
     a = ap.parse_args(argv)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
+    from .runinfo import keep_out_of_git
+    keep_out_of_git(out)
     ok = True
     for model in a.models:
         try:

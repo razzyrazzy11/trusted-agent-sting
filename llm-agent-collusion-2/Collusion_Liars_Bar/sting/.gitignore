@@ -1,0 +1,2 @@
+# The starter repo's .gitignore hides *.json; the protocol freeze record must be committed with the tag.
+!FREEZE.json

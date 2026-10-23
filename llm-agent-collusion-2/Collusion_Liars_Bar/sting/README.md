@@ -39,7 +39,7 @@ cd Collusion_Liars_Bar                     # every command below runs from here
 ## Step 0 - zero-cost dry run (5 minutes, $0)
 
 ```bash
-(cd ../sting_tests && python -m pytest -q)          # 46 tests, ~45 s
+(cd ../sting_tests && python -m pytest -q)          # 47 tests, ~45 s
 python -m sting stage-a  --stub
 python -m sting live     --stub --pilot && python -m sting checkpoint --runs sting_runs_stub
 python -m sting live     --stub
@@ -99,6 +99,20 @@ Rate limits: concurrency is about `workers x (1 + reflect_workers)` calls in fli
 
 Raw data: `sting_runs/` (Stage A replies, live decisions with the actual challenger and fallbacks,
 events, probes, every LLM call with tokens and latency, the harness's own per-game records).
+
+### What goes into git
+
+The starter repo's `.gitignore` hides `*.json`, `*.csv`, `*.png` and `*.log` but not `*.jsonl`, so
+by default `git add -A` would drop `FREEZE.json` and `claims.json` and commit half of every raw-data
+folder (the stub dry run alone writes ~250 MB). The study corrects this, so `git add -A` is safe:
+
+- `sting/.gitignore` and `sting_results/.gitignore` un-ignore the freeze record and every analysis
+  output (tables, figures, `claims.json`), so they are committed.
+- Every `sting_runs*/` folder gets a catch-all `.gitignore` when it is created, and stub results
+  (`sting_results_stub/`) are never committable.
+
+To publish the raw data, archive it (`tar czf sting_runs.tar.gz sting_runs/`) and attach it to a
+GitHub release or share it on request, following the publish/withhold rule below.
 
 ## Publish vs withhold
 
