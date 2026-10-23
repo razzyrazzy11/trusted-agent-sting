@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Callable, List, Optional
 
 from .client import ClientPool, JsonlSink
-from .config import NAMES, STAGE_A_BATCHES, STAGE_A_CELLS, STAGE_A_MODELS, STAGE_A_PER_BATCH
+from .config import NAMES, STAGE_A_BATCHES, STAGE_A_CELLS, STAGE_A_MODELS, stage_a_per_batch
 from .offers import run_offer
 from .rng import stream
 from .runinfo import write_run_info
@@ -37,7 +37,7 @@ def _done_keys(path: Path):
 
 
 def run_stage_a(models: List[str], cells: List[str], out_root: Path, stub_factory: Optional[Callable] = None,
-                batches: int = STAGE_A_BATCHES, per_batch: int = STAGE_A_PER_BATCH, workers: int = 8) -> dict:
+                batches: int = STAGE_A_BATCHES, per_batch: Optional[int] = None, workers: int = 8) -> dict:
     out_root = Path(out_root)
     summary = {}
     for model in models:
@@ -49,7 +49,8 @@ def run_stage_a(models: List[str], cells: List[str], out_root: Path, stub_factor
         pool = ClientPool(JsonlSink(d / "calls.jsonl.gz"), stub_factory=stub_factory,
                           context={"stage": "A", "model": model})
         client = pool.get(model)
-        jobs = [(c, b, i) for c in cells for b in range(batches) for i in range(per_batch) if (c, b, i) not in done]
+        n_per_batch = per_batch or stage_a_per_batch(model)
+        jobs = [(c, b, i) for c in cells for b in range(batches) for i in range(n_per_batch) if (c, b, i) not in done]
 
         def one(job):
             cell, b, i = job
@@ -78,7 +79,7 @@ def main(argv=None):
     ap.add_argument("--cells", nargs="+", default=list(STAGE_A_CELLS))
     ap.add_argument("--out", default=None, help="default: sting_runs/stageA (sting_runs_stub/... with --stub)")
     ap.add_argument("--batches", type=int, default=STAGE_A_BATCHES)
-    ap.add_argument("--per-batch", type=int, default=STAGE_A_PER_BATCH)
+    ap.add_argument("--per-batch", type=int, default=None, help="default: 100 for open 7-8B models, 20 for API models")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--stub", action="store_true", help="use the stub model (no API calls)")
     a = ap.parse_args(argv)

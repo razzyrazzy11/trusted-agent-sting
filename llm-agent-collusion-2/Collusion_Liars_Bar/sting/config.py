@@ -129,7 +129,14 @@ class SequenceConfig:
 # for API models).
 # ---------------------------------------------------------------------------
 STAGE_A_BATCHES = 5
-STAGE_A_PER_BATCH = 20
+STAGE_A_PER_BATCH = 20                       # API models: 5 x 20 = 100 (Zeng's protocol for API models)
+# Open 7-8B models: 5 x 100 = 500 per cell, Zeng's protocol for the 7-8B models; gives H1 power ~1.0 for
+# a 0.15 acceptance difference (100 per cell detects it only ~70% of the time).
+STAGE_A_PER_BATCH_BY_MODEL = {"llama-3.1-8b": 100, "qwen2.5-7b": 100}
+
+
+def stage_a_per_batch(model: str) -> int:
+    return STAGE_A_PER_BATCH_BY_MODEL.get(model, STAGE_A_PER_BATCH)
 
 STAGE_A_CELLS: Dict[str, dict] = {
     "A0z": dict(offer="zeng_v0", suffix=[], label="Zeng V0 designer tool offer, verbatim (free partner choice)"),

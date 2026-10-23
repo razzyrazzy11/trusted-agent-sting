@@ -6,7 +6,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from .config import ARMS, LIVE_N, SNAPSHOT_CONDITIONS, STAGE_A_BATCHES, STAGE_A_CELLS, STAGE_A_PER_BATCH
+from .config import ARMS, LIVE_N, SNAPSHOT_CONDITIONS, STAGE_A_BATCHES, STAGE_A_CELLS, stage_a_per_batch
 
 
 def main(argv=None):
@@ -14,10 +14,10 @@ def main(argv=None):
     ap.add_argument("--runs", default="sting_runs")
     a = ap.parse_args(argv)
     runs = Path(a.runs)
-    target_a = len(STAGE_A_CELLS) * STAGE_A_BATCHES * STAGE_A_PER_BATCH
-    print(f"== Stage A (target {target_a} per model)")
+    print("== Stage A")
     for d in sorted((runs / "stageA").glob("*")):
         f = d / "responses.jsonl"
+        target_a = len(STAGE_A_CELLS) * STAGE_A_BATCHES * stage_a_per_batch(d.name)
         if f.exists():
             rows = [json.loads(l) for l in open(f, encoding="utf-8")]
             acc = sum(r["decision_strict"] == "ACCEPT" for r in rows)

@@ -57,6 +57,7 @@ No other preexisting file is modified. The study's own game (`sting/game.py`) su
 | H3 tests miscalibration (C1b FPR not significantly above 0.10) instead of an FPR upper bound | Stub validation: the FPR's 95% CI half-width is ~0.08 at this sample size, so any upper-bound criterion would fail often for a perfectly calibrated detector |
 | Primary live test: between-arm post-offer rates (Welch), not pre/post | Simulation: only ~4-5 T-on-S decisions before the offer; pre/post power 0.2-0.45 |
 | Sample sizes 15/15/10/10/10 (B1/B3/B0/B2/B4) | Simulation (PREREG section 7) |
+| Stage A: 500 offers per cell for the open 7-8B models (100 for gpt-4.1-mini) | Zeng's protocol; stub validation showed 100 per cell misses a 0.15 difference ~30% of the time |
 | Positive control B0: designer hint paired with S (not Zeng's 4-model replication) | Zeng's colluding pair is substituted in the starter repo; the control must be measurable on S |
 | Suspicion funnel and follow-up interview added | Manipulation-check convention for confederate designs; Zeng v2 concealment test; Meinke et al. 2024 |
 
