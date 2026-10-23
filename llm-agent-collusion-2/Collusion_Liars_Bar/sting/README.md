@@ -20,16 +20,19 @@ or only hides it.
 | `Collusion_Liars_Bar/sting/` (all files) | **New, written during the sprint** |
 | `llm-agent-collusion-2/sting_tests/` | **New, written during the sprint** |
 
-No code was written before the sprint. The git history separates the preexisting baseline (`d585a7b`),
-the harness bug fixes, and the new study code.
+No code was written before the sprint. The git history separates the preexisting baseline (the
+starter at `d585a7b`, imported unmodified in its own commit), the harness bug fixes, and the new
+study code.
 
 ## Setup (once)
 
-On Windows, run everything inside WSL2 (Ubuntu): the starter's `setup.sh` is a bash script, and Modal's
-login must live in the same environment that runs the study.
+On Windows, run everything inside WSL with Ubuntu (WSL 1 is enough if hardware virtualization is
+unavailable: the GPUs are on Modal): the starter's `setup.sh` is a bash script, and Modal's login must
+live in the same environment that runs the study. Keep the clone in the Linux home folder, not in
+OneDrive.
 
 ```bash
-# from the repo root (collusion_hackathon/)
+# from the repo root (the folder with setup.sh)
 cp compute.env.example compute.env        # then add:
 #   ANTHROPIC_API_KEY=...   Claude Haiku 5.5 (Stages A and S, judge)
 #   HF_TOKEN=hf_...         a read token whose account has been granted access to
