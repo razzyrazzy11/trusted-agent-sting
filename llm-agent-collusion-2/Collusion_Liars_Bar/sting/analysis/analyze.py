@@ -449,7 +449,19 @@ def health_section(data: Data) -> dict:
         h["snapshot_fallback_rate"] = float(data.S["fallback"].mean())
         h["snapshot_template_reply_share"] = float((data.S["reply_source"] == "template").mean())
     h["protocol"] = protocol_summary(data)
+    h["serving"] = serving_summary(data)
     return h
+
+
+SERVING_KEYS = ("stage", "model", "backend", "repo", "revision", "model_id", "vllm_version", "max_model_len",
+                "gpu", "llama_source", "thinking")
+
+
+def serving_summary(data: Data) -> list:
+    """Each distinct way a model was served, with how many data folders / sequences used it (for Methods)."""
+    from collections import Counter
+    combos = Counter(tuple((k, s.get(k)) for k in SERVING_KEYS if s.get(k) is not None) for s in data.serving)
+    return [dict(c, n=n) for c, n in sorted(combos.items())]
 
 
 def protocol_summary(data: Data) -> dict:

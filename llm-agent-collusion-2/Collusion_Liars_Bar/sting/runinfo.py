@@ -46,6 +46,26 @@ def write_run_info(directory: Path, *, stub: bool, stage: str) -> None:
     path.write_text(json.dumps(info, indent=2))
 
 
+def record_client(directory: Path, stats: dict) -> None:
+    """Attach the client's call counts and serving provenance (backend, repo, revision, vLLM version,
+    GPU, or Claude model id and thinking setting) to this folder's latest run entry."""
+    path = Path(directory) / "RUN_INFO.json"
+    if not path.exists():
+        return
+    info = json.loads(path.read_text())
+    if info.get("runs"):
+        info["runs"][-1]["client"] = stats
+        path.write_text(json.dumps(info, indent=2))
+
+
+def serving_records(directory: Path) -> list:
+    path = Path(directory) / "RUN_INFO.json"
+    if not path.exists():
+        return []
+    return [(r.get("client") or {}).get("serving") for r in json.loads(path.read_text())["runs"]
+            if (r.get("client") or {}).get("serving")]
+
+
 def protocol_hashes(directory: Path) -> list:
     """Protocol hash recorded by each run that wrote into this folder (None for pre-freeze-tooling runs)."""
     path = Path(directory) / "RUN_INFO.json"

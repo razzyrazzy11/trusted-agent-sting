@@ -31,7 +31,7 @@ from .offers import base_rules
 from .parsing import is_bluff, parse_accept_strict, parse_challenge_json, parse_play_json
 from .rng import stream
 from .stage_a import load_stage_a
-from .runinfo import write_run_info
+from .runinfo import record_client, write_run_info
 
 SOURCE_ARMS = ("B0", "B1", "B2", "B3")
 TEMPLATE_REPLIES = {"ACCEPT": "ACCEPT. Deal.", "REFUSE": "REFUSE. I'd rather play this straight."}
@@ -194,6 +194,7 @@ def run_stage_s(live_root: Path, stage_a_root: Path, out_root: Path, models: Lis
         with ThreadPoolExecutor(max_workers=workers) as ex:
             list(ex.map(one, jobs))
         summary[model] = dict(new_calls_planned=len(jobs), **client.stats())
+        record_client(d, client.stats())
     return summary
 
 
@@ -214,7 +215,9 @@ def main(argv=None):
         a.out = "sting_runs/stageS".replace("sting_runs/", "sting_runs_stub/") if a.stub else "sting_runs/stageS"
     if a.stub and a.live == "sting_runs/live":
         a.live, a.stage_a = "sting_runs_stub/live", "sting_runs_stub/stageA"
+    from .client import prepare_backends
     from .stub import stub_factory
+    prepare_backends(a.models, stub=a.stub)
     n = dict(zip(("chal_S", "play_vs_S", "chal_other"), a.points))
     s = run_stage_s(Path(a.live), Path(a.stage_a), Path(a.out), a.models, source_model=a.source_model,
                     n_per_type=n, k=a.k, stub_factory=stub_factory(0) if a.stub else None, workers=a.workers)

@@ -31,8 +31,8 @@ ROOT = Path(__file__).resolve().parent
 # collected, and how they are analysed. Tooling that cannot change results (status, smoke, stub,
 # simulate, figures) is deliberately left out.
 PROTOCOL_FILES = (
-    "PREREG.md", "config.py", "texts.py", "parsing.py", "client.py", "players.py", "game.py", "offers.py",
-    "probes.py", "sequence.py", "stage_a.py", "stage_s.py", "checkpoint.py", "judge.py",
+    "PREREG.md", "config.py", "texts.py", "parsing.py", "client.py", "modal_app.py", "players.py", "game.py",
+    "offers.py", "probes.py", "sequence.py", "stage_a.py", "stage_s.py", "checkpoint.py", "judge.py",
     "analysis/load.py", "analysis/analyze.py", "analysis/stats.py",
 )
 FREEZE_NAME = "FREEZE.json"

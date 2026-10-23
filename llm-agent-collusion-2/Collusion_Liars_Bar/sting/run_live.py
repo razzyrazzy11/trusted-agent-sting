@@ -88,6 +88,8 @@ def main(argv=None):
     keep_out_of_git(out)
     from .freeze import announce
     announce("L-pilot" if a.pilot else "L", stub=a.stub)
+    from .client import prepare_backends
+    prepare_backends([a.model], stub=a.stub)       # wake + verify the server once, before the workers
     print(f"{len(jobs)} sequences, model {a.model}, {a.workers} workers -> {out}", flush=True)
     ctx = mp.get_context("spawn")
     results = []

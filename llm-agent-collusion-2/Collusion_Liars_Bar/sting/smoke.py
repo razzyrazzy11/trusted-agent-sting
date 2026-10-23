@@ -29,6 +29,12 @@ def main(argv=None):
     out.mkdir(parents=True, exist_ok=True)
     from .runinfo import keep_out_of_git
     keep_out_of_git(out)
+    from .client import prepare_backends
+    try:
+        prepare_backends(list(a.models) + ([] if a.no_game else [PRIMARY_MODEL]))
+    except Exception as e:  # noqa: BLE001
+        print(f"[backend] FAILED: {e}\n\nSMOKE TEST FAILED (fix before Stage A)")
+        return 1
     ok = True
     for model in a.models:
         try:
@@ -42,6 +48,9 @@ def main(argv=None):
             st = client.stats()
             print(f"[{model}] calls {st['n_calls']}, tokens in/out {st['tokens_in']}/{st['tokens_out']}, "
                   f"errors {st['n_errors']}, est. ${st['cost_usd_estimate']:.5f}")
+            print(f"[{model}] served by: " + ", ".join(f"{k}={v}" for k, v in st["serving"].items()
+                                                     if k in ("backend", "repo", "revision", "model_id",
+                                                              "vllm_version", "gpu", "thinking")))
             if st["n_errors"] or st["n_empty"]:
                 ok = False
         except Exception as e:  # noqa: BLE001

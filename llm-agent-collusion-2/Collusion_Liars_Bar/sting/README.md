@@ -25,16 +25,31 @@ the harness bug fixes, and the new study code.
 
 ## Setup (once)
 
+On Windows, run everything inside WSL2 (Ubuntu): the starter's `setup.sh` is a bash script, and Modal's
+login must live in the same environment that runs the study.
+
 ```bash
 # from the repo root (collusion_hackathon/)
-cp compute.env.example compute.env        # add NEBIUS_API_KEY and OPENROUTER_API_KEY
-#   OPENROUTER_API_KEY is required for gpt-4.1-mini (Stages A and S); Llama/Qwen run on Nebius.
-#   Leave LLM_MODEL UNSET: it forces one model into every seat and role.
+cp compute.env.example compute.env        # then add:
+#   ANTHROPIC_API_KEY=...   Claude Haiku 5.5 (Stages A and S, judge)
+#   HF_TOKEN=hf_...         a read token whose account has been granted access to
+#                           https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct (Meta approves
+#                           manually: request it first thing)
+#   No Nebius/OpenRouter key is needed. Leave LLM_MODEL UNSET (the study refuses it anyway).
 ./setup.sh llm-agent-collusion-2
 cd llm-agent-collusion-2 && source .venv/bin/activate
-uv pip install -r Collusion_Liars_Bar/sting/requirements.txt   # statsmodels for the GEE check
+uv pip install -r Collusion_Liars_Bar/sting/requirements.txt   # modal, anthropic, statsmodels
+python -m modal setup                      # once, in this environment (browser login; sprint credits)
 cd Collusion_Liars_Bar                     # every command below runs from here
+python -m sting modal deploy               # the study's vLLM servers for Llama and Qwen (sting/modal_app.py)
+python -m sting modal warm                 # first boot downloads the weights: 5-10 min
 ```
+
+`modal deploy` checks your Hugging Face access before spending any GPU time. If Meta has not approved
+the request yet, `python -m sting modal deploy --llama-mirror` serves an ungated copy whose weights and
+configs are byte-identical to Meta's repo (only `tokenizer_config.json` differs; log it in
+DEVIATIONS.md). Servers scale to zero after 15 idle minutes; `python -m sting modal stop` at the end.
+To use Nebius/OpenRouter instead of Modal, set `STING_OPEN_BACKEND=poseidon`.
 
 ## Step 0 - zero-cost dry run (5 minutes, $0)
 
@@ -56,36 +71,41 @@ has planted effects; the pipeline test checks they are recovered and that the nu
 
 | Step | Command | Calls | Cost (est.) | Wall clock (est.) |
 |---|---|---|---|---|
-| 0b. Real smoke test | `python -m sting smoke` (keys, routing, parsing, time per game; cents) | ~160 | < $0.05 | 5 min |
+| 0b. Real smoke test | `python -m sting smoke` (keys, servers, parsing, time per game; prints where each model is served) | ~130 | cents | 5 min |
 | 1. Freeze | Review `PREREG.md`, then `python -m sting freeze` (writes `sting/FREEZE.json`), then commit + `git tag -a prereg-v1` as printed. Before any real data (PREREG section 9) | - | - | 5 min |
-| 2. Stage A | `python -m sting stage-a` | 12,100 | ~$2 | 30-60 min |
-| 3. Pilot + go/no-go | `python -m sting live --pilot` then `python -m sting checkpoint` | ~10k | < $1 | 30-45 min |
-| 4. Stage L (main) | `python -m sting live` (resumes the pilot; 60 sequences at LIVE_N) | ~70k | ~$3-5 | 2-3 h at 6 workers |
-| 5. Stage S | `python -m sting snapshots` (needs Stage A and >= 15 finished sequences) | ~22k (2 models) | ~$9 | 1-2 h |
-| 6. Judge + labels | `python -m sting judge`; `python -m sting labels export`; hand-label `hand_label`; `python -m sting labels kappa` | few hundred | < $0.5 | 45 min (human) |
+| 2. Stage A | `python -m sting stage-a --workers 32` | 16,500 (3 models) | Claude ~$0.70 | 30-45 min |
+| 3. Pilot + go/no-go | `python -m sting live --pilot --workers 9` then `python -m sting checkpoint` | ~5-10k | GPU only | 20-40 min |
+| 4. Stage L (main) | `python -m sting live --workers 10` (resumes the pilot; 60 sequences at LIVE_N) | ~35-70k | GPU only | 1-2 h |
+| 5. Stage S | `python -m sting snapshots --workers 32` (needs Stage A and >= 15 finished sequences) | ~22k (2 models) | Claude ~$2 | 45-75 min |
+| 6. Judge + labels | `python -m sting judge`; `python -m sting labels export`; hand-label `hand_label`; `python -m sting labels kappa` | few hundred | < $0.10 | 45 min (human) |
 | 7. Analysis | `python -m sting analyze` | - | - | 1 min |
 
-Cost assumptions (planning only; the pipeline records real token counts): ~1,500 input and ~150
-output tokens per call; OpenRouter list prices per million tokens (input/output) Llama-3.1-8B
-$0.02/$0.04, Qwen2.5-7B $0.10/$0.20, gpt-4.1-mini $0.40/$1.60; Nebius prices unverified. Total
-~$15, well under the $150 cap; the spare budget covers an optional live replication with
-gpt-4.1-mini (`python -m sting live --model gpt-4.1-mini --arms B1 B3 --seeds 0-9`, ~$20).
+Cost (planning; the pipeline records real token counts and how every call was served): Claude
+Haiku 5.5 at $0.10/$0.50 per million input/output tokens, about $3 in all. Modal bills GPU time, not
+tokens: an H100 is $3.95/h, each server scales to zero 15 minutes after its last request, and the
+whole study needs roughly 3-5 server-hours, about $15-25 of the sprint's $50 credit (watch Modal
+dashboard -> Usage; set a workspace spending limit). `--gpu A100-80GB` ($2.50/h) or `L40S` ($1.95/h)
+at deploy costs less per hour and runs slower; the GPU type changes timing, never results.
 
-Progress at any time: `python -m sting status`.
+Progress at any time: `python -m sting status`. The three Stage A models can also run in parallel
+terminals (`--models llama-3.1-8b`, `--models qwen2.5-7b`, `--models claude-haiku-5.5`).
 
-Rate limits: concurrency is about `workers x (1 + reflect_workers)` calls in flight (default
-6 x 5 = 30). If the provider throttles, lower `--workers`; this changes timing only, never results.
+Concurrency: about `workers x (1 + reflect_workers)` calls in flight in Stage L (10 x 5 = 50). Each
+Modal server batches up to 128 concurrent requests on one GPU. If Claude rate-limits (new API
+accounts can start below the standard 1,000 requests/minute), the SDK backs off and retries;
+lowering `--workers` changes timing only, never results.
 
 ## Schedule to the deadline (Sunday 23:59 AoE = Monday 11:59 UTC)
 
 | When (UTC) | Do |
 |---|---|
-| Fri 21:00-23:00 | Step 0 dry run; Step 1 freeze; Step 2 Stage A |
-| Fri 23:00-Sat 01:00 | Step 3 pilot (runs unattended) |
-| Sat morning | `checkpoint` -> GO/NO-GO (pre-registered rule, PREREG section 9); GO -> Step 4 |
-| Sat afternoon | Step 5 snapshots (once >= 15 sequences are done); Step 6 judge and hand labels |
-| Sat evening | Step 7 analysis; start the paper from `sting_results/summary.md` and `claims.json` |
-| Sun | Write the paper; re-run `analyze` after any late data; submit early, resubmit with the same title if needed |
+| Fri night, first | Request Llama access on Hugging Face (Meta approves manually) |
+| Fri night | Step 0 dry run; `modal deploy` + `warm`; Step 0b smoke; Step 1 freeze; Step 2 Stage A |
+| Fri night / Sat early | Step 3 pilot (unattended, under an hour on H100) |
+| Sat morning | `checkpoint` -> GO/NO-GO (pre-registered rule, PREREG section 9); GO -> Step 4 (1-2 h) |
+| Sat midday | Step 5 snapshots (once >= 15 sequences are done); Step 6 judge and hand labels |
+| Sat afternoon/evening | Step 7 analysis; start the paper from `sting_results/summary.md` and `claims.json` |
+| Sun | Write the paper; re-run `analyze` after any late data; `python -m sting modal stop`; submit early, resubmit with the same title if needed |
 
 ## Outputs and where the paper's numbers come from
 

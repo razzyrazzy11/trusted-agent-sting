@@ -23,27 +23,38 @@ ARRANGEMENTS = {
 }
 
 # ---------------------------------------------------------------------------
-# Models. Prices are OpenRouter list prices per million tokens (input, output) as
-# of October 2026 and are PLANNING ESTIMATES only; re-measure in the pilot.
-# Sampling for open models is the harness's own (src/llm/llm_client.py, Zeng Table 10).
+# Models. Sampling for open models is the harness's own (src/llm/llm_client.py, Zeng Table 10).
+# Open models are served by the study's own vLLM servers on Modal (sting/modal_app.py: bf16,
+# pinned revisions below, max_model_len 8192) unless OPEN_MODEL_BACKEND / STING_OPEN_BACKEND says
+# "poseidon" (Nebius, OpenRouter fallback). Modal bills GPU time, so token prices only matter on
+# "poseidon": OpenRouter list prices per million tokens (input, output), Oct 2026, planning only.
+# Claude Haiku 5.5: Anthropic list price for prompts up to 100k tokens.
 # ---------------------------------------------------------------------------
 MODELS: Dict[str, dict] = {
-    "llama-3.1-8b": dict(model_id="meta-llama/Llama-3.1-8B-Instruct", provider="default",
+    "llama-3.1-8b": dict(model_id="meta-llama/Llama-3.1-8B-Instruct",
+                         revision="0e9e39f249a16976918f6564b8830bc894c89659", provider="default",
                          family="llama", price_in=0.02, price_out=0.04),
-    "qwen2.5-7b": dict(model_id="Qwen/Qwen2.5-7B-Instruct", provider="default",
+    "qwen2.5-7b": dict(model_id="Qwen/Qwen2.5-7B-Instruct",
+                       revision="a09a35458c702b33eeacc393d103063234e8bc28", provider="default",
                        family="qwen", price_in=0.10, price_out=0.20),
     "llama-3.2-3b": dict(model_id="meta-llama/Llama-3.2-3B-Instruct", provider="default",
                          family="llama", price_in=0.02, price_out=0.04),
     "ministral-8b": dict(model_id="mistralai/Ministral-8B-Instruct-2410", provider="default",
                          family="mistral", price_in=0.10, price_out=0.10),
-    # Closed model: OpenRouter only. Provider-default sampling, 1024-token cap (Zeng: API models).
+    # Frontier API model (Stages A and S, judge): native Anthropic SDK, thinking disabled (it is on
+    # by default and counts toward max_tokens), provider-default sampling, 1024-token cap.
+    "claude-haiku-5.5": dict(model_id="claude-haiku-5-5", provider="anthropic",
+                             family="claude", price_in=0.10, price_out=0.50),
+    # Optional alternative frontier model (needs OPENROUTER_API_KEY). Provider-default sampling.
     "gpt-4.1-mini": dict(model_id="openai/gpt-4.1-mini", provider="openrouter",
                          family="openai", price_in=0.40, price_out=1.60),
 }
+OPEN_MODEL_BACKEND = "modal"             # "modal" | "poseidon"; every call log records the backend
 
 PRIMARY_MODEL = "llama-3.1-8b"           # T, O1, O2 and S's voice in the live games
-STAGE_A_MODELS = ["llama-3.1-8b", "qwen2.5-7b", "gpt-4.1-mini"]
-STAGE_S_MODELS = ["llama-3.1-8b", "gpt-4.1-mini"]
+STAGE_A_MODELS = ["llama-3.1-8b", "qwen2.5-7b", "claude-haiku-5.5"]
+STAGE_S_MODELS = ["llama-3.1-8b", "claude-haiku-5.5"]
+JUDGE_MODEL = "claude-haiku-5.5"         # classifies only replies the strict parsers mark UNCLEAR
 
 # Token caps for calls the study adds (the harness's own calls keep its caps).
 MAX_TOKENS_OFFER_REPLY = 80     # Zeng's acceptance test used 50; we allow one short sentence
@@ -132,7 +143,8 @@ STAGE_A_BATCHES = 5
 STAGE_A_PER_BATCH = 20                       # API models: 5 x 20 = 100 (Zeng's protocol for API models)
 # Open 7-8B models: 5 x 100 = 500 per cell, Zeng's protocol for the 7-8B models; gives H1 power ~1.0 for
 # a 0.15 acceptance difference (100 per cell detects it only ~70% of the time).
-STAGE_A_PER_BATCH_BY_MODEL = {"llama-3.1-8b": 100, "qwen2.5-7b": 100}
+STAGE_A_PER_BATCH_BY_MODEL = {"llama-3.1-8b": 100, "qwen2.5-7b": 100,
+                              "claude-haiku-5.5": 100}   # ~$0.70 for 5,500 offers, so the full 500
 
 
 def stage_a_per_batch(model: str) -> int:

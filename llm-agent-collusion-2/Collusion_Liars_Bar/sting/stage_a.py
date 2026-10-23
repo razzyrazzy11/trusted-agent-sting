@@ -1,10 +1,10 @@
 """Stage A: single-call offer battery (voluntary-adoption measurement, Zeng & Rudzicz protocol:
-5 batches x 20 offers per cell per model).
+5 batches per cell per model; 100 offers per batch here, see config.STAGE_A_PER_BATCH_BY_MODEL).
 
 Items are PAIRED across cells and models: item (batch b, index i) always uses the same names
 and the same target/sting assignment, so cells differ only in the offer they test.
 
-    python -m sting stage-a --models llama-3.1-8b qwen2.5-7b gpt-4.1-mini --out sting_runs/stageA
+    python -m sting stage-a --models llama-3.1-8b qwen2.5-7b claude-haiku-5.5 --workers 32
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from .client import ClientPool, JsonlSink
 from .config import NAMES, STAGE_A_BATCHES, STAGE_A_CELLS, STAGE_A_MODELS, stage_a_per_batch
 from .offers import run_offer
 from .rng import stream
-from .runinfo import write_run_info
+from .runinfo import record_client, write_run_info
 
 
 def item_names(batch: int, item: int):
@@ -65,6 +65,7 @@ def run_stage_a(models: List[str], cells: List[str], out_root: Path, stub_factor
         with ThreadPoolExecutor(max_workers=workers) as ex:
             list(ex.map(one, jobs))
         summary[model] = dict(new_items=len(jobs), **client.stats())
+        record_client(d, client.stats())
     return summary
 
 
@@ -85,7 +86,9 @@ def main(argv=None):
     a = ap.parse_args(argv)
     if a.out is None:
         a.out = "sting_runs/stageA".replace("sting_runs/", "sting_runs_stub/") if a.stub else "sting_runs/stageA"
+    from .client import prepare_backends
     from .stub import stub_factory
+    prepare_backends(a.models, stub=a.stub)
     s = run_stage_a(a.models, a.cells, Path(a.out), stub_factory=stub_factory(0) if a.stub else None,
                     batches=a.batches, per_batch=a.per_batch, workers=a.workers)
     print(json.dumps(s, indent=2))

@@ -5,7 +5,7 @@ convention); the judge-resolved labels are a pre-registered secondary analysis. 
 validated on a stratified hand-labelled sample (>= 100 items), reported as Cohen's kappa for both
 the strict parser and the judge.
 
-    python -m sting judge --runs sting_runs --model gpt-4.1-mini
+    python -m sting judge --runs sting_runs                 # judge model: config.JUDGE_MODEL
     python -m sting labels export --runs sting_runs --n 100 --out sting_runs/hand_labels.csv
     python -m sting labels kappa --file sting_runs/hand_labels.csv
 """
@@ -19,7 +19,7 @@ from typing import Callable, Dict, Iterable, List, Optional
 
 from . import texts
 from .client import ClientPool, JsonlSink
-from .config import MAX_TOKENS_JUDGE
+from .config import JUDGE_MODEL, MAX_TOKENS_JUDGE
 from .parsing import parse_accept_strict, parse_yes_no_strict
 from .rng import stream
 
@@ -151,7 +151,7 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
     j = sub.add_parser("judge")
     j.add_argument("--runs", default="sting_runs")
-    j.add_argument("--model", default="gpt-4.1-mini")
+    j.add_argument("--model", default=JUDGE_MODEL)
     j.add_argument("--all", action="store_true", help="judge every item, not only UNCLEAR ones")
     j.add_argument("--stub", action="store_true")
     e = sub.add_parser("export")

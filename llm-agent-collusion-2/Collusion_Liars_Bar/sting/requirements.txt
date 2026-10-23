@@ -1,1 +1,5 @@
 statsmodels>=0.14
+# Open models on the study's own vLLM servers (sting/modal_app.py); built and tested with 1.6.2.
+modal>=1.6.2,<1.7
+# Claude Haiku 5.5 (Stages A and S, judge); built and tested with 2.2.0.
+anthropic>=2.2,<3

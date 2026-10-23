@@ -1,5 +1,6 @@
 """Single entry point. Run from llm-agent-collusion-2/Collusion_Liars_Bar/:
 
+    python -m sting modal deploy|warm|status|stop   the study's vLLM servers on Modal (open models)
     python -m sting smoke                       real-API smoke test (cents): keys, routing, one game
     python -m sting status       [--runs DIR]   progress of every stage
     python -m sting stage-a      [--stub] ...   Stage A offer battery
@@ -28,7 +29,9 @@ def main():
         print(__doc__)
         return 0
     cmd, argv = sys.argv[1], sys.argv[2:]
-    if cmd == "smoke":
+    if cmd == "modal":
+        from .modal_cli import main as m
+    elif cmd == "smoke":
         from .smoke import main as m
     elif cmd == "status":
         from .status import main as m

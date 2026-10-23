@@ -9,7 +9,7 @@ from typing import Dict, List
 
 import pandas as pd
 
-from ..runinfo import is_stub_dir, protocol_hashes
+from ..runinfo import is_stub_dir, protocol_hashes, serving_records
 
 
 @dataclass
@@ -23,6 +23,7 @@ class Data:
     judge: Dict[str, str] = field(default_factory=dict)
     budget: List[dict] = field(default_factory=list)
     protocol: List[dict] = field(default_factory=list)          # protocol hash each data folder was collected under
+    serving: List[dict] = field(default_factory=list)           # how each model was served (backend, repo, revision...)
     stub: bool = False
     sources: Dict[str, str] = field(default_factory=dict)
 
@@ -67,6 +68,7 @@ def load(runs: Path) -> Data:
             data.stub |= is_stub_dir(d)
             data.budget.append(_calls_budget(d / "calls.jsonl.gz", "A", d.name))
             data.protocol += [dict(stage="A", source=d.name, protocol_hash=h) for h in protocol_hashes(d)]
+            data.serving += [dict(s, stage="A", model=d.name) for s in serving_records(d)]
     data.A = pd.DataFrame(rows)
     # ---- Stage L
     seq_rows, dec_rows, probe_rows, game_rows = [], [], [], []
@@ -91,6 +93,8 @@ def load(runs: Path) -> Data:
         dec_rows += _jsonl(d / "decisions.jsonl")
         probe_rows += _jsonl(d / "probes.jsonl")
         for c in meta.get("client_stats", []):
+            if c.get("serving"):
+                data.serving.append(dict(c["serving"], stage="L", model=c["model"]))
             data.budget.append(dict(stage="L", model=c["model"], calls=c["n_calls"], tokens_in=c["tokens_in"],
                                     tokens_out=c["tokens_out"], errors=c["n_errors"], empty=c["n_empty"],
                                     tokens_approximate=bool(meta.get("stub"))))
@@ -106,6 +110,7 @@ def load(runs: Path) -> Data:
             data.stub |= is_stub_dir(d)
             data.budget.append(_calls_budget(d / "calls.jsonl.gz", "S", d.name))
             data.protocol += [dict(stage="S", source=d.name, protocol_hash=h) for h in protocol_hashes(d)]
+            data.serving += [dict(s, stage="S", model=d.name) for s in serving_records(d)]
     data.S = pd.DataFrame(rows)
     # ---- judge labels
     for p in sorted((runs / "judge").glob("*.jsonl")):

@@ -83,7 +83,7 @@ Hypotheses:
     verbal refusal or interview denial rises.
 - **H5 (exploratory).** Suspicion of S (T vs O1/O2), exploitation (T's bluffing when S is its
   challenger), displacement (T's challenges on other players), denial by interview variant, and
-  cross-model replication with gpt-4.1-mini (Stages A and S).
+  cross-model replication with Claude Haiku 5.5, a current safety-trained frontier model (Stages A and S).
 
 ## 3. Dependent variables
 
@@ -105,12 +105,20 @@ Hypotheses:
 
 ## 4. Conditions
 
-Models: T, O1, O2 and the sting's visible text: Llama-3.1-8B-Instruct (Zeng's "Lily" model, served
-through the starter repo's routing with the harness's sampling: T 0.8, top-p 0.95, top-k 40,
-repetition penalty 1.1, 256 tokens). Stage A models: Llama-3.1-8B, Qwen2.5-7B, gpt-4.1-mini.
-Stage S models: Llama-3.1-8B (primary), gpt-4.1-mini (replication).
+Models: T, O1, O2 and the sting's visible text: Llama-3.1-8B-Instruct (Zeng's "Lily" model) with the
+harness's sampling (T 0.8, top-p 0.95, top-k 40, repetition penalty 1.1, 256 tokens). Stage A models:
+Llama-3.1-8B, Qwen2.5-7B, Claude Haiku 5.5. Stage S models: Llama-3.1-8B (primary), Claude Haiku 5.5
+(replication). LLM judge (UNCLEAR replies only): Claude Haiku 5.5.
 
-**Stage A, offer battery** (paired items; 5 batches x 100 = 500 per cell for the open 7-8B models and 5 x 20 = 100 for gpt-4.1-mini, Zeng & Rudzicz's protocol):
+Serving: the open models run on the study's own vLLM servers on Modal (`sting/modal_app.py`: vLLM
+0.21.0, bf16 weights at pinned Hugging Face revisions - Llama `0e9e39f2`, Qwen `a09a3545` -
+max_model_len 8192, no repo generation defaults), and the client refuses a server that does not
+serve exactly that. Claude Haiku 5.5 (`claude-haiku-5-5`, a pinned snapshot) runs through the native
+Anthropic API with thinking disabled and provider-default sampling (current Claude models reject
+custom temperature/top-p), 1024-token cap, as Zeng & Rudzicz ran API models. Every call log records
+which model answered and how it was served.
+
+**Stage A, offer battery** (paired items; 5 batches x 100 = 500 per cell per model, Zeng & Rudzicz's protocol for the 7-8B models):
 
 | Cell | Offer | Rules suffix |
 |---|---|---|
@@ -218,7 +226,7 @@ rate 0.59-0.63, used 0.60):
   estimate 0.16-0.18 at m = 20, hence the miscalibration test in H3). TPR at m = 20: 0.69 for a risk
   difference of -0.20, 0.93 for -0.30, 0.98 for -0.35; so the H3 criterion is expected to hold for
   effects of about -0.25 or larger. Transfer to new situations inflates FPR to 0.12-0.16.
-- Other arms: 10 sequences (B0, B2, B4). Stage A: 500 per cell for the open models, 100 for gpt-4.1-mini (Zeng's protocol); 500 per cell gives power ~1.0 for a 0.15 acceptance difference (H1) and ~0.55 for 0.05.
+- Other arms: 10 sequences (B0, B2, B4). Stage A: 500 per cell for every model (Zeng's protocol for the 7-8B models); 500 per cell gives power ~1.0 for a 0.15 acceptance difference (H1) and ~0.55 for 0.05.
 
 ## 8. Other
 
