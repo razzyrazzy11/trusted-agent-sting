@@ -69,7 +69,11 @@ def run_sequence(cfg: SequenceConfig, root: Path, stub_factory: Optional[Callabl
                  overwrite: bool = False) -> dict:
     final = sequence_dir(root, cfg)
     if (final / "DONE").exists() and not overwrite:
-        return json.loads((final / "meta.json").read_text())
+        existing = json.loads((final / "meta.json").read_text())
+        if bool(existing.get("stub")) != (stub_factory is not None):
+            raise RuntimeError(f"{final} holds {'stub' if existing.get('stub') else 'real'} data; refusing to "
+                               f"mix runs. Use a different output directory.")
+        return existing
     tmp = final.with_name(final.name + ".tmp")
     if tmp.exists():
         shutil.rmtree(tmp)
