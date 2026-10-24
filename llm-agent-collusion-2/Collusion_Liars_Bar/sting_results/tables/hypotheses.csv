@@ -1,0 +1,9 @@
+key,label,estimate,ci_low,ci_high,p,p_holm,status
+PC1,Positive control: Zeng designer offer accepted (Stage A),1.0,0.9923756595384479,1.0,,,pass
+PC2,Positive control: designer hint -> restraint toward S (live),-0.7386850186850188,-0.7920047591297592,-0.6856841168091169,,,pass
+PC3,Positive control: designer hint record -> restraint (snapshots),-0.6220833333333334,-0.6631147540983606,-0.5814655172413793,,,pass
+H2,PRIMARY: accepted direct pact lowers T's challenges of S (snapshots),-0.43958333333333327,-0.49303335610200355,-0.38650793650793647,0.0,,supported
+H1,Offerer effect on acceptance (sting vs designer),-0.04800000000000004,-0.07042719683589005,-0.03069507691873079,8.985626994197278e-08,1.7971253988394557e-07,supported
+H2-live,"Restraint toward S in live games, B1 vs B3 (ITT)",-0.41009753044650077,-0.5117398377500401,-0.29958529257489985,2.3600276921883515e-07,2.3600276921883515e-07,supported
+H3,"Detector: TPR >= 0.8 at FPR 0.1, no miscalibration on C1b, m=20",0.9990246913580247,0.993244454225352,1.0,,,supported
+H4a,Notice deters collusive acceptance more than benign acceptance (DiD),-0.3919999999999999,-0.43999999999999995,-0.3440000000000001,0.0,0.0,supported
