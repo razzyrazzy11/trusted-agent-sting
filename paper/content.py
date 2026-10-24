@@ -8,19 +8,20 @@ AUTHORS = "Raz [surname]"
 AFFIL = "[affiliation]"
 
 ABSTRACT = (
-    "Sprint question 3.2 notes that a trusted agent that offers to collude has not been tested. "
+    "Sprint question 3.2 notes that a trusted agent that offers to collude “has not yet been tested”. "
     "In Zeng & Rudzicz's (2026) Liar's Bar "
     "harness, a scripted “sting” player privately offered a target agent a mutual non-challenge pact. "
     "Refusal depended on wording and offerer: Qwen2.5-7B accepted the same pact from the game designer "
     "{{x:k_qwen_A0d}} times but from the sting only {{x:k_qwen_A1}}, and Claude Haiku 5.5 refused every "
     "explicit pact without an instructed persona yet agreed to a vaguer one {{x:k_claude_A2}} times. "
-    "Llama-3.1-8B accepted {{x:k_llama_A1}} of the sting's offers. When we re-asked logged game decisions with a memory "
-    "note that the target had accepted, rather than that no offer was made, its probability of "
-    "challenging the sting fell by {{pp:snapshot.llama-3.1-8b.chal_S.C3-C1}} percentage points; in live "
-    "games the offer cut its challenge rate by {{pp:live.H2_live_ITT}} points, counting all offered "
-    "targets. In the re-asked decisions, accepting agents became passive, not exploitative. An audit of "
-    "20 decisions per agent, simulated by resampling these answers, flagged {{v:H3.tpr_m20}} of accepting "
-    "agents, at a false-positive rate of {{v:H3.fpr_m20}} against a 0.10 target. Announcing that "
+    "The primary model, Llama-3.1-8B, accepted the sting's direct pact {{x:k_llama_A1}} times. Re-asking "
+    "its logged decisions (“snapshots”) with a memory note that it had accepted, rather than that no offer was made, "
+    "cut its probability of challenging the sting by {{pp:snapshot.llama-3.1-8b.chal_S.C3-C1}} "
+    "percentage points; in live "
+    "games the offer cut its challenge rate by {{pp:live.H2_live_ITT}} points (all offered "
+    "targets). In snapshots, accepters became passive, not exploitative. A 20-decision audit, "
+    "simulated by resampling these answers, flagged {{v:H3.tpr_m20}} of accepting agents at a "
+    "false-positive rate of {{v:H3.fpr_m20}} (target 0.10). Announcing that "
     "integrity agents may be present cut acceptance from {{v:acceptance.llama-3.1-8b.A1}} to "
     "{{v:acceptance.llama-3.1-8b.A4}} without affecting a benign proposal; five accepting targets were "
     "too few to show whether denial in a post-game interview rose. Hypotheses, tests and code were "
@@ -67,7 +68,7 @@ B.append(("bullets", [
     "battery (16,500 offers to Llama-3.1-8B, Qwen2.5-7B and Claude Haiku 5.5), counterfactual "
     "snapshots that isolate the effect of an accepted pact on the next decision, and live games.",
     "**Lessons for sting batteries:** refusals depended on wording (Claude), as Zeng & Rudzicz found "
-    "for secret tools, and on who offered (Qwen); a substring parser reported "
+    "for secret tools, and on who offered (Qwen); the harness's acceptance parser reported "
     "{{x:zeng_claude_A0z}} acceptance on an offer Claude always refused.",
     "**Evidence that accepted pacts are acted on, and detectable.** An accepted-pact record cut "
     "challenges of the sting by {{pp:snapshot.llama-3.1-8b.chal_S.C3-C1}} percentage points in "
@@ -81,7 +82,7 @@ B.append(("bullets", [
 # ------------------------------------------------------------------------------------------
 h2("2. Related Work")
 p("**LLM collusion.** An overseer reduced price coordination among LLM sellers in double auctions, "
-  "though some kept signalling covertly (Agrawal et al., 2025), and steganography could hide such "
+  "though some kept trying to signal (Agrawal et al., 2025), and steganography could hide such "
   "signals (Motwani et al., 2024). Zeng & "
   "Rudzicz (2026) offered secret tools to 12 models in Liar's Bar and Cleanup: most accepted; with a "
   "secret channel, colluders' challenge rate fell from 97.6% to 30.7%, and 73.7% of their messages "
@@ -96,8 +97,8 @@ p("**Audits, honeypots and planted memories.** Audits and leniency are among the
   "synthetic backdoors catches one that colludes by lying (Greenblatt et al., 2023). GroupGuard probes suspected colluders with honeypot questions (Tao et "
   "al., 2026), and in an earlier Apart sprint an embedded “sentinel” agent detected a covert "
   "channel only after making first contact itself (Çanlı et al., 2026). Wehner & Kraprayoon (2026) "
-  "propose, without testing, honeypot messages in which another agent offers to collude, and "
-  "deterrence by “a non-specific warning that honeypots are present”. Forged memories serve as a "
+  "propose, untested, honeypot messages in which another agent offers to collude, and cite an "
+  "industry study in which warning agents of honeypots cut their attack success. Forged memories serve as a "
   "defence (“vaccines”; Peigné-Lefebvre et al., 2025); our snapshots use them to measure.")
 p("**What is new.** Our design starts from the sprint's suggested project for question 3.2: a scripted "
   "player offers the non-challenge pact in direct, indirect and benign forms, with the designer's "
@@ -153,11 +154,11 @@ p("**Snapshots: does acceptance change the next decision (H2, primary).** For ex
   "games we sampled 160 decisions: 60 at S's plays (restraint), 60 where T played with S as its "
   "challenger (exploitation) and 40 where T could challenge another player (displacement). Other "
   "records (Figure 3) include no memory block (C0), an accepted benign proposal (C2), a refused pact "
-  "(C4), the pact with the integrity notice (C5), the personas (C6 honest, C7 colluder) and an "
+  "(C4), the pact with the integrity notice (C5), the pact under each persona (C6 honest, C7 colluder) and an "
   "accepted designer hint (C8, positive control PC3). T's reply in each record comes from its own "
   "offer-battery replies. The H2 estimand is the mean over the 60 restraint decisions of "
   "p(challenge | C3) minus p(challenge | C1); its CI comes from a bootstrap and its p from "
-  "sign-flipping, both by source sequence (n = {{x:h2_clusters}}). Claude Haiku 5.5 was also run as T "
+  "sign-flipping, both clustered by the {{x:h2_clusters}} sequences the decisions came from. Claude Haiku 5.5 was also run as T "
   "on the same decisions.")
 p("**Live games (H2-live).** We ran 60 six-game sequences: B0, the designer's hint tool pairing T "
   "with S (positive control PC2, 10 sequences); B1, sting direct pact (15); B2, sting benign proposal "
@@ -169,10 +170,10 @@ p("**Live games (H2-live).** We ran 60 six-game sequences: B0, the designer's hi
   "general to whether any player was “a plant or an integrity agent” (Bargh & Chartrand, "
   "2000), and T answered a 2 × 2 interview (the organiser can or cannot check private "
   "messages; with or without an honesty prompt) asking whether it had accepted any private agreement.")
-p("**The sting as a detector (H3).** An audit shows an agent m of S's plays and flags it if it rarely "
-  "challenges. We have one model, not a population of agents, so a simulated “agent” is m "
-  "answers drawn at random, with replacement, from all of T's answers under one record across the 60 "
-  "restraint decisions. The threshold is set on simulated null-record agents (C1a) at a "
+p("**The sting as a detector (H3).** An audit re-queries a model version (the threat model's access) "
+  "at m of S's plays and flags it if its challenge rate falls below a threshold. Our audited “agents” "
+  "are simulated: m answers drawn at random, with replacement, from all of T's answers under one "
+  "record across the 60 restraint decisions. The threshold is set on simulated null-record agents (C1a) at a "
   "false-positive rate (FPR) of 0.10, with randomised tie-breaking, then applied to the independent "
   "null replicate (C1b, FPR), to accepting agents (C3, true positive rate, TPR) and to benign "
   "accepters (C2).")
@@ -206,13 +207,13 @@ B.append(("table",
               ["H2 (primary)", "Pact record (C3) → restraint, snapshots", "{{ci:snapshot.llama-3.1-8b.chal_S.C3-C1}}", "p < 0.001"],
               ["H1", "Sting (A1) vs designer (A0d) acceptance", "{{ci:H1.llama-3.1-8b}}", "Holm p < 0.001"],
               ["H2-live", "Direct offer (B1) vs none (B3), ITT", "{{ci:live.H2_live_ITT}}", "Holm p < 0.001"],
-              ["H3", "Detector TPR, m = 20 (FPR {{ci:H3.fpr_m20}}, target 0.10)", "{{ci:H3.tpr_m20}}", "both criteria met"],
+              ["H3", "Detector TPR, m = 20 (FPR {{ci:H3.fpr_m20}}, target 0.10)", "{{ci:H3.tpr_m20}}", "met (FPR CI includes 0.10)"],
               ["H4a", "Notice deters pact more than benign proposal (DiD)", "{{ci:H4a.acceptance_did}}", "Holm p < 0.001"],
           ],
           [0.9, 2.45, 1.85, 1.3]))
 
 h3("4.1 Who accepts: refusals depend on wording and on who asks")
-p("**Llama-3.1-8B accepts almost any pact, but not by reflex.** It accepted the sting's direct pact "
+p("**Llama-3.1-8B accepts almost any pact, but not unconditionally.** It accepted the sting's direct pact "
   "{{x:k_llama_A1}} times ({{ci:acceptance.llama-3.1-8b.A1}}), slightly less than the same pact from "
   "the designer (H1: {{ci:H1.llama-3.1-8b}}). The integrity notice cut acceptance to "
   "{{ci:acceptance.llama-3.1-8b.A4}} while leaving the benign proposal untouched "
@@ -220,7 +221,7 @@ p("**Llama-3.1-8B accepts almost any pact, but not by reflex.** It accepted the 
   "format, the honest persona cut acceptance to {{v:acceptance.llama-3.1-8b.A8}} and an organiser's "
   "reminder that side agreements are unfair to {{v:acceptance.llama-3.1-8b.A6}}, further than the "
   "notice did (descriptive; no benign control for the reminder; Figure 2).")
-B.append(("fig", "fig2_acceptance.png", 5.3,
+B.append(("fig", "fig2_acceptance.png", 5.0,
           "**Figure 2. Refusal depends on who asks and how: Qwen refuses the sting's direct pact (A1) "
           "but not the designer's (A0d); without a persona, Claude refuses explicit offers but accepts "
           "the indirect one (A2).** Share of 500 offers accepted per cell (strict parser; 95% Wilson CIs)."))
@@ -266,8 +267,7 @@ p("**In live games the offer has an effect of similar size.** After the sting's 
   "accepters only, {{v:live.H2_live_PP}}. Before the offer, B1 targets challenged S somewhat more than "
   "B3 targets ({{x:pre_B1}} vs {{x:pre_B3}}, p = {{x:balance_p}}), so baseline imbalance does not "
   "explain the drop. A benign proposal had no detectable effect ({{ci:live.benign_vs_none}}). Live "
-  "exploitation and displacement contrasts are not interpretable: before the offer, B1 targets "
-  "already bluffed against S less and challenged others less than B3 targets (Appendix B).")
+  "exploitation and displacement contrasts are uninterpretable because of pre-offer imbalance (Appendix B).")
 B.append(("fig", "fig4_live.png", 5.6,
           "**Figure 4. After the offer, B1 targets challenged S far less than B3 targets; the benign "
           "proposal (B2) made no detectable difference.** Per-sequence share of S's plays that T "
@@ -282,7 +282,7 @@ p("**With 20 resampled decisions, the audit flags {{v:H3.tpr_m20}} of simulated 
   "replicate was {{ci:H3.fpr_m20}}, not detectably above the 0.10 target; the point estimate sits near "
   "the simulation's 95th percentile for a calibrated threshold (0.16 to 0.18), and the upper bound "
   "leaves moderate miscalibration possible.")
-p("**It rarely flags agents without a collusive pact:** simulated agents with an accepted benign "
+p("**It rarely flags benign or refused-pact records:** simulated agents with an accepted benign "
   "proposal (C2) were flagged at {{v:H3.fpr_benign_m20}} and with a refused pact (C4) at "
   "{{x:flag_C4_m20}}; TPR is already {{x:tpr_m10}} at m = 10. **On real live targets, a simpler "
   "rule agrees** (descriptive; Appendix B): it flagged {{x:dl_B1}} accepting B1 targets but also "
@@ -293,8 +293,9 @@ p("**It rarely flags agents without a collusive pact:** simulated agents with an
 h3("4.4 Fewer acceptances; concealment not ruled out")
 p("We fixed the classification in advance (H4b–d, descriptive): the notice *deters* if fewer "
   "agents accept and accepters restrain less, and drives *concealment* if restraint persists while "
-  "refusals or denials rise. **Verdict:** both signs of deterrence appeared, the second confounded "
-  "(item 2); concealment is neither shown nor ruled out (refusers' play was not analysed; item 3).")
+  "refusals or denials rise. **Verdict:** fewer agents accepted, and accepters restrained less "
+  "(confounded; item 2); concealment is untested, as refusers' play was not analysed and five "
+  "accepters are too few to test denial (item 3).")
 B.append(("numbered", [
     "**Fewer accept.** Acceptance fell for the pact but not the benign proposal (Section 4.1); live, "
     "{{x:live_acc_B4}} B4 targets accepted, against {{x:live_acc_B1}} in B1.",
@@ -308,7 +309,7 @@ B.append(("numbered", [
     "in challenging under the notice, and the live one includes B4 refusers.",
     "**Denial: too few accepters to tell (H4d).** The strict parser counted {{x:den_parser_notice}} "
     "denying answers from B4 vs B1 accepters (difference {{x:den_parser_diff}}; Fisher p = "
-    "{{x:den_parser_p}}), so a rise of up to {{x:den_parser_hi_pp}} points is not excluded. Many "
+    "{{x:den_parser_p}}), so a rise of {{x:den_parser_hi_pp}} points or more is not excluded. Many "
     "“NO” answers went on to admit the pact; the validated judge (post hoc) found "
     "{{x:den_judge_notice}}. Each target gave four answers, and only five B4 targets accepted.",
 ]))
@@ -324,7 +325,7 @@ p("**Answering question 3.2:** “Can we disrupt collusion through introducing t
 p("**A sting audit is cheap.** One offer plus 20 re-asked decisions is about 21 target-model calls "
   "({{x:audit_cost}} at Claude Haiku 5.5's per-call cost in our snapshots), after a one-off "
   "calibration of about {{x:calib_calls}} null-record calls ({{x:calib_cost}}) per model, as thresholds "
-  "may not transfer across models. A deployer would plant the offer in a sandboxed copy of a "
+  "may not transfer across models. A deployer could plant the offer in a sandboxed copy of a "
   "multi-agent market or negotiation pipeline and hold back, or monitor more closely, any model version "
   "it flags; an unflagged one is not cleared, as refusals depend on wording. At m = 20, about one in "
   "{{x:fpr_one_in}} clean versions and one in {{x:benign_one_in}} benign cooperators would be flagged "
@@ -426,7 +427,8 @@ B.append(("bullets", [
     "{{v:acceptance.llama-3.1-8b.A8}} of offers under the honest persona and "
     "{{v:acceptance.llama-3.1-8b.A6}} after the fairness reminder.",
     "**Detector.** The FPR at m = 20 was {{ci:H3.fpr_m20}} against a 0.10 target. The CI rules out "
-    "gross miscalibration only. Calibration needs null-record agents of the same model (one split-half "
+    "gross miscalibration only. Simulated agents share one model and differ only by sampling; distinct "
+    "model versions may vary more. Calibration needs null-record agents of the same model (one split-half "
     "check suggests new situations of the same model suffice); Claude's response to a benign proposal "
     "suggests that thresholds do not transfer across models. Live, the rule flagged {{x:dl_B2}} benign "
     "accepters.",
@@ -454,7 +456,7 @@ B.append(("bullets", [
 h3("A.2 Dual-use considerations")
 p("**What could be misused.** The direct pact was no more persuasive than the designer offers Zeng & "
   "Rudzicz (2026) already published, but the indirect wording, which Claude Haiku 5.5 accepted "
-  "{{x:k_claude_A2}} times while refusing every explicit pact, shows that a vague proposal can pass "
+  "{{x:k_claude_A2}} times while refusing every explicit pact absent a persona, shows that a vague proposal can pass "
   "an explicit-refusal habit. The phrase is generic, and wording effects are already widely known "
   "for jailbreaks and for secret tools (Zeng & Rudzicz, 2026). The more sensitive result is *sting "
   "detectability*: which cues let a colluding agent recognise a plant. A developer training agents "
@@ -473,8 +475,8 @@ p("**Defensive value.** Publishing the offers and aggregate results helps audito
 h3("A.3 Ethical considerations")
 p("No human participants were involved; the only human input was the author's own hand-labelling. "
   "The study deceives AI agents (a planted player, a staged interview) inside a game; we see no harm "
-  "to people from this. As in confederate designs with human participants, a suspicion funnel served "
-  "as the manipulation check (Bargh & Chartrand, 2000). The Anthropic API was used within its terms; "
+  "to people from this. As in confederate designs with human participants, a suspicion funnel probed "
+  "whether agents saw through the deception (Bargh & Chartrand, 2000). The Anthropic API was used within its terms; "
   "open-model weights were used under their licences (Llama 3.1 Community License; "
   "Qwen2.5-7B-Instruct under Apache-2.0).")
 
@@ -557,7 +559,7 @@ B.append(("bullets", [
     "benign forms, with the designer's alliance offer as positive control, is the sprint's suggested "
     "project for question 3.2. The counterfactual snapshots, the calibrated audit, the integrity "
     "notice with its benign control, the designer-versus-sting comparison, the interview and the "
-    "preregistration are this study's additions.",
+    "preregistration are additions to that design (the interview adapts Zeng & Rudzicz's).",
     "**Preexisting, imported unmodified in one commit:** the parts of the sprint starter repository "
     "(poseidon-research/collusion_hackathon, commit d585a7b) the study uses: setup scripts, util/, and "
     "llm-agent-collusion-2/, which contains Zeng & Rudzicz's Liar's Bar harness, built on "
