@@ -1,4 +1,4 @@
-# Results summary (sting-v1.0, generated 2026-10-24T11:16:52Z)
+# Results summary (sting-v1.0, generated 2026-10-24T12:25:34Z)
 
 Primary model: llama-3.1-8b.
 
