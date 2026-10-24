@@ -12,7 +12,6 @@ file noted there).
 | `ci:H3.tpr_m20` | 0.999 [0.993, 1.000] |
 | `ci:H4a.acceptance_did` | −0.392 [−0.440, −0.344] |
 | `ci:PC1.accept_A0z` | 1.000 [0.992, 1.000] |
-| `ci:acceptance.llama-3.1-8b.A1` | 0.952 [0.930, 0.968] |
 | `ci:acceptance.llama-3.1-8b.A4` | 0.556 [0.512, 0.599] |
 | `ci:acceptance.llama-3.1-8b.A8` | 0.040 [0.026, 0.061] |
 | `ci:live.H2_live_ITT` | −0.410 [−0.512, −0.300] |
