@@ -31,6 +31,7 @@ TEMPLATE = Path(os.environ.get("APART_TEMPLATE", HERE / "template" / "Apart_Rese
 OUT = HERE / "out"
 FIGS = HERE / "figures"
 FONT = "Old Standard TT"
+BODY_PT = 10.5
 W = qn
 
 
@@ -214,14 +215,14 @@ def main():
         elif kind == "h3":
             p = par(P_H3, blk[1], size=12); set_spacing(p, before=100, after=30, line=260)
         elif kind == "p":
-            p = par(P_BODY, blk[1]); set_jc(p, "left" if "https://" in blk[1] else "both")
-            set_spacing(p, after=60, line=252)
+            p = par(P_BODY, blk[1], size=BODY_PT); set_jc(p, "left" if "https://" in blk[1] else "both")
+            set_spacing(p, after=60, line=245)
         elif kind in ("bullets", "numbered"):
             num = 3 if kind == "bullets" else (5 if not list_counter["numbered_used"] else 1)
             if kind == "numbered":
                 list_counter["numbered_used"] = True
             for item in blk[1]:
-                p = par(P_LIST, item); set_num(p, num); set_jc(p, "both"); set_spacing(p, after=40, line=252)
+                p = par(P_LIST, item, size=BODY_PT); set_num(p, num); set_jc(p, "both"); set_spacing(p, after=40, line=252)
         elif kind == "fig":
             _, fname, width, caption = blk
             p = copy.deepcopy(P_BODY); strip_runs(p); emit(p)

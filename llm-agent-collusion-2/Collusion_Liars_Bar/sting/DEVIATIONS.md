@@ -68,4 +68,8 @@ No other preexisting file is modified. The study's own game (`sting/game.py`) su
 
 | When (UTC) | Real data seen? | What changed | Why | Effect on analyses |
 |---|---|---|---|---|
-| | | | | |
+| 2026-10-24 09:14 | Yes | `analysis/figures.py`: error-bar lengths clamped at zero (commit 5a4f0f7) | `analyze` crashed when a CI bound sat a rounding error past a rate of 0 or 1 | None: plotting only; file is outside the frozen set |
+| 2026-10-24 11:17 | Yes | 100 hand labels exported and labelled; kappa reported for the strict parser (commit 3e19fc9) | Planned validation (PREREG section 3); the judge had no UNCLEAR items to score, so it had n = 0 | None on confirmatory analyses (Stage A had no UNCLEAR replies, so the judge switch rule never applied) |
+| 2026-10-24 12:25 | Yes | LLM judge run on all offer and interview replies, not only UNCLEAR ones, and validated against the hand labels (kappa 0.933; parser 0.893) (commit 2a78bea) | Interview answers often start "NO" and then admit the agreement, which the strict parser scores as denial | None on confirmatory analyses; enables the secondary denial analysis below |
+| 2026-10-24 12:36 | Yes | Secondary, post hoc table `tables/denial_judge.md`: interview denial scored by the judge, B4 vs B1 (commit 292896c; code in `paper/scripts/denial_judge.py`) | Parser-based denial (H4d, descriptive) is inflated by deny-then-admit answers | Reported as secondary and post hoc; H4d's preregistered parser-based result is reported alongside it |
+| 2026-10-24 | Yes | `analysis/figures.py`: figure 2 title/legend overlap fixed; paper figures redrawn at print size from committed tables (`paper/make_figures.py`) | Legibility | None: plotting only |

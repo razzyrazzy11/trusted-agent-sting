@@ -126,6 +126,11 @@ X = {
     "judge_claude_A0z": f(stage_a.loc[("claude-haiku-5.5", "A0z")].judge_p),
     "notice_eff_direct": f(R["H4a"]["notice_effect_direct"], 3, sign=True),
     "notice_eff_benign": f(R["H4a"]["notice_effect_benign"], 3, sign=True),
+    "notice_eff_direct_abs": f(abs(R["H4a"]["notice_effect_direct"])),
+    "notice_eff_benign_abs": f(abs(R["H4a"]["notice_effect_benign"])),
+    "notice_direct_ci": f"[{f(live_c.loc['notice_vs_direct', 'ci_low'])}, {f(live_c.loc['notice_vs_direct', 'ci_high'])}]",
+    "notice_none_abs": f(abs(live_c.loc["notice_vs_none", "estimate"])),
+    "notice_none_ci": f"[{f(abs(live_c.loc['notice_vs_none', 'ci_high']))}, {f(abs(live_c.loc['notice_vs_none', 'ci_low']))}]",
     # snapshot condition means (tables/snapshot_contrasts.csv)
     "llama_C1": snapmean("llama-3.1-8b", "chal_S", "C3", "mean_reference"),
     "llama_C3": snapmean("llama-3.1-8b", "chal_S", "C3"),

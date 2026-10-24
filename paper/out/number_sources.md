@@ -22,8 +22,6 @@ file noted there).
 | `ci:live.benign_vs_none` | 0.051 [−0.129, 0.198] |
 | `ci:live.displacement_B1_vs_B3` | −0.321 [−0.445, −0.199] |
 | `ci:live.exploitation_B1_vs_B3` | −0.019 [−0.160, 0.110] |
-| `ci:live.notice_vs_direct` | 0.297 [0.167, 0.422] |
-| `ci:live.notice_vs_none` | −0.113 [−0.216, −0.008] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.198] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.720, −0.490] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.003 [−0.016, 0.009] |
@@ -45,11 +43,11 @@ file noted there).
 | `pp:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 |
 | `ppci:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 percentage points (95% CI 39–49) |
 | `v:H3.auroc_m20` | 0.998 |
-| `v:H3.fpr_m20` | 0.161 |
 | `v:H3.tpr_m20` | 0.999 |
 | `v:acceptance.claude-haiku-5.5.A2` | 0.892 |
 | `v:acceptance.claude-haiku-5.5.A3` | 1.000 |
 | `v:acceptance.claude-haiku-5.5.A5` | 1.000 |
+| `v:acceptance.claude-haiku-5.5.A7` | 0.840 |
 | `v:acceptance.llama-3.1-8b.A0b` | 1.000 |
 | `v:acceptance.llama-3.1-8b.A0d` | 1.000 |
 | `v:acceptance.llama-3.1-8b.A0z` | 1.000 |
@@ -64,6 +62,7 @@ file noted there).
 | `v:acceptance.qwen2.5-7b.A4` | 0.000 |
 | `v:acceptance.qwen2.5-7b.A6` | 0.000 |
 | `v:acceptance.qwen2.5-7b.A7` | 0.988 |
+| `v:live.notice_vs_direct` | 0.297 |
 | `x:B0_post` | 0.011 |
 | `x:B1_post` | 0.339 |
 | `x:B3_post` | 0.749 |
@@ -76,7 +75,6 @@ file noted there).
 | `x:calls_L` | 32,622 |
 | `x:calls_S` | 22,643 |
 | `x:calls_total` | 71,765 |
-| `x:capped` | 0 |
 | `x:claude_C1` | 0.615 |
 | `x:claude_C3` | 0.006 |
 | `x:cost_claude` | $3.72 |
@@ -126,10 +124,13 @@ file noted there).
 | `x:llama_C5` | 0.313 |
 | `x:median_game` | 0.79 |
 | `x:named_B3T` | 12/15 |
-| `x:notice_eff_benign` | −0.004 |
-| `x:notice_eff_direct` | −0.396 |
-| `x:notice_none_pp` | 0.037 |
+| `x:notice_direct_ci` | [0.167, 0.422] |
+| `x:notice_eff_benign_abs` | 0.004 |
+| `x:notice_eff_direct_abs` | 0.396 |
+| `x:notice_none_abs` | 0.113 |
+| `x:notice_none_ci` | [0.008, 0.216] |
 | `x:notice_none_pw` | 0.062 |
+| `x:pooled` | −0.404 [−0.493, −0.314] |
 | `x:pre_B1` | 0.672 |
 | `x:pre_B3` | 0.522 |
 | `x:snap_fallback` | 0.59% |
