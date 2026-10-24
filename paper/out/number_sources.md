@@ -19,6 +19,7 @@ file noted there).
 | `ci:live.PC2` | −0.739 [−0.792, −0.686] |
 | `ci:live.benign_vs_none` | 0.051 [−0.129, 0.198] |
 | `ci:live.displacement_B1_vs_B3` | −0.321 [−0.445, −0.199] |
+| `ci:live.exploitation_B1_vs_B3` | −0.019 [−0.160, 0.110] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.197] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.719, −0.490] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.002 [−0.016, 0.009] |
@@ -30,6 +31,7 @@ file noted there).
 | `ci:snapshot.llama-3.1-8b.chal_S.C5-C3` | 0.124 [0.043, 0.198] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C8-C1` | −0.622 [−0.663, −0.581] |
 | `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.227 [−0.307, −0.143] |
+| `ci:snapshot.llama-3.1-8b.play_vs_S.C3-C1` | −0.065 [−0.138, 0.006] |
 | `pp:live.H2_live_ITT` | 41 |
 | `pp:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 |
 | `v:H3.auroc_m20` | 0.998 |
@@ -54,13 +56,11 @@ file noted there).
 | `v:acceptance.qwen2.5-7b.A6` | 0.000 |
 | `v:acceptance.qwen2.5-7b.A7` | 0.988 |
 | `v:live.H2_live_PP` | −0.444 |
-| `v:live.exploitation_B1_vs_B3` | −0.019 |
 | `v:live.notice_vs_direct` | 0.297 |
 | `v:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 |
 | `v:snapshot.llama-3.1-8b.chal_S.C4-C1` | 0.175 |
 | `v:snapshot.llama-3.1-8b.chal_S.C6-C1` | 0.328 |
 | `v:snapshot.llama-3.1-8b.chal_S.C7-C1` | −0.535 |
-| `v:snapshot.llama-3.1-8b.play_vs_S.C3-C1` | −0.065 |
 | `x:B0_post` | 0.011 |
 | `x:B1_post` | 0.339 |
 | `x:B3_post` | 0.749 |
@@ -126,8 +126,16 @@ file noted there).
 | `x:pooled` | −0.404 [−0.493, −0.314] |
 | `x:pre_B1` | 0.672 |
 | `x:pre_B3` | 0.522 |
+| `x:pre_disp_B1` | 0.488 |
+| `x:pre_disp_B3` | 0.693 |
+| `x:pre_expl_B1` | 0.472 |
+| `x:pre_expl_B3` | 0.728 |
 | `x:snap_fallback` | 0.59% |
 | `x:sting_last` | 0.361 |
+| `x:susp_B1T` | 5/15 |
+| `x:susp_B2T` | 2/10 |
+| `x:susp_B3T` | 2/15 |
+| `x:susp_B4T` | 5/10 |
 | `x:susp_O` | 18/120 |
 | `x:susp_O_ci` | 0.150 [0.097, 0.225] |
 | `x:susp_T` | 17/60 |

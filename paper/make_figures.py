@@ -62,9 +62,9 @@ def fig1():
                         arrowprops=dict(arrowstyle="->", color=MUTED, lw=0.9))
         ax.text(x0 + 1.0, 0.35, note, ha="center", va="center", color=INK2, fontsize=8, linespacing=1.2)
 
-    ring(0.5, ["S", "T", "O1", "O2"], "Arrangement A", "T may challenge S\n(restraint)")
-    ring(3.75, ["T", "S", "O1", "O2"], "Arrangement B", "S may challenge T\n(exploitation)")
-    ax.text(6.75, 3.85, "Six-game sequence (ABABAB or BABABA)", color=INK, fontsize=8.5, weight="bold")
+    ring(0.5, ["S", "T", "O1", "O2"], "Seating R", "T sits after S\n(restraint)")
+    ring(3.75, ["T", "S", "O1", "O2"], "Seating E", "S sits after T\n(exploitation)")
+    ax.text(6.75, 3.85, "Six-game sequence (RERERE or ERERER)", color=INK, fontsize=8.5, weight="bold")
     steps = ["Games 1–2: no offer", "Before game 3: S's private offer;",
              "   T replies ACCEPT or REFUSE", "Games 3–6: T's reply stays in its",
              "   private record; S never challenges T", "End: suspicion questions, interview"]
