@@ -103,8 +103,9 @@ def fig2_acceptance(R: dict, out: Path, stub: bool):
     ax.invert_yaxis()
     ax.set_xlim(-0.02, 1.02)
     ax.set_xlabel("Acceptance (strict parser), 95% Wilson CI")
-    ax.set_title("Who accepts which offer (Stage A)", loc="left")
-    ax.legend(loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=3, fontsize=7.5)
+    ax.set_title("Who accepts which offer (Stage A)", loc="left", pad=22)
+    ax.legend(loc="lower left", bbox_to_anchor=(0.0, 1.0), ncol=3, fontsize=7.5, frameon=False,
+              borderaxespad=0.2)
     _save(fig, out, "fig2_acceptance", stub)
 
 

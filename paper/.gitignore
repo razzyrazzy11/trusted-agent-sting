@@ -1,0 +1,5 @@
+!figures/*.png
+!figures/*.pdf
+!out/*.png
+__pycache__/
+out/page-*.png
