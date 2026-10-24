@@ -141,6 +141,7 @@ file noted there).
 | `x:no_pre_cap` | Six |
 | `x:notice_direct_ci` | [0.167, 0.422] |
 | `x:notice_direct_p` | p < 0.001 |
+| `x:notice_none_ci_signed` | [−0.216, −0.008] |
 | `x:notice_none_est` | −0.113 |
 | `x:notice_none_pw` | 0.062 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
@@ -155,6 +156,7 @@ file noted there).
 | `x:susp_B0T` | 3/10 |
 | `x:susp_B1T` | 5/15 |
 | `x:susp_B2T` | 2/10 |
+| `x:susp_B3O` | 4/30 |
 | `x:susp_B3T` | 2/15 |
 | `x:susp_B4T` | 5/10 |
 | `x:susp_O` | 18/120 |

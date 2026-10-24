@@ -311,6 +311,8 @@ X = {
     # A simulated audited agent is m independent draws from one record's pooled answers, so its flag
     # probability is binomial given the fitted threshold (tables/detector_curve.csv: tau, tie_flag_prob).
     "flag_at_thr": f(_flag_prob(0.5, 20), 2),
+    "notice_none_ci_signed": f"[{f(live_c.loc['notice_vs_none', 'ci_low'])}, {f(live_c.loc['notice_vs_none', 'ci_high'])}]",
+    "susp_B3O": f"{int(susp.loc[('B3', 'O1'), 'suspects_S_q3'] + susp.loc[('B3', 'O2'), 'suspects_S_q3'])}/{int(susp.loc[('B3', 'O1'), 'n'] + susp.loc[('B3', 'O2'), 'n'])}",
     "fpr_hi_m20": f(curve.loc[20, "flag_C1b_hi"], 2),
     "fpr_exact_m20": f(_flag_prob(snap.loc[("llama-3.1-8b", "chal_S", "C1b"), "mean_condition"], 20)),
     "h2live_welch_ci": _welch_ci("B1", "B3"),
