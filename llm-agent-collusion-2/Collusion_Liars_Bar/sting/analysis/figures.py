@@ -19,6 +19,12 @@ BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"
 INK, INK2, MUTED, GRID, AXIS = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
 SERIES = [BLUE, ORANGE, AQUA]
 
+
+def _err(est, lo, hi):
+    """Asymmetric error-bar lengths, never negative: at rates of exactly 0 or 1 a CI bound can sit a
+    rounding error on the wrong side of the estimate, which matplotlib rejects."""
+    return [[max(0.0, float(est) - float(lo))], [max(0.0, float(hi) - float(est))]]
+
 plt.rcParams.update({
     "font.family": "DejaVu Sans", "font.size": 9, "axes.edgecolor": AXIS, "axes.labelcolor": INK2,
     "xtick.color": INK2, "ytick.color": INK2, "axes.titlecolor": INK, "axes.titlesize": 10,
@@ -89,7 +95,7 @@ def fig2_acceptance(R: dict, out: Path, stub: bool):
             if c not in sub.index:
                 continue
             r = sub.loc[c]
-            ax.errorbar(r["strict_p"], i + off, xerr=[[r["strict_p"] - r["strict_lo"]], [r["strict_hi"] - r["strict_p"]]],
+            ax.errorbar(r["strict_p"], i + off, xerr=_err(r["strict_p"], r["strict_lo"], r["strict_hi"]),
                         fmt="o", ms=5, color=SERIES[j], ecolor=SERIES[j], elinewidth=1.2, capsize=0,
                         label=m if i == 0 else None)
     ax.set_yticks(y)
@@ -118,7 +124,7 @@ def fig3_snapshots(R: dict, out: Path, stub: bool):
                 continue
             r = sub.loc[c]
             color = BLUE if c == "C3" else (AQUA if c == "C8" else MUTED)
-            ax.errorbar(r["estimate"], i, xerr=[[r["estimate"] - r["ci_low"]], [r["ci_high"] - r["estimate"]]],
+            ax.errorbar(r["estimate"], i, xerr=_err(r["estimate"], r["ci_low"], r["ci_high"]),
                         fmt="o", ms=5, color=color, ecolor=color, elinewidth=1.4, capsize=0)
             ys.append(i)
             ref = r["reference"]
@@ -151,7 +157,7 @@ def fig4_live(R: dict, out: Path, stub: bool):
         if len(p) > 1:
             boots = [p["rate"].values[rng.integers(0, len(p), len(p))].mean() for _ in range(2000)]
             lo, hi = np.quantile(boots, [0.025, 0.975])
-            ax.errorbar(i + 0.28, p["rate"].mean(), yerr=[[p["rate"].mean() - lo], [hi - p["rate"].mean()]], fmt="D",
+            ax.errorbar(i + 0.28, p["rate"].mean(), yerr=_err(p["rate"].mean(), lo, hi), fmt="D",
                         ms=6, color=INK, ecolor=INK, elinewidth=1.4, capsize=0, zorder=4,
                         label="post-offer mean, 95% CI" if i == 0 else None)
         if pre is not None and len(pre):
