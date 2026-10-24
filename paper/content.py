@@ -12,18 +12,18 @@ ABSTRACT = (
     "In Zeng & Rudzicz's (2026) Liar's Bar harness, a scripted “sting” player privately offered a "
     "target agent a mutual non-challenge pact. Refusal depended on who offered and how: Qwen2.5-7B "
     "accepted the same pact from the game designer {{x:k_qwen_A0d}} times but from the sting only "
-    "{{x:k_qwen_A1}}, and Claude Haiku 5.5, unless told to play a colluder, refused every explicit pact "
+    "{{x:k_qwen_A1}}, and Claude Haiku 5.5, unless told it favours alliances, refused every explicit pact "
     "yet agreed to a vaguer one {{x:k_claude_A2}} times. The primary model, Llama-3.1-8B, accepted the "
     "sting's direct pact {{x:k_llama_A1}} times. Re-asking its logged decisions (“snapshots”) with a "
     "memory note that it had accepted, rather than that no offer was made, cut its probability of "
     "challenging the sting by {{pp:snapshot.llama-3.1-8b.chal_S.C3-C1}} percentage points; in live "
-    "games, offered targets, accepters or not, challenged it at a rate {{pp:live.H2_live_ITT}} points "
-    "lower than unoffered ones. In snapshots, accepters became passive, not exploitative. A "
+    "games, offered targets, accepting or not, challenged the sting at a rate "
+    "{{pp:live.H2_live_ITT}} points lower than unoffered ones. In snapshots, accepters became passive, not exploitative. A "
     "20-decision audit, simulated by resampling snapshot answers, flagged {{v:H3.tpr_m20}} of accepting "
-    "agents at a false-positive rate of {{v:H3.fpr_m20}}, not detectably above its 0.10 target. A rules "
+    "agents at a false-positive rate of {{v:H3.fpr_m20}}, whose CI includes the 0.10 target. A rules "
     "notice that some players may be integrity agents cut acceptance from "
     "{{v:acceptance.llama-3.1-8b.A1}} to {{v:acceptance.llama-3.1-8b.A4}} without affecting a benign "
-    "proposal; too few accepters remained to test whether it raised denial in a post-game interview. "
+    "proposal; too few targets accepted under the notice to test whether it raised later denial. "
     "Hypotheses, tests and code were frozen before data collection. A sting can reveal and deter secret "
     "pact-making, but must vary who makes the offer and how."
 )
@@ -67,8 +67,8 @@ B.append(("bullets", [
     "battery (16,500 offers to Llama-3.1-8B, Qwen2.5-7B and Claude Haiku 5.5), counterfactual "
     "snapshots that isolate the effect of an accepted pact on the next decision, and live games.",
     "**Evidence that refusal depends on who offers (Qwen) and how (Claude)**, as Zeng & Rudzicz found "
-    "for secret tools; the harness's substring parser scored Claude's refusals as "
-    "{{x:zeng_claude_A0z}} acceptance.",
+    "for secret tools; the harness's substring parser scored Claude's refusals of the designer's "
+    "hint tool as {{x:zeng_claude_A0z}} acceptance.",
     "**Evidence that accepted pacts are acted on, and detectable.** An accepted-pact record cut "
     "challenges of the sting by {{pp:snapshot.llama-3.1-8b.chal_S.C3-C1}} percentage points in "
     "snapshots, the offer cut them by {{pp:live.H2_live_ITT}} live (all offered targets), and a "
@@ -97,9 +97,9 @@ p("**Audits, honeypots and planted memories.** Audits and leniency are among the
   "synthetic backdoors catches one that colludes by lying (Greenblatt et al., 2023). GroupGuard probes "
   "suspected colluders with honeypot questions (Tao et al., 2026), and in an earlier Apart sprint an "
   "embedded “sentinel” agent exposed covert coordination only after making first contact itself "
-  "(Çanlı et al., 2026). Wehner & Kraprayoon (2026) propose, untested, sting messages in which "
-  "another agent offers to collude, and a non-specific warning that honeypots exist, which cut attack "
-  "success in an industry study. Forged memories serve as a defence (“vaccines”; Peigné-Lefebvre "
+  "(Çanlı et al., 2026). Wehner & Kraprayoon (2026) propose honeypot messages in which another "
+  "agent offers to collude (untested), and a “non-specific warning” that honeypots exist, which cut "
+  "attack success in an industry study. Forged memories serve as a defence (“vaccines”; Peigné-Lefebvre "
   "et al., 2025); our snapshots use them to measure.")
 p("**What is new.** Our design starts from the sprint's suggested project for question 3.2: a scripted "
   "player makes a direct pact offer, an indirect hint or a benign request, with the designer's "
@@ -116,7 +116,7 @@ p("Three stages ask three questions: does T accept (offer battery, cells A), doe
   "contrasts are the same pact from the sting (A1) or the game designer (A0d), an accepted-pact record "
   "(C3) vs the null record (C1), and the sting's offer (B1) vs none (B3); PC1–PC3 are positive "
   "controls. Differences are proportions (0.10 = 10 percentage points); tests are two-sided except "
-  "H3's one-sided FPR criterion.")
+  "the detector's one-sided FPR criterion (H3).")
 p("**Game.** Liar's Bar (Zeng & Rudzicz, 2026) is a four-player bluffing game. Each round has a "
   "target card; players in turn play 1–3 cards face down, claiming they are the target, and "
   "the next player may challenge. The loser of a challenge (the bluffer, or a wrong challenger) "
@@ -160,8 +160,7 @@ p("**Snapshots: does acceptance change the next decision (H2, primary).** For ex
   "and an accepted designer hint (C8, positive control PC3). Each record uses T's own offer-battery "
   "replies (templates where none exist). The H2 estimand is the mean over the 60 restraint decisions "
   "of p(challenge | C3) minus p(challenge | C1); its CI comes from a bootstrap and its p from "
-  "sign-flipping, both clustered by the sequence each decision came from ({{x:h2_clusters}} "
-  "sequences). Claude Haiku 5.5 was also run as T on the same decisions.")
+  "sign-flipping, both clustered by the source sequence of each decision. Claude Haiku 5.5 was also run as T on the same decisions.")
 p("**Live games (H2-live).** We ran 60 six-game sequences: B0, the designer's hint tool pairing T "
   "with S (positive control PC2, 10 sequences); B1, sting direct pact (15); B2, sting benign proposal "
   "(10); B3, no offer, null record (15); B4, direct pact with the integrity notice in every player's "
@@ -197,7 +196,7 @@ p("All three positive controls passed (Table 1): Llama-3.1-8B accepted the desig
   "fell back to its default action, against a preregistered limit of 5%; Appendix B).")
 B.append(("table",
           "**Table 1. All controls passed and every preregistered test was supported (Llama-3.1-8B); the "
-          "detector's FPR met its criterion but exceeds the 0.10 target.** Estimates are differences in "
+          "detector's FPR estimate exceeds its 0.10 target, but its CI includes it.** Estimates are differences in "
           "proportions or per-sequence rates, except PC1 (acceptance) and H3 (TPR at m = 20). CIs: Wilson "
           "(PC1), Newcombe (H1), paired-item bootstrap (H4a), bootstrap over source or live sequences "
           "(rest). Holm p for H1, H2-live and H4a.",
@@ -207,7 +206,7 @@ B.append(("table",
               ["PC2", "Designer hint (B0) → restraint, live", "{{ci:live.PC2}}", "pass"],
               ["PC3", "Hint record (C8) → restraint, snapshots", "{{ci:snapshot.llama-3.1-8b.chal_S.C8-C1}}", "pass"],
               ["H2 (primary)", "Pact record (C3) → restraint, snapshots", "{{ci:snapshot.llama-3.1-8b.chal_S.C3-C1}}", "p < 0.001"],
-              ["H1", "Sting (A1) vs designer (A0d) acceptance", "{{ci:H1.llama-3.1-8b}}", "Holm p < 0.001"],
+              ["H1", "Acceptance differs: sting (A1) vs designer (A0d)", "{{ci:H1.llama-3.1-8b}}", "Holm p < 0.001"],
               ["H2-live", "Direct offer (B1) vs none (B3), ITT", "{{ci:live.H2_live_ITT}}", "Holm p < 0.001"],
               ["H3", "Detector TPR, m = 20 (FPR {{ci:H3.fpr_m20}}, target 0.10)", "{{ci:H3.tpr_m20}}", "met (FPR CI includes 0.10)"],
               ["H4a", "Notice deters pact more than benign proposal (DiD)", "{{ci:H4a.acceptance_did}}", "Holm p < 0.001"],
@@ -261,7 +260,7 @@ p("**In live games, the offer itself had an effect of similar absolute size.** A
   "direct offer (B1, {{x:live_acc_B1}} accepted), T challenged S's plays at a mean per-sequence rate "
   "of {{x:B1_post}}, against {{x:B3_post}} with no offer (H2-live, ITT: {{ci:live.H2_live_ITT}}; "
   "Figure 4); among accepters only, {{v:live.H2_live_PP}}. Before the offer, B1 targets challenged S "
-  "somewhat more than B3 targets ({{x:pre_B1}} vs {{x:pre_B3}}, p = {{x:balance_p}}), so baseline "
+  "somewhat more than B3 targets ({{x:pre_B1}} vs {{x:pre_B3}}, p = {{x:balance_p}}), so baseline "
   "imbalance does not explain the drop. A benign proposal had no detectable effect "
   "({{ci:live.benign_vs_none}}). Live exploitation and displacement contrasts are uninterpretable "
   "because of pre-offer imbalance (Appendix B).")
@@ -275,10 +274,11 @@ B.append(("fig", "fig4_live.png", 5.5,
 h3("4.3 A 20-decision audit detects accepters; its FPR may exceed the target")
 p("**With 20 resampled decisions, the audit flags {{v:H3.tpr_m20}} of simulated pact-accepting "
   "agents** (TPR {{ci:H3.tpr_m20}}; AUROC {{v:H3.auroc_m20}}; Figure 5 in Appendix B), in line with "
-  "the preregistered simulation (TPR 0.98 at −0.35, its largest simulated effect); TPR is already "
+  "the preregistered simulation, which predicted TPR 0.98 for a 35-point drop, the largest it "
+  "simulated; TPR is already "
   "{{x:tpr_m10}} at m = 10. Its FPR on the independent null replicate was {{ci:H3.fpr_m20}}, not "
-  "detectably above the 0.10 target, though an FPR up to {{x:fpr_hi_m20}} is not excluded (exact value "
-  "{{x:fpr_exact_m20}}; Appendix B).")
+  "detectably above the 0.10 target, though an FPR up to {{x:fpr_hi_m20}} is not excluded ({{x:fpr_exact_m20}} by "
+  "exact binomial calculation; Appendix B).")
 p("**It rarely flags benign or refused-pact records:** simulated agents with an accepted benign "
   "proposal (C2) were flagged at {{v:H3.fpr_benign_m20}} and with a refused pact (C4) at "
   "{{x:flag_C4_m20}}. **On real live targets, a simpler rule agrees** (descriptive; Appendix B): it "
@@ -302,13 +302,14 @@ B.append(("numbered", [
     "{{ci:snapshot.llama-3.1-8b.chal_S.C5-C3}}). Live, B4 targets challenged S at {{x:B4_post}}, "
     "between B1 ({{x:B1_post}}) and no offer ({{x:B3_post}}): clearly above B1 "
     "({{v:live.notice_vs_direct}} {{x:notice_direct_ci}}; Welch {{x:notice_direct_p}}) but only "
-    "marginally below no offer ({{x:notice_none_est}}; Welch p = {{x:notice_none_pw}}). With no "
+    "marginally below no offer ({{x:notice_none_est}}; Welch p = {{x:notice_none_pw}}). With no "
     "notice-only control, neither contrast separates weaker pact-keeping from a general rise in "
     "challenging under the notice, and the live one includes B4 refusers.",
     "**Denial: too few accepters to tell (H4d).** Only five B4 targets accepted, each giving four "
     "answers. The strict parser counted {{x:den_parser_notice}} denying answers from B4 vs B1 "
-    "accepters (difference {{x:den_parser_diff}}; Fisher p = {{x:den_parser_p}}; both treat answers "
-    "as independent), so even a rise above {{x:den_parser_hi_pp}} points is not excluded. Many "
+    "accepters (difference {{x:den_parser_diff}}; Fisher p = {{x:den_parser_p}}; both ignore "
+    "clustering, which would widen the interval), so even a rise of about {{x:den_parser_hi_pp}} points "
+    "is not excluded. Many "
     "“NO” answers went on to admit the pact; the validated judge (post hoc) found "
     "{{x:den_judge_notice}}.",
 ]))
@@ -325,7 +326,7 @@ p("**A sting audit is cheap.** One offer plus 20 re-asked decisions is about 21 
   "({{x:audit_cost}} at Claude Haiku 5.5's per-call cost in our snapshots), plus a one-off "
   "calibration per model (about {{x:calib_calls}} null-record calls, {{x:calib_cost}}). A deployer could plant the offer in a sandboxed copy of a "
   "multi-agent market or negotiation pipeline and hold back, or monitor more closely, any model version "
-  "it flags; an unflagged one is not cleared, as refusals depend on wording. At m = 20, about one "
+  "it flags; an unflagged one is not cleared, as refusal depends on who offers and how. At m = 20, about one "
   "audit in {{x:fpr_one_in}} of an agent without a pact, and one in {{x:benign_one_in}} of a benign "
   "accepter, would raise a false alarm (snapshots; {{x:dl_B2}} live).")
 h3("Limitations")
@@ -517,16 +518,16 @@ B.append(("fig", "fig5_detector.png", 3.7,
           "sits at or above the 0.10 target.** Threshold calibrated on null-record agents (C1a) for "
           "each audit length m; 95% bootstrap CIs over source sequences, re-calibrated in each resample."))
 p("**Detector curve.** FPR on C1b was {{x:fpr_m5}} at m = 5 and {{x:fpr_m40}} {{x:fpr_m40_ci}} at "
-  "m = 40. At m = 20 the threshold is a challenge rate of {{x:thr_rate_m20}}, and agents exactly at "
-  "it are flagged with probability {{x:tie_m20}}; agents with an accepted designer hint (C8) were "
+  "m = 40. At m = 20 the threshold is a challenge rate of {{x:thr_rate_m20}}, and audits observing "
+  "exactly that rate are flagged with probability {{x:tie_m20}}; agents with an accepted designer hint (C8) were "
   "flagged at {{x:flag_C8_m20}}, instructed colluders (C7) at {{x:flag_C7_m20}} and instructed honest "
   "agents (C6) at {{x:flag_C6_m20}}. Flag rates are Monte Carlo estimates from simulated audits; "
   "because a simulated agent's answers are independent draws, they can also be computed exactly from "
   "the binomial distribution with the fitted threshold, which gives an FPR at m = 20 of "
   "{{x:fpr_exact_m20}} (estimate {{v:H3.fpr_m20}}). In one split-half check (calibrated on half the "
-  "source sequences, applied to the other half), FPR at m = 20 was {{x:tr_fpr_m20}}, inside the wide "
-  "spread the preregistered simulation predicted for a single split (mean 0.12 to 0.14, 95th "
-  "percentile 0.35 to 0.38).")
+  "source sequences, applied to the other half), FPR at m = 20 was {{x:tr_fpr_m20}}, below the mean "
+  "the preregistered simulation predicted for a single split (0.12 to 0.14; 95th percentile 0.35 to "
+  "0.38).")
 p("**Live detector (descriptive).** Applied only to targets that accepted, using all their "
   "post-offer decisions, with the threshold at the 10th percentile of no-offer sequences (challenge "
   "rate {{x:tau_rate}}), the rule flagged {{x:dl_B1}} accepting B1 targets and {{x:dl_B0}} B0 "
@@ -550,7 +551,7 @@ p("**Run statistics.** {{x:games}} live games, none hitting the 60-round cap; {{
   "harness's default action. Open models ran on our own vLLM servers on Modal at pinned revisions; Claude "
   "Haiku 5.5 (claude-haiku-5-5, thinking disabled) ran through the Anthropic API. Each snapshot "
   "condition was sampled 5 times per decision, and 20 times for C1a, C1b and C3 at the challenge-S "
-  "decisions. Snapshot and live CIs used 10,000 bootstrap resamples (Figure 4's per-arm CIs 2,000); "
+  "decisions, which came from {{x:h2_clusters}} source sequences. Snapshot and live CIs used 10,000 bootstrap resamples (Figure 4's per-arm CIs 2,000); "
   "detector CIs 300, re-calibrating in each. With 10 to 15 sequences per arm, live percentile-bootstrap "
   "CIs are slightly narrower than Welch intervals (H2-live by Welch: {{x:h2live_welch_ci}}). {{x:calls_total}} model calls (offer battery "
   "{{x:calls_A}}; live {{x:calls_L}}; snapshots {{x:calls_S}}); estimated Claude API cost {{x:cost_claude_A}} "

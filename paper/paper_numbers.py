@@ -138,7 +138,7 @@ def snapmean(model, pt, cond, which="mean_condition"):
 
 
 def _p(p: float) -> str:
-    return "p < 0.001" if p < 0.001 else f"p = {f(p)}"
+    return "p\u00a0<\u00a00.001" if p < 0.001 else f"p\u00a0=\u00a0{f(p)}"  # non-breaking spaces
 
 
 def _flag_prob(p: float, m: int) -> float:

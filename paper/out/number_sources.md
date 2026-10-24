@@ -140,7 +140,7 @@ file noted there).
 | `x:named_B3T` | 12/15 |
 | `x:no_pre_cap` | Six |
 | `x:notice_direct_ci` | [0.167, 0.422] |
-| `x:notice_direct_p` | p < 0.001 |
+| `x:notice_direct_p` | p < 0.001 |
 | `x:notice_none_est` | −0.113 |
 | `x:notice_none_pw` | 0.062 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
