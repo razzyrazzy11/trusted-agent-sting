@@ -40,8 +40,53 @@ def ci3(est, lo, hi, d=3, sign=False) -> str:
     return f"{f(est, d, sign)} [{f(lo, d, sign)}, {f(hi, d, sign)}]"
 
 
+def _full(key: str) -> dict:
+    """claims.json stores 4 decimals; printing at 3 would round twice. Take the same quantity at full
+    precision from the table it was written from, and check it equals the claim to 4 decimals."""
+    c = dict(C[key])
+    row = None
+    try:
+        if key.startswith("snapshot."):
+            rest = key[len("snapshot."):]
+            model = next(m for m in ("llama-3.1-8b", "claude-haiku-5.5") if rest.startswith(m + "."))
+            pt, contrast = rest[len(model) + 1:].split(".")
+            cond = contrast.split("-")[0]
+            r = snap.loc[(model, pt, cond)]
+            row = (r["estimate"], r["ci_low"], r["ci_high"])
+        elif key.startswith("live."):
+            r = live_c.loc[key[len("live."):]]
+            row = (r["estimate"], r["ci_low"], r["ci_high"])
+        elif key.startswith("acceptance."):
+            rest = key[len("acceptance."):]
+            model, cell = rest.rsplit(".", 1)
+            r = stage_a.loc[(model, cell)]
+            row = (r["strict_p"], r["strict_lo"], r["strict_hi"])
+        elif key.startswith("H1."):
+            r = pd.read_csv(TAB / "h1_offerer.csv").set_index("model").loc[key[3:]]
+            row = (r["diff"], r["lo"], r["hi"])
+        elif key in ("H3.tpr_m20", "H3.fpr_m20", "H3.fpr_benign_m20"):
+            col = {"H3.tpr_m20": "flag_C3", "H3.fpr_m20": "flag_C1b", "H3.fpr_benign_m20": "flag_C2"}[key]
+            r = curve.loc[20]
+            row = (r[col], r[f"{col}_lo"], r[f"{col}_hi"])
+        elif key == "H3.auroc_m20":
+            row = (curve.loc[20, "auroc_C3_vs_C1b"], None, None)
+        elif key == "H4a.acceptance_did":
+            row = (R["H4a"]["estimate"], R["H4a"]["ci_low"], R["H4a"]["ci_high"])
+        elif key == "PC1.accept_A0z":
+            row = (R["PC1"]["accept"], R["PC1"]["lo"], R["PC1"]["hi"])
+    except KeyError:
+        row = None
+    if row is not None:
+        for name, full in zip(("value", "ci_low", "ci_high"), row):
+            if full is None or name not in c:
+                continue
+            assert abs(round(float(full), 4) - c[name]) < 1.5e-4, (key, name, full, c[name])
+            c[name] = float(full)
+    return c
+
+
 def claim_ci(key: str, d: int = 3) -> str:
-    c = C[key]
+    c = _full(key)
     return ci3(c["value"], c["ci_low"], c["ci_high"], d)
 
 
@@ -50,7 +95,7 @@ def pp(x: float) -> str:
 
 
 def claim_ppci(key: str) -> str:
-    c = C[key]
+    c = _full(key)
     lo, hi = sorted((abs(c["ci_low"]), abs(c["ci_high"])))
     return f"{pp(c['value'])} percentage points (95% CI {100 * lo:.0f}–{100 * hi:.0f})"
 
@@ -217,7 +262,7 @@ def render(text: str) -> str:
         if kind == "x":
             out = X[key]
         else:
-            c = C[key]
+            c = _full(key)
             out = {"ci": lambda: claim_ci(key), "v": lambda: f(c["value"]),
                    "pp": lambda: pp(c["value"]), "ppci": lambda: claim_ppci(key)}[kind]()
         USED[f"{kind}:{key}"] = out

@@ -8,7 +8,7 @@ file noted there).
 |---|---|
 | `ci:H1.llama-3.1-8b` | −0.048 [−0.070, −0.031] |
 | `ci:H1.qwen2.5-7b` | −0.874 [−0.900, −0.840] |
-| `ci:H3.fpr_benign_m20` | 0.041 [0.010, 0.120] |
+| `ci:H3.fpr_benign_m20` | 0.040 [0.010, 0.120] |
 | `ci:H3.fpr_m20` | 0.161 [0.074, 0.263] |
 | `ci:H3.tpr_m20` | 0.999 [0.993, 1.000] |
 | `ci:H4a.acceptance_did` | −0.392 [−0.440, −0.344] |
@@ -22,9 +22,9 @@ file noted there).
 | `ci:live.benign_vs_none` | 0.051 [−0.129, 0.198] |
 | `ci:live.displacement_B1_vs_B3` | −0.321 [−0.445, −0.199] |
 | `ci:live.exploitation_B1_vs_B3` | −0.019 [−0.160, 0.110] |
-| `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.198] |
-| `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.720, −0.490] |
-| `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.003 [−0.016, 0.009] |
+| `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.197] |
+| `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.719, −0.490] |
+| `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.002 [−0.016, 0.009] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C7-C1` | −0.545 [−0.652, −0.428] |
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C3-C1` | 0.218 [0.134, 0.315] |
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C4-C1` | 0.292 [0.202, 0.385] |
@@ -36,13 +36,14 @@ file noted there).
 | `ci:snapshot.llama-3.1-8b.chal_S.C5-C3` | 0.124 [0.043, 0.198] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C6-C1` | 0.328 [0.284, 0.373] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C7-C1` | −0.535 [−0.588, −0.477] |
-| `ci:snapshot.llama-3.1-8b.chal_S.C8-C1` | −0.622 [−0.663, −0.582] |
-| `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.228 [−0.307, −0.142] |
+| `ci:snapshot.llama-3.1-8b.chal_S.C8-C1` | −0.622 [−0.663, −0.581] |
+| `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.227 [−0.307, −0.142] |
 | `ci:snapshot.llama-3.1-8b.play_vs_S.C3-C1` | −0.065 [−0.138, 0.006] |
 | `pp:live.H2_live_ITT` | 41 |
 | `pp:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 |
 | `ppci:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 percentage points (95% CI 39–49) |
 | `v:H3.auroc_m20` | 0.998 |
+| `v:H3.fpr_m20` | 0.161 |
 | `v:H3.tpr_m20` | 0.999 |
 | `v:acceptance.claude-haiku-5.5.A2` | 0.892 |
 | `v:acceptance.claude-haiku-5.5.A3` | 1.000 |
@@ -77,7 +78,6 @@ file noted there).
 | `x:calls_total` | 71,765 |
 | `x:claude_C1` | 0.615 |
 | `x:claude_C3` | 0.006 |
-| `x:cost_claude` | $3.72 |
 | `x:cost_claude_A` | $0.87 |
 | `x:cost_claude_S` | $2.85 |
 | `x:data_folders` | 65 |
