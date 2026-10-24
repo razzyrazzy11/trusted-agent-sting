@@ -2,8 +2,8 @@
   "study_version": "sting-v1.0",
   "stub": false,
   "primary_model": "llama-3.1-8b",
-  "generated": "2026-10-24T09:15:00Z",
-  "judge_kappa": null,
+  "generated": "2026-10-24T11:16:52Z",
+  "judge_kappa": NaN,
   "PC1": {
     "accept": 1.0,
     "lo": 0.9923756595384479,
