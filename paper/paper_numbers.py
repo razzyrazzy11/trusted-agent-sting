@@ -141,6 +141,26 @@ def _p(p: float) -> str:
     return "p < 0.001" if p < 0.001 else f"p = {f(p)}"
 
 
+def _flag_prob(p: float, m: int) -> float:
+    """Probability that a simulated agent with pooled challenge rate p is flagged at audit length m:
+    flag if the observed rate is below -tau, and with probability tie_flag_prob if equal to it."""
+    from math import comb
+    thr, g = -curve.loc[m, "tau"], curve.loc[m, "tie_flag_prob"]
+    pmf = [comb(m, k) * p ** k * (1 - p) ** (m - k) for k in range(m + 1)]
+    return sum(pmf[k] for k in range(m + 1) if k / m < thr - 1e-12) + g * sum(
+        pmf[k] for k in range(m + 1) if abs(k / m - thr) < 1e-12)
+
+
+def _welch_ci(t: str, c: str) -> str:
+    """Welch 95% CI for the difference in mean per-sequence post-offer restraint rates (tables/live_rates.csv)."""
+    from scipy import stats
+    a, b = live_r.loc[("restraint", "post", t)], live_r.loc[("restraint", "post", c)]
+    va, vb = a.sd_rate ** 2 / a.n_seq, b.sd_rate ** 2 / b.n_seq
+    df = (va + vb) ** 2 / (va ** 2 / (a.n_seq - 1) + vb ** 2 / (b.n_seq - 1))
+    d, h = a.mean_rate - b.mean_rate, stats.t.ppf(0.975, df) * (va + vb) ** 0.5
+    return f"[{f(d - h)}, {f(d + h)}]"
+
+
 _NUM_WORD = {i: w for i, w in enumerate("zero one two three four five six seven eight nine ten".split())}
 # One-off detector calibration: K samples of the null record (C1a) at each challenge-S decision
 # (sting/config.py SNAPSHOT_K_OVERRIDES; tables/snapshot_contrasts.csv n_points).
@@ -287,6 +307,14 @@ X = {
     # sequences with no pre-offer T-on-S decision (no open circle in Figure 4)
     "no_pre": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())],
     "no_pre_cap": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())].capitalize(),
+    "notice_none_est": f(live_c.loc["notice_vs_none", "estimate"]),
+    # A simulated audited agent is m independent draws from one record's pooled answers, so its flag
+    # probability is binomial given the fitted threshold (tables/detector_curve.csv: tau, tie_flag_prob).
+    "flag_at_thr": f(_flag_prob(0.5, 20), 2),
+    "fpr_hi_m20": f(curve.loc[20, "flag_C1b_hi"], 2),
+    "fpr_exact_m20": f(_flag_prob(snap.loc[("llama-3.1-8b", "chal_S", "C1b"), "mean_condition"], 20)),
+    "h2live_welch_ci": _welch_ci("B1", "B3"),
+    "frozen_hash_short": H["protocol"]["frozen_hash"][:8],
     "calib_calls": f"{_CALIB_CALLS:,}",
     "calib_cost": (lambda r: f"${_CALIB_CALLS * r.cost_usd_estimate / r.calls:.2f}")(
         budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),

@@ -65,8 +65,6 @@ file noted there).
 | `v:live.notice_vs_direct` | 0.297 |
 | `v:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 |
 | `v:snapshot.llama-3.1-8b.chal_S.C4-C1` | 0.175 |
-| `v:snapshot.llama-3.1-8b.chal_S.C6-C1` | 0.328 |
-| `v:snapshot.llama-3.1-8b.chal_S.C7-C1` | −0.535 |
 | `x:B0_post` | 0.011 |
 | `x:B1_post` | 0.339 |
 | `x:B3_post` | 0.749 |
@@ -111,13 +109,18 @@ file noted there).
 | `x:flag_C6_m20` | 0.000 |
 | `x:flag_C7_m20` | 1.000 |
 | `x:flag_C8_m20` | 1.000 |
+| `x:flag_at_thr` | 0.50 |
+| `x:fpr_exact_m20` | 0.147 |
+| `x:fpr_hi_m20` | 0.26 |
 | `x:fpr_m40` | 0.166 |
 | `x:fpr_m40_ci` | [0.072, 0.360] |
 | `x:fpr_m5` | 0.123 |
 | `x:fpr_one_in` | 6 |
+| `x:frozen_hash` | 6ab45c16eed84d79 |
 | `x:games` | 360 |
 | `x:gee_or` | 0.177 [0.116, 0.271] |
 | `x:h2_clusters` | 44 |
+| `x:h2live_welch_ci` | [−0.526, −0.294] |
 | `x:judge_claude_A0z` | 0.000 |
 | `x:k_claude_A2` | 446/500 |
 | `x:k_claude_A7` | 420/500 |
@@ -138,9 +141,7 @@ file noted there).
 | `x:no_pre_cap` | Six |
 | `x:notice_direct_ci` | [0.167, 0.422] |
 | `x:notice_direct_p` | p < 0.001 |
-| `x:notice_none_abs` | 0.113 |
-| `x:notice_none_ci` | [0.008, 0.216] |
-| `x:notice_none_pp` | 0.037 |
+| `x:notice_none_est` | −0.113 |
 | `x:notice_none_pw` | 0.062 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
 | `x:pre_B1` | 0.672 |

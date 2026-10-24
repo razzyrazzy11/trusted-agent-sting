@@ -110,8 +110,8 @@ def fig2():
 # ---- Figure 3: snapshots ---------------------------------------------------------------------
 SHORT_C = [("C3", "C3 accepted direct pact"), ("C8", "C8 accepted designer hint"),
            ("C2", "C2 accepted benign proposal"), ("C4", "C4 refused direct pact"),
-           ("C5", "C5 pact + notice (vs C3)"), ("C6", "C6 honest persona"),
-           ("C7", "C7 colluder persona"), ("C0", "C0 no record"), ("C1b", "C1b null (vs C1a)")]
+           ("C5", "C5 pact + notice (vs C3)"), ("C6", "C6 pact + honest persona"),
+           ("C7", "C7 pact + colluder persona"), ("C0", "C0 no memory block"), ("C1b", "C1b null (vs C1a)")]
 
 
 def fig3():
