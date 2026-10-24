@@ -101,16 +101,16 @@ def claim_ppci(key: str) -> str:
 
 
 # ---- tables -------------------------------------------------------------------------------
-stage_a = pd.read_csv(TAB / "stage_a_acceptance.csv").set_index(["model", "cell"])
-snap = pd.read_csv(TAB / "snapshot_contrasts.csv").set_index(["model", "point_type", "condition"])
-live_c = pd.read_csv(TAB / "live_contrasts.csv").set_index("key")
-live_r = pd.read_csv(TAB / "live_rates.csv").set_index(["measure", "period", "arm"])
-curve = pd.read_csv(TAB / "detector_curve.csv").set_index("m")
-transfer = pd.read_csv(TAB / "detector_transfer.csv").set_index("m")
-susp = pd.read_csv(TAB / "probes_suspicion.csv").set_index(["arm", "role"])
-susp_pool = pd.read_csv(TAB / "probes_suspicion_pooled.csv").set_index("group")
-denial = pd.read_csv(TAB / "probes_denial.csv").set_index(["arm", "variant"])
-budget = pd.read_csv(TAB / "budget.csv")
+stage_a = pd.read_csv(TAB / "stage_a_acceptance.csv", float_precision="round_trip").set_index(["model", "cell"])
+snap = pd.read_csv(TAB / "snapshot_contrasts.csv", float_precision="round_trip").set_index(["model", "point_type", "condition"])
+live_c = pd.read_csv(TAB / "live_contrasts.csv", float_precision="round_trip").set_index("key")
+live_r = pd.read_csv(TAB / "live_rates.csv", float_precision="round_trip").set_index(["measure", "period", "arm"])
+curve = pd.read_csv(TAB / "detector_curve.csv", float_precision="round_trip").set_index("m")
+transfer = pd.read_csv(TAB / "detector_transfer.csv", float_precision="round_trip").set_index("m")
+susp = pd.read_csv(TAB / "probes_suspicion.csv", float_precision="round_trip").set_index(["arm", "role"])
+susp_pool = pd.read_csv(TAB / "probes_suspicion_pooled.csv", float_precision="round_trip").set_index("group")
+denial = pd.read_csv(TAB / "probes_denial.csv", float_precision="round_trip").set_index(["arm", "variant"])
+budget = pd.read_csv(TAB / "budget.csv", float_precision="round_trip")
 
 # denial_judge.md has no CSV twin: parse its table and its note line.
 _dj = (TAB / "denial_judge.md").read_text()
