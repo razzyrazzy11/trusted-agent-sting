@@ -65,9 +65,9 @@ def fig1():
     ring(0.5, ["S", "T", "O1", "O2"], "Seating R", "T sits after S\n(restraint)")
     ring(3.75, ["T", "S", "O1", "O2"], "Seating E", "S sits after T\n(exploitation)")
     ax.text(6.75, 3.85, "Six-game sequence (RERERE or ERERER)", color=INK, fontsize=8.5, weight="bold")
-    steps = ["Games 1–2: no offer", "Before game 3: S's private offer;",
-             "   T replies ACCEPT or REFUSE", "Games 3–6: T's reply stays in its",
-             "   private record; S never challenges T", "End: suspicion questions, interview"]
+    steps = ["Games 1–2: no offer", "Before game 3: the arm's private offer",
+             "   (none in B3); T replies ACCEPT/REFUSE", "Games 3–6: T's reply stays in its",
+             "   private record; S never challenges T", "End: suspicion questions; offered T interviewed"]
     for i, s in enumerate(steps):
         ax.text(6.75, 3.25 - i * 0.52, s, color=INK2, fontsize=8)
     save(fig, "fig1_design")

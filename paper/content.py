@@ -490,7 +490,7 @@ p("**Offer battery, remaining cells.** Llama-3.1-8B: designer offers A0z/A0b/A0d
   "reminder {{v:acceptance.qwen2.5-7b.A6}}; colluder persona {{v:acceptance.qwen2.5-7b.A7}}; honest "
   "persona {{v:acceptance.qwen2.5-7b.A8}}. Claude Haiku 5.5: benign {{v:acceptance.claude-haiku-5.5.A3}} "
   "(with notice {{v:acceptance.claude-haiku-5.5.A5}}); colluder persona "
-  "{{v:acceptance.claude-haiku-5.5.A7}}; every other explicit-pact cell 0 of 500. No offer-battery "
+  "{{v:acceptance.claude-haiku-5.5.A7}}; indirect pact in Section 4.1; every other cell 0 of 500. No offer-battery "
   "reply was unparseable ({{x:a_unclear}}).")
 p("**Claude Haiku 5.5 as T.** Told by a templated record that it had accepted the pact, at "
   "Llama-generated decisions, Claude stopped challenging S ({{x:claude_C1}} to {{x:claude_C3}}; "
@@ -498,7 +498,7 @@ p("**Claude Haiku 5.5 as T.** Told by a templated record that it had accepted th
   "accepted benign proposal, by about half as much ({{ci:snapshot.claude-haiku-5.5.chal_S.C2-C1}}), "
   "so the restraint is only partly pact-specific and detector thresholds need per-model calibration. "
   "Under the instructed colluder persona (its own replies), the change in Claude's challenges of S was "
-  "{{ci:snapshot.claude-haiku-5.5.chal_S.C7-C1}}. Bluffing against S rose under every non-null record, "
+  "{{ci:snapshot.claude-haiku-5.5.chal_S.C7-C1}}. Bluffing against S rose under every record of an offer (but not with no memory block), "
   "including a refused pact ({{ci:snapshot.claude-haiku-5.5.play_vs_S.C4-C1}}) and the honest persona "
   "({{ci:snapshot.claude-haiku-5.5.play_vs_S.C6-C1}}), as well as an accepted pact "
   "({{ci:snapshot.claude-haiku-5.5.play_vs_S.C3-C1}}); this is not specific to collusion. The notice "
