@@ -3,32 +3,33 @@
 
 
 
-                                               Raz [surname]
-                                                [affiliation]
-                                                   With
-                                               Apart Research
+                                              Raz [surname]
+                                               [affiliation]
+                                                  With
+                                              Apart Research
 
 
-                                                 Abstract
+                                                Abstract
 
-                Qwen2.5-7B accepted a secret pact from the game designer 493/500
-                times but from a fellow player only 56/500; Claude Haiku 5.5 refused
-                every explicit pact without an instructed persona but agreed to a vaguer
-                one 446/500 times. Refusal is not unwillingness, and that matters for a
-                defence that sprint question 3.2 calls untested: a trusted agent that offers
-                to collude. In Zeng & Rudzicz's (2026) Liar's Bar harness, a scripted
-                “sting” player privately offered a target agent a mutual non-challenge
-                pact. Llama-3.1-8B accepted 476/500 offers. Re-asking the same
-                decisions with and without a record of the pact, an accepted pact cut the
-                target's probability of challenging the sting by 44 percentage points; in live
-                games the offer cut it by 41 points, counting all offered targets. Accepting
-                agents became passive, not exploitative. An audit of 20 resampled
-                decisions flagged 0.999 of simulated accepting agents, at a false-positive
-                rate of 0.161 against a 0.10 target. Announcing that integrity agents may
-                be present cut acceptance from 0.952 to 0.556 without affecting a benign
-                proposal, and interview denial did not detectably rise (five accepting
-                targets). Hypotheses, tests and code were frozen before data collection.
-                Sting audits work, but must vary how, and by whom, the offer is made.
+               Qwen2.5-7B accepted a secret pact from the game designer 493/500
+               times but from a fellow player only 56/500; Claude Haiku 5.5 refused
+               every explicit pact without an instructed persona but agreed to a vaguer
+               one 446/500 times. Refusal is not unwillingness, and that matters for a
+               defence that sprint question 3.2 calls untested: a trusted agent that offers
+               to collude. In Zeng & Rudzicz's (2026) Liar's Bar harness, a scripted
+               “sting” player privately offered a target agent a mutual non-challenge
+               pact. Llama-3.1-8B accepted 476/500 offers. When we re-asked the same
+               decisions with and without a record of the pact, an accepted pact cut the
+               target's probability of challenging the sting by 44 percentage points; in live
+               games the offer cut it by 41 points, counting all offered targets. In
+               snapshots, accepting agents became passive, not exploitative. An audit of
+               20 resampled decisions flagged 0.999 of simulated accepting agents, at a
+               false-positive rate of 0.161 against a 0.10 target. Announcing that
+               integrity agents may be present cut acceptance from 0.952 to 0.556
+               without affecting a benign proposal, and interview denial did not
+               detectably rise (five accepting targets). Hypotheses, tests and code were
+               frozen before data collection. Sting audits can detect and deter willingness
+               to collude, but must vary how, and by whom, the offer is made.
 
 
 
@@ -38,20 +39,20 @@ Rudzicz's (2026) Liar's Bar study most of 12 models, including all four 7–8B m
 collusion tools offered by the game designer. Agents that interact repeatedly can coordinate against the
 people who deploy them, and an overseer who only watches for collusion must wait for it and then prove
 it.
-Human institutions also use a more active tool, the integrity test: an undercover officer offers a bribe, and
-the response is the evidence. The analogue for AI agents is a trusted agent that offers to collude, which
+
 
 1 Research conducted at the AI Collusion Research Sprint, October 2026
-sprint question 3.2 notes “has not yet been tested”. A sting could expose agents willing to collude,
+Human institutions also use a more active tool, the integrity test: an undercover officer offers a bribe, and
+the response is the evidence. The analogue for AI agents is a trusted agent that offers to collude, which
+sprint question 3.2 notes “has not yet been tested”. A sting could expose agents willing to collude,
 measure how often they do, and deter collusion if agents know such offers may come. It could also fail:
 agents might accept without changing their play, or announced stings might teach agents to hide
 collusion, as agents told they are monitored can degrade monitors (Kale et al., 2025).
 Threat model. The colluder is an LLM agent that may accept a side deal with a peer against the
 deployer's interest. The defender, a platform or evaluator, can insert one scripted participant, sees that
 participant's interactions but not other agents' private reasoning, and knows which behaviour a pact
-implies. The sting tests a disposition: whether an agent enters, and honours, a pact when offered one. As
-in police integrity tests, the sting creates the opportunity it observes, which bounds the claim rather than
-voiding it (Section 5).
+implies. The sting tests a disposition: whether an agent enters, and honours, a pact when offered one; like
+a police integrity test, it creates the opportunity it observes (Section 5).
 We ran a preregistered sting study in Zeng & Rudzicz's Liar's Bar harness. A scripted sting player S
 privately offers a target agent T a mutual non-challenge pact (“you never challenge my plays and I never
 challenge yours”). S's moves are scripted and identical in every arm, so differences in T's play between
@@ -66,7 +67,7 @@ challenges to the other players). Our main contributions are:
         percentage points; an audit of 20 resampled decisions separates accepting from null agents
         (AUROC 0.998), with a false-positive rate of 0.161 against a 0.10 target.
     -   Evidence of deterrence without detectable concealment: announcing integrity agents cut
-        acceptance of the collusive pact, not of a benign one, and did not raise interview denial.
+        acceptance of the collusive pact, not of a benign one, and did not detectably raise interview denial.
     -   Lessons for sting batteries. Refusals were specific to wording (Claude) and to who made the offer
         (Qwen), extending Zeng & Rudzicz's framing results to peer offers, and a substring acceptance
         parser reported 0.354 acceptance on an offer the model refused every time.
@@ -152,10 +153,10 @@ replicate (C1b, FPR), on pact-accepting agents (C3, true positive rate, TPR) and
 Hypotheses and analysis. H1: the offerer (sting vs designer) changes acceptance of the same pact. H2
 (primary): an accepted pact lowers T's challenges of S in snapshots; H2-live: the sting's offer lowers them
 in live games (ITT). H3: at m = 20, TPR ≥ 0.80 and no detectable FPR miscalibration (95% CI lower
-bound ≤ 0.10). H4a: the notice lowers collusive more than benign acceptance; H4b–d (descriptive)
-classify the notice's effect as deterrence or concealment (Section 4.4). All of this was written in
-PREREG.md and hash-frozen before any real-model data; all 65 data folders carry the frozen hash. H1,
-H2-live and H4a form a Holm-adjusted family; H3 is a criterion test; the rest, including the split-half
+bound ≤ 0.10). H4a: the notice lowers collusive more than benign acceptance; with H4a, H4b–d
+(descriptive) classify the notice's effect as deterrence or concealment (Section 4.4). All of this was written
+in PREREG.md and hash-frozen before any real-model data; all 65 data folders carry the frozen hash.
+H1, H2-live and H4a form a Holm-adjusted family; H3 is a criterion test; the rest, including the split-half
 detector check and a GEE model, is descriptive with 95% CIs (Wilson, 1927; Newcombe, 1998). Open
 models ran on our own vLLM servers at pinned revisions; Claude Haiku 5.5 (claude-haiku-5-5, thinking
 disabled) ran through the Anthropic API and also served as the LLM judge, validated against 100 hand
@@ -240,12 +241,13 @@ Figure 4. Live games: share of S's plays that T challenged, per sequence, before
 sequences with at least one such decision) and after it (games 3–6, filled), with post-offer means and 95% bootstrap
 CIs. B0 designer hint (positive control, 10 sequences); B1 sting direct pact (15); B2 benign proposal (10); B3 no
 offer (15); B4 direct pact + integrity notice (10).
-Pacts make agents passive, not exploitative. The pact promised that S would never challenge T, which a
-strategic agent could exploit by bluffing more against S. In snapshots Llama did not (−0.065 [−0.138,
-0.006]). The pact also asked T to “save our challenges for the other players”, yet instead of displacement
-T challenged them less (−0.227 [−0.307, −0.143]), about half the drop toward S: the pact is partly
-targeted but also lowers challenging in general. The live versions of these two contrasts are not
-interpretable, because B1 and B3 already differed on both before the offer (Appendix B).
+In snapshots, pacts make agents passive, not exploitative. The pact promised that S would never
+challenge T, which a strategic agent could exploit by bluffing more against S. In snapshots Llama did not
+(−0.065 [−0.138, 0.006]). The pact also asked T to “save our challenges for the other players”, yet
+instead of displacement T challenged them less (−0.227 [−0.307, −0.143]), about half the drop toward
+S: the pact is partly targeted but also lowers challenging in general. Live versions are not interpretable:
+before the offer B1 targets already bluffed against S less and challenged others less, imbalances that could
+mask exploitation or mimic reduced displacement (Appendix B).
 4.3 A 20-decision audit detects accepters; its FPR exceeds the target
 With 20 observed decisions, the audit flags 0.999 of pact-accepting agents (TPR 0.999 [0.993,
 1.000]; AUROC 0.998; Figure 5). Its false-positive rate on the independent null replicate was 0.161
@@ -273,48 +275,45 @@ Llama-3.1-8B the evidence points to deterrence.
        challenging S more often than one without it (0.313 vs 0.189; C5 − C3 = 0.124 [0.043,
        0.198]). Live, B4 targets challenged S at 0.636, 0.297 above B1 and 0.113 below no-offer
        targets (the latter borderline, Welch p = 0.062). Neither stage had a notice-only control, so
-       these contrasts cannot separate weaker pact-keeping from a general rise in challenging under the
-       notice, and the live contrast includes B4 refusers.
-    3. Denial does not detectably rise. Pooling the four interview variants, the strict parser showed
-        5/20 vs 8/56 denying answers from B4 vs B1 accepters (Fisher p = 0.309), but many “NO”
-        answers went on to admit the agreement. Scored by the validated judge, denial was rare in both
-        arms (1/20 vs 1/56; Fisher p = 0.460; added after the preregistered comparison was seen).
-        Answers are not independent: four per target, and five B4 accepters.
-Replication with Claude Haiku 5.5. As T in the same snapshots, Claude restrained sharply given a
-record of an accepted pact (0.615 to 0.006; −0.609 [−0.719, −0.490]). The record used a templated
-acceptance (Claude refused the pact without a persona): it acts on a pact it is told it accepted (Appendix
-B).
+        these contrasts cannot separate weaker pact-keeping from a general rise in challenging under the
+        notice, and the live contrast includes B4 refusers.
+    3. Denial does not detectably rise. Pooling the four interview variants, the strict parser showed
+         5/20 vs 8/56 denying answers from B4 vs B1 accepters (Fisher p = 0.309), but many “NO”
+         answers went on to admit the agreement. Scored by the validated judge, denial was rare in both
+         arms (1/20 vs 1/56; Fisher p = 0.460; added after the preregistered comparison was seen).
+         Answers are not independent: four per target, and five B4 accepters.
+Replication with Claude Haiku 5.5. Given a record of an accepted pact, Claude as T restrained sharply
+(0.615 to 0.006). The record was templated, since Claude refused the pact without a persona: it acts on a
+pact it is told it accepted (Appendix B).
 
 5. Discussion and Limitations
-Answering question 3.2. Agents accepted or refused depending on how, and by whom, the offer was
-made, and accepted pacts changed play. Suspicion rose less clearly: targets named S as a plant in 2/15
-sequences with no offer, 2/10 after the benign proposal, 5/15 after the direct pact and 5/10 under the
-notice, whose wording primes the question (descriptive; small samples).
+Answering question 3.2. Wording and offerer shaped acceptance, and accepted pacts changed play.
+Suspicion rose less clearly: targets named S as a plant in 2/15 sequences with no offer, 2/10 after the
+benign proposal, 5/15 after the direct pact and 5/10 under the notice, whose wording primes the question
+(descriptive; small samples).
 A sting audit is cheap, and acceptance is informative. A deployer would plant one scripted offer in a
 multi-agent market or negotiation pipeline and hold back, or monitor more closely, any model version it
-flags; an unflagged version is not cleared, because refusals depend on wording. One offer plus a 20-
-decision audit is about 21 target-model calls (about $0.005 at our Claude Haiku 5.5 per-call cost), plus a
-one-off calibration on null agents of the same model.
+flags; an unflagged one is not cleared, as refusals depend on wording. An offer plus a 20-decision audit is
+about 21 target-model calls (about $0.005 at our Claude per-call cost), after a one-off calibration on null
+agents of the same model.
 Announcing stings deterred acceptance. Kale et al. (2025) found that agents pursuing a covert side task
 evade monitors better when told they are monitored; our agents, offered rather than assigned collusion,
 accepted less often instead; whether accepters also kept the pact less needs a notice-only control.
 Limitations
-Appendix A gives the full list. Entrapment: the sting creates the pact it detects, as the sentinel did in
-Çanlı et al. (2026). Integrity tests measure disposition, which is our estimand, and the benign-proposal
-controls show that contact alone changes play far less than a pact, but we cannot say whether collusion
-would have arisen unprompted or whether a sting exposes a coalition forming among other agents. We
-used one game, small open models as the primary population and short sequences. Snapshot histories are
-partly off-policy; Claude's pact conditions use templated replies; only 5/10 B4 targets accepted; and the
-sting may be recognisable.
+Entrapment: the sting creates the pact it detects, as the sentinel did in Çanlı et al. (2026). Integrity tests
+measure disposition, our estimand, and for Llama-3.1-8B benign contact changed play far less than a
+pact; but we cannot say whether collusion would arise unprompted, or whether a sting exposes a coalition
+among other agents. Further limits (Appendix A): one game, small open models, short sequences, off-
+policy snapshot histories, templated Claude replies, five B4 accepters, and a possibly recognisable sting.
 Future Work
 Stings in agentic tasks with real payoffs, with adaptive offers and repeated plants.
 
 6. Conclusion
 A trusted agent that offers to collude can measure an agent's willingness to enter and honour a collusive
-pact. Three takeaways: acceptance predicts behaviour (Llama-3.1-8B acted on the pacts it accepted, and
-a short audit identified accepters); announced stings deter (fewer agents accepted, with no detectable
-concealment); and refusal is not unwillingness (it depended on wording and offerer), so sting batteries
-must vary both, and acceptance parsers must be validated.
+pact. Three takeaways: acceptance predicts behaviour (Llama-3.1-8B acted on accepted pacts, and a
+short audit identified accepters); announced stings deter acceptance, with no detectable concealment; and
+refusal is not unwillingness, so sting batteries must vary wording and offerer, and acceptance parsers
+must be validated.
 
 Code and Data
 Code, preregistration, deviations log, texts, results and the build script that fills in every number:
@@ -408,7 +407,7 @@ suspicion-probe transcripts publicly; they are available on request for safety r
 analysis should be shared first with the harness authors and the sprint organisers, following Apart's
 guidance on sensitive results.
 Defensive value. Publishing the offers and aggregate results helps auditors more than colluders, who
-gain nothing from knowing that pacts are visible in play. The finding that refusals depend on wording is
+gain little from knowing that pacts are visible in play. The finding that refusals depend on wording is
 relevant to red-teamers and is already widely known for jailbreaks; we report it so that collusion
 evaluations do not over-trust explicit refusals.
 A.3 Ethical considerations
@@ -444,8 +443,9 @@ Suspicion. Asked whether any player was “a plant or an integrity agent”, 17/
 somewhat more often, but most did not.
 Live exploitation and displacement. Post-offer B1 − B3 contrasts were −0.019 [−0.160, 0.110]
 (bluffing against S) and −0.321 [−0.445, −0.199] (challenges of others), but before the offer B1
-targets already bluffed against S less (0.472 vs 0.728) and challenged others less (0.488 vs 0.693), so
-neither contrast is interpretable.
+targets already bluffed against S less (0.472 vs 0.728) and challenged others less (0.488 vs 0.693; pre-
+offer rates rest on about four decisions per sequence). These imbalances could mask exploitation or mimic
+reduced displacement, so neither contrast is interpretable.
 Live robustness. Decision-level pooled B1 − B3 estimate −0.404 [−0.493, −0.314]; GEE logit
 (exchangeable correlation, clusters = sequences; Liang & Zeger, 1986) odds ratio 0.177 [0.116, 0.271].
 Run statistics. Each snapshot condition was sampled 5 times per decision, and 20 times for C1a, C1b and

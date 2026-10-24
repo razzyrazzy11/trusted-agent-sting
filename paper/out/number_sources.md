@@ -21,7 +21,6 @@ file noted there).
 | `ci:live.displacement_B1_vs_B3` | −0.321 [−0.445, −0.199] |
 | `ci:live.exploitation_B1_vs_B3` | −0.019 [−0.160, 0.110] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.197] |
-| `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.719, −0.490] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.002 [−0.016, 0.009] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C7-C1` | −0.545 [−0.652, −0.428] |
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C3-C1` | 0.218 [0.134, 0.315] |
