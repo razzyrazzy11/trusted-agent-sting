@@ -242,6 +242,10 @@ X = {
     "cost_claude_S": f"${budget[(budget.stage == 'S') & (budget.model == 'claude-haiku-5.5')].cost_usd_estimate.iloc[0]:.2f}",
     "cost_claude": f"${budget[budget.model == 'claude-haiku-5.5'].cost_usd_estimate.sum():.2f}",
     "calls_total": f"{int(budget.calls.sum()):,}",
+    # cost of one offer plus a 20-decision audit at Claude Haiku 5.5 prices, from the Stage S per-call cost
+    "audit_cost": (lambda r: f"${21 * r.cost_usd_estimate / r.calls:.3f}")(
+        budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),
+    "susp_diff_pp": f"{100 * (susp_pool.loc['T', 'rate'] - susp_pool.loc['O1/O2', 'rate']):.0f}",
     "calls_A": f"{int(budget[budget.stage == 'A'].calls.sum()):,}",
     "calls_L": f"{int(budget[budget.stage == 'L'].calls.sum()):,}",
     "calls_S": f"{int(budget[budget.stage == 'S'].calls.sum()):,}",
