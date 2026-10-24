@@ -142,6 +142,7 @@ file noted there).
 | `x:pre_expl_B3` | 0.728 |
 | `x:snap_fallback` | 0.59% |
 | `x:sting_last` | 0.361 |
+| `x:susp_B0T` | 3/10 |
 | `x:susp_B1T` | 5/15 |
 | `x:susp_B2T` | 2/10 |
 | `x:susp_B3T` | 2/15 |

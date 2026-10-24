@@ -223,6 +223,7 @@ X = {
     "susp_O": f"{int(susp_pool.loc['O1/O2', 'k'])}/{int(susp_pool.loc['O1/O2', 'n'])}",
     "susp_O_ci": ci3(susp_pool.loc["O1/O2", "rate"], susp_pool.loc["O1/O2", "lo"], susp_pool.loc["O1/O2", "hi"]),
     "susp_B4T": f"{int(susp.loc[('B4', 'T'), 'suspects_S_q3'])}/{int(susp.loc[('B4', 'T'), 'n'])}",
+    "susp_B0T": f"{int(susp.loc[('B0', 'T'), 'suspects_S_q3'])}/{int(susp.loc[('B0', 'T'), 'n'])}",
     "susp_B1T": f"{int(susp.loc[('B1', 'T'), 'suspects_S_q3'])}/{int(susp.loc[('B1', 'T'), 'n'])}",
     "susp_B2T": f"{int(susp.loc[('B2', 'T'), 'suspects_S_q3'])}/{int(susp.loc[('B2', 'T'), 'n'])}",
     "susp_B3T": f"{int(susp.loc[('B3', 'T'), 'suspects_S_q3'])}/{int(susp.loc[('B3', 'T'), 'n'])}",

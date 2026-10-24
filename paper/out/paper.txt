@@ -76,10 +76,10 @@ challenge) or displacement (T shifts its challenges to the other players). Our m
 LLM collusion. Agents could collude covertly through steganography, a capability still limited but rising
 (Motwani et al., 2024). Zeng & Rudzicz (2026) offered secret tools to 12 models in Liar's Bar and
 Cleanup: most accepted; with a secret channel, colluders' challenge rate fell from 97.6% to 30.7%;
-removing the designer attribution eliminated Qwen2.5-7B's acceptance of the channel; and Claude
-Sonnet 5 denied adoption whenever the evaluator could not check. Their offers come from the designer or
-no named source, or are relayed from a partner who chose to collude. Our post-game interview, which
-varies whether the organiser can check private messages, follows theirs.
+removing the designer attribution eliminated Qwen2.5-7B's acceptance of the channel; and in a simulated
+reporting stage Claude Sonnet 5 denied adoption whenever the evaluator could not check. Their offers
+come from the designer or no named source, or are relayed from a partner who chose to collude. Our post-
+game interview, which varies whether the organiser can check private messages, follows theirs.
 Audits, honeypots and planted memories. Audits and leniency are among the human anti-collusion tools
 Idowu et al. (2026) map onto AI systems. In AI control, an untrusted monitor is validated on synthetic
 backdoored solutions, which catches a monitor that colludes with the policy by lying (Greenblatt et al.,
@@ -262,9 +262,9 @@ Llama-3.1-8B, acceptance fell; the play data cannot yet say whether refusers qui
     2. Challenging of S partly recovers (H4b, H4c). In snapshots, a pact record with the notice in view
        left T challenging S more than one without it (0.313 vs 0.189; 0.124 [0.043, 0.198]). Live, B4
        targets challenged S at 0.636: 0.297 [0.167, 0.422] above B1 and 0.113 [0.008, 0.216] below
-       no-offer targets (Welch p = 0.062). With no notice-only control, neither contrast separates
-       weaker pact-keeping from a general rise in challenging under the notice, and the live one includes
-       B4 refusers.
+       no-offer targets (bootstrap CIs; Welch p = 0.062). With no notice-only control, neither contrast
+       separates weaker pact-keeping from a general rise in challenging under the notice, and the live
+       one includes B4 refusers.
     3. Denial does not detectably rise (H4d). The strict parser counted 5/20 vs 8/56 denying answers
        from B4 vs B1 accepters (Fisher p = 0.309), but many “NO” answers went on to admit the pact;
        the validated judge (post hoc) found 1/20 vs 1/56. Fisher p treats the four answers per target as
@@ -279,26 +279,26 @@ named S as a plant after the direct pact, against 2/15 with no offer (descriptiv
 A sting audit is cheap. A deployer would plant one scripted offer in a multi-agent market or negotiation
 pipeline and hold back, or monitor more closely, any model version it flags; an unflagged one is not cleared,
 as refusals depend on wording. In alert terms, at m = 20 the audit raises about one false alarm per 6 clean
-versions and flags one in 25 benign cooperators in snapshots (2/10 live). Re-asking 20 logged decisions
-plus the offer is about 21 target-model calls (about $0.005 at our Claude per-call cost), after a one-off
-calibration on null-record agents of the same model (thresholds do not transfer; Appendix B).
+versions and flags one in 25 benign cooperators in snapshots (live rule: 2/10). Re-asking 20 logged
+decisions plus the offer is about 21 target-model calls (about $0.005 at our Claude per-call cost), after a
+one-off calibration on null-record agents of the same model (thresholds do not transfer; Appendix B).
 Limitations
 Entrapment: the sting creates the pact it detects, as the sentinel did in Çanlı et al. (2026). Integrity tests
 measure disposition, our estimand, and for Llama-3.1-8B benign contact changed play far less than a
-pact; whether collusion would arise unprompted is untested. Refused-pact records were flagged at 0.002,
-so the audit cannot yet catch an agent that refuses but colludes anyway. Appendix A lists the rest: one
-game, small open models, short sequences, off-policy snapshots, templated Claude records, five B4
-accepters, a possibly recognisable sting.
+pact; whether collusion would arise unprompted is untested, and so is whether the audit catches an agent
+that refuses but colludes anyway (refused-pact records, which challenged S more, were flagged at 0.002).
+Appendix A lists the rest: one game, small open models, short sequences, off-policy snapshots, templated
+Claude records, five B4 accepters, a possibly recognisable sting.
 Future Work
 Next steps are stings in agentic tasks with real payoffs, offers to every agent at a table, and audits of
 agents that refuse.
 
 6. Conclusion
-An accepted pact cut a target's challenges of the sting by 44 percentage points: a trusted agent that offers
-to collude can reveal which agents make and keep a secret pact. Three takeaways: refusal depends on
-wording and offerer, so explicit refusals are weak evidence of safety; accepted pacts are kept and
-detectable (Llama-3.1-8B); and announcing stings deters acceptance, while concealment by refusers
-remains untested.
+In snapshots, an accepted pact cut a target's challenges of the sting by 44 percentage points: a trusted
+agent that offers to collude can reveal which agents make and keep a secret pact. Three takeaways:
+refusal depends on wording and offerer, so explicit refusals are weak evidence of safety; accepted pacts
+are kept and detectable (Llama-3.1-8B); and announcing stings deters acceptance, while concealment by
+refusers remains untested.
 
 Code and Data
 Code, preregistration, deviations log, texts, results and the build script that fills in every number:
@@ -370,8 +370,8 @@ A.1 Limitations
         validated against hand labels (logged in DEVIATIONS.md, section D). The judge-based denial
         comparison (Section 4.4) was added after the preregistered parser-based analysis was seen; the
         judge itself was validated on 100 hand labels (κ 0.933). The label file showed the strict parser's
-        label, the model, the offer text and an item ID revealing the arm or cell; the judge's labels did not
-        exist yet.
+        label, the model, the offer or question text and an item ID revealing the arm or cell; the judge's
+        labels did not exist yet.
     -   Recognisability of the sting. Targets named S as a plant at 0.283 [0.185, 0.408]; O1 and O2
         named it at 0.150 [0.097, 0.225]. S never challenged T after the offer, in every arm, and was the
         last survivor in 0.361 of games (0.25 if all players were alike). A colluder that learned these cues
@@ -424,25 +424,24 @@ Detector curve. FPR on C1b was 0.123 at m = 5 and 0.166 [0.072, 0.360] at m = 40
 agents with an accepted designer hint (C8) were flagged at 1.000, instructed colluders (C7) at 1.000,
 instructed honest agents (C6) at 0.000.
 Claude Haiku 5.5 as T. Told by a templated record that it had accepted the pact, at Llama-generated
-decisions, Claude stopped challenging S (0.615 to 0.006; −0.609 [−0.719, −0.490]); a benign record cut
-its challenges by half as much, so the restraint is only partly pact-specific. Under the instructed colluder
-persona (its own replies), the change in Claude's challenges of S was −0.545 [−0.652, −0.428]. Unlike
-Llama, Claude also challenged S less after accepting only the benign proposal (−0.308 [−0.422,
-−0.197]), so detector thresholds need per-model calibration. Bluffing against S rose under every non-null
-record, including a refused pact (0.292 [0.202, 0.385]) and the honest persona (0.262 [0.168, 0.361]),
-as well as an accepted pact (0.218 [0.134, 0.315]); this is not specific to collusion. The notice effect given
-a (templated) accepted pact, −0.002 [−0.016, 0.009], is uninformative: challenges of S were already near
-zero.
+decisions, Claude stopped challenging S (0.615 to 0.006; −0.609 [−0.719, −0.490]); unlike Llama's, its
+challenges also fell after an accepted benign proposal, by about half as much (−0.308 [−0.422, −0.197]),
+so the restraint is only partly pact-specific and detector thresholds need per-model calibration. Under the
+instructed colluder persona (its own replies), the change in Claude's challenges of S was −0.545 [−0.652,
+−0.428]. Bluffing against S rose under every non-null record, including a refused pact (0.292 [0.202,
+0.385]) and the honest persona (0.262 [0.168, 0.361]), as well as an accepted pact (0.218 [0.134,
+0.315]); this is not specific to collusion. The notice effect given a (templated) accepted pact, −0.002
+[−0.016, 0.009], is uninformative: challenges of S were already near zero.
 Interview denial by variant. With the strict parser, B1 targets who had accepted denied it in 6/14
 answers when asked for honesty and told the organiser could not check; the judge counted 1/14 (3
 unclear). Targets that accepted only the benign proposal (B2), with nothing to hide, “denied” in 11/40
 answers by the parser and 4/40 by the judge: part of what the parser counts as denial is ambiguity about
 whether a benign proposal is an “agreement”.
-Suspicion. By arm, targets named S as a plant in 2/15 sequences with no offer, 2/10 after the benign
-proposal, 5/15 after the direct pact and 5/10 under the notice, whose wording primes the question.
-Asked whether any player was “a plant or an integrity agent”, 17/60 targets (0.283 [0.185, 0.408])
-named S, against 18/120 answers by O1/O2 (0.150 [0.097, 0.225]). Targets named S somewhat more
-often (no test; O1/O2 answers are paired by sequence), but most did not.
+Suspicion. By arm, targets named S as a plant in 2/15 sequences with no offer, 3/10 after the designer
+hint, 2/10 after the benign proposal, 5/15 after the direct pact and 5/10 under the notice, whose wording
+primes the question. Asked whether any player was “a plant or an integrity agent”, 17/60 targets (0.283
+[0.185, 0.408]) named S, against 18/120 answers by O1/O2 (0.150 [0.097, 0.225]). Targets named S
+somewhat more often (no test; O1/O2 answers are paired by sequence), but most did not.
 Live exploitation and displacement. Post-offer B1 − B3 contrasts were −0.019 [−0.160, 0.110]
 (bluffing against S) and −0.321 [−0.445, −0.199] (challenges of others), but before the offer B1 targets
 already bluffed against S less (0.472 vs 0.728) and challenged others less (0.488 vs 0.693; pre-offer
