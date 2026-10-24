@@ -21,6 +21,7 @@ file noted there).
 | `ci:live.displacement_B1_vs_B3` | −0.321 [−0.445, −0.199] |
 | `ci:live.exploitation_B1_vs_B3` | −0.019 [−0.160, 0.110] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.197] |
+| `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.719, −0.490] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.002 [−0.016, 0.009] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C7-C1` | −0.545 [−0.652, −0.428] |
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C3-C1` | 0.218 [0.134, 0.315] |
@@ -61,7 +62,6 @@ file noted there).
 | `v:acceptance.qwen2.5-7b.A8` | 0.000 |
 | `v:live.H2_live_PP` | −0.444 |
 | `v:live.notice_vs_direct` | 0.297 |
-| `v:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 |
 | `v:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 |
 | `v:snapshot.llama-3.1-8b.chal_S.C4-C1` | 0.175 |
 | `v:snapshot.llama-3.1-8b.chal_S.C6-C1` | 0.328 |
@@ -129,7 +129,9 @@ file noted there).
 | `x:llama_C5` | 0.313 |
 | `x:median_game` | 0.79 |
 | `x:named_B3T` | 12/15 |
+| `x:notice_direct_ci` | [0.167, 0.422] |
 | `x:notice_none_abs` | 0.113 |
+| `x:notice_none_ci` | [0.008, 0.216] |
 | `x:notice_none_pw` | 0.062 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
 | `x:pre_B1` | 0.672 |
