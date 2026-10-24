@@ -234,6 +234,10 @@ def main():
         kind = blk[0]
         if kind == "h2":
             p = par(P_H2, blk[1]); set_spacing(p, before=180, after=40, line=260)
+            if list_counter.pop("page_break_next", False):  # page break before this heading, no empty page
+                ppr = p.find(W("w:pPr")); pb = OxmlElement("w:pageBreakBefore")
+                prev = [e for e in (ppr.find(W(t)) for t in ("w:pStyle", "w:keepNext", "w:keepLines")) if e is not None]
+                (prev[-1].addnext(pb) if prev else ppr.insert(0, pb))  # schema order: pStyle, keepNext, keepLines, pageBreakBefore
         elif kind == "h3":
             p = par(P_H3, blk[1], size=12); set_spacing(p, before=100, after=30, line=260)
         elif kind == "p":
@@ -301,9 +305,7 @@ def main():
                 ppr.find(W("w:rPr")).addprevious(ind)
                 add_runs(p, ref, size=10); set_spacing(p, after=60, line=240); emit(p)
         elif kind == "pagebreak":
-            p = copy.deepcopy(P_BODY); strip_runs(p)
-            r = OxmlElement("w:r"); b = OxmlElement("w:br"); b.set(W("w:type"), "page"); r.append(b); p.append(r)
-            emit(p)
+            list_counter["page_break_next"] = True
         else:
             raise ValueError(kind)
 
