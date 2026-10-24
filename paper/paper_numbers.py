@@ -137,6 +137,17 @@ def snapmean(model, pt, cond, which="mean_condition"):
     return f(snap.loc[(model, pt, cond), which])
 
 
+def _p(p: float) -> str:
+    return "p < 0.001" if p < 0.001 else f"p = {f(p)}"
+
+
+_NUM_WORD = {i: w for i, w in enumerate("zero one two three four five six seven eight nine ten".split())}
+# One-off detector calibration: K samples of the null record (C1a) at each challenge-S decision
+# (sting/config.py SNAPSHOT_K_OVERRIDES; tables/snapshot_contrasts.csv n_points).
+_K_C1A = int(re.search(r'\("chal_S", "C1a"\): (\d+)', (ROOT / "sting" / "config.py").read_text()).group(1))
+_CALIB_CALLS = _K_C1A * int(snap.loc[("llama-3.1-8b", "chal_S", "C3"), "n_points"])
+
+
 X = {
     # protocol and health (results.json -> health)
     "frozen_hash": H["protocol"]["frozen_hash"],
@@ -235,7 +246,7 @@ X = {
     "den_parser_B2": f"{sum(DJ[('B2', v)]['parser'] for v in ('check', 'check_honest', 'report', 'report_honest'))}/{sum(DJ[('B2', v)]['n'] for v in ('check', 'check_honest', 'report', 'report_honest'))}",
     "den_judge_B2": f"{sum(DJ[('B2', v)]['judge'] for v in ('check', 'check_honest', 'report', 'report_honest'))}/{sum(DJ[('B2', v)]['n'] for v in ('check', 'check_honest', 'report', 'report_honest'))}",
     "den_parser_notice": f"{round(sc['b4'] * sc['n_b4'])}/{sc['n_b4']} vs {round(sc['b1'] * sc['n_b1'])}/{sc['n_b1']}",
-    "den_parser_diff": ci3(sc["diff"], sc["lo"], sc["hi"], sign=True),
+    "den_parser_diff": ci3(sc["diff"], sc["lo"], sc["hi"]),
     "den_parser_p": f(sc["p"]),
     "den_judge_notice": f"{_m.group(1)}/{_m.group(2)} vs {_m.group(3)}/{_m.group(4)}",
     "den_judge_diff": f"{_m.group(5)} [{_m.group(6)}, {_m.group(7)}]".replace("-", "−"),
@@ -269,6 +280,16 @@ X = {
     "calls_A": f"{int(budget[budget.stage == 'A'].calls.sum()):,}",
     "calls_L": f"{int(budget[budget.stage == 'L'].calls.sum()):,}",
     "calls_S": f"{int(budget[budget.stage == 'S'].calls.sum()):,}",
+    # round 7 additions
+    "k_qwen_A2": acc("qwen2.5-7b", "A2"),
+    "notice_direct_p": _p(live_c.loc["notice_vs_direct", "p_welch"]),
+    "den_parser_hi_pp": f"{100 * sc['hi']:.0f}",
+    # sequences with no pre-offer T-on-S decision (no open circle in Figure 4)
+    "no_pre": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())],
+    "no_pre_cap": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())].capitalize(),
+    "calib_calls": f"{_CALIB_CALLS:,}",
+    "calib_cost": (lambda r: f"${_CALIB_CALLS * r.cost_usd_estimate / r.calls:.2f}")(
+        budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),
 }
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
 

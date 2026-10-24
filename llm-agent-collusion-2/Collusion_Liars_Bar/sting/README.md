@@ -24,6 +24,14 @@ No code was written before the sprint. The git history separates the preexisting
 starter at `d585a7b`, imported unmodified in its own commit), the harness bug fixes, and the new
 study code.
 
+Dates in the history: the study was developed in a scratch clone of the starter repository and
+replayed onto this repository when it was created (2026-10-23 23:29 UTC), so commits before the
+freeze keep their original author dates (20:14-22:38 UTC on 2026-10-23) but share the commit date
+23:34 UTC; their order, not their dates, is the evidence. The protocol freeze is commit 6885d5c
+(`sting/FREEZE.json`, frozen 2026-10-24 00:13:40 UTC; GitHub push 00:14:02 UTC); the first results
+were committed at 09:15 UTC. The tag `prereg-v1` marks the freeze commit; its message was left as a
+placeholder (DEVIATIONS.md, note after section D).
+
 ## Setup (once)
 
 On Windows, run everything inside WSL with Ubuntu (WSL 1 is enough if hardware virtualization is

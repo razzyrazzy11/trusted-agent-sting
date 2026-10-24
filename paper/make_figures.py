@@ -3,7 +3,7 @@
 Figures 2, 3 and 5 are redrawn from the committed analysis tables (sting_results/tables/*.csv) with
 the palette of sting/analysis/figures.py; figure 1 is the same schematic at print size. Figure 4
 needs per-sequence rates that are not in the committed tables, so the committed analysis figure is
-used (cropped). No number is computed here.
+used (cropped, without its in-image title). No number is computed here.
 """
 from pathlib import Path
 
@@ -164,9 +164,26 @@ def crop(src: Path, dst: Path, pad: int = 12):
     im.crop((max(0, x0 - pad), max(0, y0 - pad), min(im.width, x1 + pad), min(im.height, y1 + pad))).save(dst)
 
 
+def drop_title(path: Path, pad: int = 6):
+    """Remove the first text band (the in-image title, which repeats the paper's caption)."""
+    im = Image.open(path).convert("RGB")
+    a = np.asarray(im.convert("L")) < 200
+    rows = a.sum(1) > 0
+    y = 0
+    while y < len(rows) and not rows[y]:
+        y += 1
+    while y < len(rows) and rows[y]:  # title band
+        y += 1
+    while y < len(rows) and not rows[y]:
+        y += 1
+    assert y < 0.2 * len(rows), "title band not found near the top"
+    im.crop((0, max(0, y - pad), im.width, im.height)).save(path)
+
+
 if __name__ == "__main__":
     fig1(); fig2(); fig3(); fig5()
     crop(RES / "figures" / "fig4_live.png", OUT / "fig4_live.png")
+    drop_title(OUT / "fig4_live.png")
     for stale in ("fig2_acceptance.pdf",):
         (OUT / stale).unlink(missing_ok=True)
     print(sorted(p.name for p in OUT.iterdir()))

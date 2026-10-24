@@ -53,7 +53,10 @@ def strip_runs(p):
     return p
 
 
-MINUS_FONT = "Times New Roman"  # Old Standard TT draws U+2212 as a long dash; this font has a true minus
+MINUS_FONT = "Times New Roman"  # Old Standard TT draws U+2212 as a long dash and lacks Greek kappa
+FALLBACK_CHARS = "\u2212\u03ba"   # characters set in MINUS_FONT
+URL_RE = re.compile(r"(https?://[^\s]+[^\s.,;)])")
+PART = None  # document part, set in main(), for hyperlink relationships
 
 
 def rpr(bold=False, italic=False, size=None, color=None, font=None):
@@ -87,14 +90,22 @@ def add_runs(p, text, size=None, bold_all=False, italic_all=False):
             tok, b = tok[2:-2], True
         elif tok.startswith("*") and tok.endswith("*") and len(tok) > 2:
             tok, i = tok[1:-1], True
-        for piece in re.split("(\u2212)", tok):
-            if not piece:
+        for chunk in URL_RE.split(tok):
+            if not chunk:
                 continue
-            r = OxmlElement("w:r")
-            r.append(rpr(b, i, size, font=MINUS_FONT if piece == "\u2212" else None))
-            t = OxmlElement("w:t"); t.set(qn("xml:space"), "preserve"); t.text = piece
-            r.append(t)
-            p.append(r)
+            target = p
+            if URL_RE.fullmatch(chunk) and PART is not None:
+                rid = PART.relate_to(chunk, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+                                     is_external=True)
+                target = OxmlElement("w:hyperlink"); target.set(qn("r:id"), rid); p.append(target)
+            for piece in re.split(f"([{FALLBACK_CHARS}])", chunk):
+                if not piece:
+                    continue
+                r = OxmlElement("w:r")
+                r.append(rpr(b, i, size, font=MINUS_FONT if piece in FALLBACK_CHARS else None))
+                t = OxmlElement("w:t"); t.set(qn("xml:space"), "preserve"); t.text = piece
+                r.append(t)
+                target.append(r)
 
 
 def set_spacing(p, before=None, after=None, line=None):
@@ -150,8 +161,13 @@ def set_num(p, num_id):
 
 
 def main():
+    global PART
     d = docx.Document(str(TEMPLATE))
+    PART = d.part
     body = d.element.body
+    cp = d.core_properties
+    cp.title, cp.author = content.TITLE, content.AUTHORS
+    cp.subject = "Apart Research AI Collusion Research Sprint, October 2026"
 
     # --- prototypes from the template ----------------------------------------------------------
     P_H2 = copy.deepcopy(find_par(body, "1. Introduction"))
@@ -263,8 +279,16 @@ def main():
                     ppr = cp.get_or_add_pPr()
                     set_spacing(cp, before=20, after=20, line=240)
 
-            trPr = OxmlElement("w:trPr"); th = OxmlElement("w:tblHeader"); trPr.append(th)
-            tbl.findall(W("w:tr"))[0].insert(0, trPr)
+            # no row splits across pages, header repeats, and the table stays in one piece
+            trs = tbl.findall(W("w:tr"))
+            for i, tr in enumerate(trs):
+                trPr = OxmlElement("w:trPr"); trPr.append(OxmlElement("w:cantSplit"))
+                if i == 0:
+                    trPr.append(OxmlElement("w:tblHeader"))
+                tr.insert(0, trPr)
+                if i < len(trs) - 1:
+                    for cp_ in tr.iter(W("w:p")):
+                        keep_next(cp_)
             sect.addprevious(tbl)
             sp = copy.deepcopy(P_BODY); strip_runs(sp); set_spacing(sp, after=80, line=200); emit(sp)
         elif kind == "refs":

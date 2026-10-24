@@ -51,6 +51,7 @@ file noted there).
 | `v:acceptance.llama-3.1-8b.A5` | 0.996 |
 | `v:acceptance.llama-3.1-8b.A6` | 0.240 |
 | `v:acceptance.llama-3.1-8b.A7` | 1.000 |
+| `v:acceptance.llama-3.1-8b.A8` | 0.040 |
 | `v:acceptance.qwen2.5-7b.A0b` | 1.000 |
 | `v:acceptance.qwen2.5-7b.A0z` | 1.000 |
 | `v:acceptance.qwen2.5-7b.A2` | 1.000 |
@@ -75,6 +76,8 @@ file noted there).
 | `x:audit_cost` | $0.005 |
 | `x:balance_p` | 0.277 |
 | `x:benign_one_in` | 25 |
+| `x:calib_calls` | 1,200 |
+| `x:calib_cost` | $0.31 |
 | `x:calls_A` | 16,500 |
 | `x:calls_L` | 32,622 |
 | `x:calls_S` | 22,643 |
@@ -91,6 +94,8 @@ file noted there).
 | `x:den_judge_notice` | 1/20 vs 1/56 |
 | `x:den_parser_B1_rh` | 6/14 |
 | `x:den_parser_B2` | 11/40 |
+| `x:den_parser_diff` | 0.107 [−0.072, 0.336] |
+| `x:den_parser_hi_pp` | 34 |
 | `x:den_parser_notice` | 5/20 vs 8/56 |
 | `x:den_parser_p` | 0.309 |
 | `x:dl_B0` | 10/10 |
@@ -119,6 +124,7 @@ file noted there).
 | `x:k_llama_A1` | 476/500 |
 | `x:k_qwen_A0d` | 493/500 |
 | `x:k_qwen_A1` | 56/500 |
+| `x:k_qwen_A2` | 500/500 |
 | `x:kappa_judge` | 0.933 |
 | `x:kappa_n` | 100 |
 | `x:kappa_parser` | 0.893 |
@@ -129,9 +135,12 @@ file noted there).
 | `x:llama_C5` | 0.313 |
 | `x:median_game` | 0.79 |
 | `x:named_B3T` | 12/15 |
+| `x:no_pre_cap` | Six |
 | `x:notice_direct_ci` | [0.167, 0.422] |
+| `x:notice_direct_p` | p < 0.001 |
 | `x:notice_none_abs` | 0.113 |
 | `x:notice_none_ci` | [0.008, 0.216] |
+| `x:notice_none_pp` | 0.037 |
 | `x:notice_none_pw` | 0.062 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
 | `x:pre_B1` | 0.672 |
@@ -154,6 +163,7 @@ file noted there).
 | `x:tau_rate` | 0.61 |
 | `x:template_share` | 15.4% |
 | `x:thr_rate_m20` | 0.50 |
+| `x:tie_m20` | 0.512 |
 | `x:tpr_m10` | 0.977 |
 | `x:tr_fpr_m20` | 0.037 |
 | `x:zeng_claude_A0z` | 0.354 |

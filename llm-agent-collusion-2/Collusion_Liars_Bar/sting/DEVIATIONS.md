@@ -73,3 +73,13 @@ No other preexisting file is modified. The study's own game (`sting/game.py`) su
 | 2026-10-24 12:25 | Yes | LLM judge run on all offer and interview replies, not only UNCLEAR ones, and validated against the hand labels (kappa 0.933; parser 0.893) (commit 2a78bea) | Interview answers often start "NO" and then admit the agreement, which the strict parser scores as denial | None on confirmatory analyses; enables the secondary denial analysis below |
 | 2026-10-24 12:36 | Yes | Secondary, post hoc table `tables/denial_judge.md`: interview denial scored by the judge, B4 vs B1 (commit 292896c; code in `paper/scripts/denial_judge.py`) | Parser-based denial (H4d, descriptive) is inflated by deny-then-admit answers | Reported as secondary and post hoc; H4d's preregistered parser-based result is reported alongside it |
 | 2026-10-24 | Yes | `analysis/figures.py`: figure 2 title/legend overlap fixed; paper figures redrawn at print size from committed tables (`paper/make_figures.py`) | Legibility | None: plotting only |
+
+| 2026-10-24 15:00 | Yes | Correction to the row above, which has no time or commit and covers two commits: d7dfbd6 (12:59, `figures.py` legend fix) and 812f5ca (13:11, `paper/make_figures.py`). Paper Figure 4 is now cropped without its in-image title (`paper/make_figures.py`) | Completeness of this log; the title repeated the paper's caption | None: plotting only |
+
+Note on this section and the tag (added 2026-10-24, paper review). The first five rows were written
+together in commit 812f5ca (13:11 UTC), after the changes they describe; the times and commits in
+rows 1-4 match those commits. The tag `prereg-v1` points to the freeze commit 6885d5c, but its
+message still reads "protocol hash <paste the hash>": the hash is recorded in `FREEZE.json`
+(`frozen_at_utc` 2026-10-24T00:13:40Z), and GitHub recorded the push of 6885d5c at
+2026-10-24T00:14:02Z, before the first results commit (9ab174a, 09:15 UTC). The tag is not re-made,
+because a new tag would be dated after the data.
