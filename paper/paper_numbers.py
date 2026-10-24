@@ -248,6 +248,19 @@ X = {
     "cost_claude_S": f"${budget[(budget.stage == 'S') & (budget.model == 'claude-haiku-5.5')].cost_usd_estimate.iloc[0]:.2f}",
     "cost_claude": f"${budget[budget.model == 'claude-haiku-5.5'].cost_usd_estimate.sum():.2f}",
     "calls_total": f"{int(budget.calls.sum()):,}",
+    # fallback range across arms (results.json -> health)
+    "fallback_arm_lo": pct(min(H["fallback_rate_by_arm"].values())),
+    "fallback_arm_hi": pct(max(H["fallback_rate_by_arm"].values())),
+    # detector threshold at m = 20 as a challenge rate (score = -rate; flag if rate < -tau), and the
+    # share of the pact's restraint an accepter must give up to reach it (snapshot means, chal_S)
+    "thr_rate_m20": f(-curve.loc[20, "tau"], 2),
+    "tie_m20": f(curve.loc[20, "tie_flag_prob"]),
+    "evade_share": (lambda c1, c3, thr: f"{100 * (thr - c3) / (c1 - c3):.0f}%")(
+        snap.loc[("llama-3.1-8b", "chal_S", "C3"), "mean_reference"],
+        snap.loc[("llama-3.1-8b", "chal_S", "C3"), "mean_condition"], -curve.loc[20, "tau"]),
+    "fpr_one_in": f"{round(1 / curve.loc[20, 'flag_C1b'])}",
+    "benign_one_in": f"{round(1 / curve.loc[20, 'flag_C2'])}",
+    "h2_clusters": str(int(snap.loc[("llama-3.1-8b", "chal_S", "C3"), "n_clusters"])),
     # cost of one offer plus a 20-decision audit at Claude Haiku 5.5 prices, from the Stage S per-call cost
     "audit_cost": (lambda r: f"${21 * r.cost_usd_estimate / r.calls:.3f}")(
         budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),

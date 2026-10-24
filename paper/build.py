@@ -53,11 +53,14 @@ def strip_runs(p):
     return p
 
 
-def rpr(bold=False, italic=False, size=None, color=None):
+MINUS_FONT = "Times New Roman"  # Old Standard TT draws U+2212 as a long dash; this font has a true minus
+
+
+def rpr(bold=False, italic=False, size=None, color=None, font=None):
     r = OxmlElement("w:rPr")
     f = OxmlElement("w:rFonts")
     for a in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
-        f.set(W(a), FONT)
+        f.set(W(a), font or FONT)
     r.append(f)
     if bold:
         for t in ("w:b", "w:bCs"):
@@ -84,11 +87,14 @@ def add_runs(p, text, size=None, bold_all=False, italic_all=False):
             tok, b = tok[2:-2], True
         elif tok.startswith("*") and tok.endswith("*") and len(tok) > 2:
             tok, i = tok[1:-1], True
-        r = OxmlElement("w:r")
-        r.append(rpr(b, i, size))
-        t = OxmlElement("w:t"); t.set(qn("xml:space"), "preserve"); t.text = tok
-        r.append(t)
-        p.append(r)
+        for piece in re.split("(\u2212)", tok):
+            if not piece:
+                continue
+            r = OxmlElement("w:r")
+            r.append(rpr(b, i, size, font=MINUS_FONT if piece == "\u2212" else None))
+            t = OxmlElement("w:t"); t.set(qn("xml:space"), "preserve"); t.text = piece
+            r.append(t)
+            p.append(r)
 
 
 def set_spacing(p, before=None, after=None, line=None):

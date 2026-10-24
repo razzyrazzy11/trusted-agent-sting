@@ -50,12 +50,18 @@ file noted there).
 | `v:acceptance.llama-3.1-8b.A5` | 0.996 |
 | `v:acceptance.llama-3.1-8b.A6` | 0.240 |
 | `v:acceptance.llama-3.1-8b.A7` | 1.000 |
+| `v:acceptance.qwen2.5-7b.A0b` | 1.000 |
+| `v:acceptance.qwen2.5-7b.A0z` | 1.000 |
 | `v:acceptance.qwen2.5-7b.A2` | 1.000 |
+| `v:acceptance.qwen2.5-7b.A3` | 1.000 |
 | `v:acceptance.qwen2.5-7b.A4` | 0.000 |
+| `v:acceptance.qwen2.5-7b.A5` | 1.000 |
 | `v:acceptance.qwen2.5-7b.A6` | 0.000 |
 | `v:acceptance.qwen2.5-7b.A7` | 0.988 |
+| `v:acceptance.qwen2.5-7b.A8` | 0.000 |
 | `v:live.H2_live_PP` | −0.444 |
 | `v:live.notice_vs_direct` | 0.297 |
+| `v:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 |
 | `v:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 |
 | `v:snapshot.llama-3.1-8b.chal_S.C4-C1` | 0.175 |
 | `v:snapshot.llama-3.1-8b.chal_S.C6-C1` | 0.328 |
@@ -68,6 +74,7 @@ file noted there).
 | `x:all_frozen` | all |
 | `x:audit_cost` | $0.005 |
 | `x:balance_p` | 0.277 |
+| `x:benign_one_in` | 25 |
 | `x:calls_A` | 16,500 |
 | `x:calls_L` | 32,622 |
 | `x:calls_S` | 22,643 |
@@ -82,7 +89,6 @@ file noted there).
 | `x:den_judge_B1_rh_unclear` | 3 |
 | `x:den_judge_B2` | 4/40 |
 | `x:den_judge_notice` | 1/20 vs 1/56 |
-| `x:den_judge_p` | 0.460 |
 | `x:den_parser_B1_rh` | 6/14 |
 | `x:den_parser_B2` | 11/40 |
 | `x:den_parser_notice` | 5/20 vs 8/56 |
@@ -91,8 +97,11 @@ file noted there).
 | `x:dl_B1` | 14/14 |
 | `x:dl_B2` | 2/10 |
 | `x:dl_B4` | 3/5 |
+| `x:evade_share` | 71% |
 | `x:excluded` | 54 |
 | `x:fallback` | 2.1% |
+| `x:fallback_arm_hi` | 2.9% |
+| `x:fallback_arm_lo` | 1.4% |
 | `x:flag_C4_m20` | 0.002 |
 | `x:flag_C6_m20` | 0.000 |
 | `x:flag_C7_m20` | 1.000 |
@@ -100,8 +109,10 @@ file noted there).
 | `x:fpr_m40` | 0.166 |
 | `x:fpr_m40_ci` | [0.072, 0.360] |
 | `x:fpr_m5` | 0.123 |
+| `x:fpr_one_in` | 6 |
 | `x:games` | 360 |
 | `x:gee_or` | 0.177 [0.116, 0.271] |
+| `x:h2_clusters` | 44 |
 | `x:judge_claude_A0z` | 0.000 |
 | `x:k_claude_A2` | 446/500 |
 | `x:k_claude_A7` | 420/500 |
@@ -118,8 +129,6 @@ file noted there).
 | `x:llama_C5` | 0.313 |
 | `x:median_game` | 0.79 |
 | `x:named_B3T` | 12/15 |
-| `x:notice_eff_benign_abs` | 0.004 |
-| `x:notice_eff_direct_abs` | 0.396 |
 | `x:notice_none_abs` | 0.113 |
 | `x:notice_none_pw` | 0.062 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
@@ -141,8 +150,8 @@ file noted there).
 | `x:susp_T_ci` | 0.283 [0.185, 0.408] |
 | `x:tau_rate` | 0.61 |
 | `x:template_share` | 15.4% |
+| `x:thr_rate_m20` | 0.50 |
 | `x:tpr_m10` | 0.977 |
-| `x:tpr_m5` | 0.797 |
 | `x:tr_fpr_m20` | 0.037 |
 | `x:zeng_claude_A0z` | 0.354 |
 | `x:zeng_k_claude_A0z` | 177/500 |
