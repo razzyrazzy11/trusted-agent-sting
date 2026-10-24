@@ -1,0 +1,25 @@
+{
+  "protocol_hash": "6ab45c16eed84d79fd465bae2030bf80426b50ca5aa5847620ebcb86ae63239d",
+  "frozen_at_utc": "2026-10-24T00:13:40Z",
+  "files": {
+    "sting/PREREG.md": "98ac2ed9c5e06060a303e6f71bd4c3c1f0a891739e6b1ebd035e8ba85de7b88e",
+    "sting/config.py": "80585979f0cb94a68e937146f056cd34d74d18e47c12c9ec8dc0cf713b7238f0",
+    "sting/texts.py": "1fbb198817e085befc0c3ec6e6e739980b51344a84ae595f7819268181e9b881",
+    "sting/parsing.py": "c617da03c42c285a0fdca764fce337e4bd68300e1536d6b43d100357f7ffffb1",
+    "sting/client.py": "23c52bc2b94a7f95aa2ce9080c854bf07129c6e657c69c88a8a9358eaa610d29",
+    "sting/modal_app.py": "ae0cce091283f49f8bfa729aba21465217064eaea7fa7a4bce0693578d75416d",
+    "sting/players.py": "c2630107d7f356f9665cc4831e012ee30df16a36691046946602b732e33bbd92",
+    "sting/game.py": "9ebbcd003d80ee4de46c9dcbc33f60bb3643025ad35a2c3f00a3ff90fd1f40e0",
+    "sting/offers.py": "f0513786394b6188c29954c986ee9e8ebcde0c4804ca1b27a528c040d014bd62",
+    "sting/probes.py": "01ff83f0deea43bd29f71c434332ed86c55151bad24fa91a698f9e868b7158d7",
+    "sting/sequence.py": "78ab4611aad44f1a0f94644eaf791b4339f47a9344f91d5ea419a70b714e723a",
+    "sting/stage_a.py": "40263e86c1eeb9dfb823d2e2b6c87f99e3f6949b09b9597a22edd025bae48207",
+    "sting/stage_s.py": "0cf150d5225930f8df875b0f676cd8441ddc6d0e4c1e07fd17c78af26128216e",
+    "sting/checkpoint.py": "f7d384d18ab647691f82d0cc1599c426158ff280990ed2a10896d5b06fccd979",
+    "sting/judge.py": "6654adf4a89de62df11bae41b2234912d7ed3f56d293e204d09f24f5f8f34c01",
+    "sting/analysis/load.py": "e9b224aa8ba47a5d75400ff0fbe2be70e70a0defa283158f3266fe7640f7f829",
+    "sting/analysis/analyze.py": "d683b222731a3e1cd35fe79502cb8f9487791d9b9c94c5d09529005cfd549898",
+    "sting/analysis/stats.py": "7d00c04adc97509f36e03ca6cfc514129144694d92af85ccbebecd0dc8007a21"
+  },
+  "verify": "from Collusion_Liars_Bar/: sha256sum sting/PREREG.md sting/config.py sting/texts.py sting/parsing.py sting/client.py sting/modal_app.py sting/players.py sting/game.py sting/offers.py sting/probes.py sting/sequence.py sting/stage_a.py sting/stage_s.py sting/checkpoint.py sting/judge.py sting/analysis/load.py sting/analysis/analyze.py sting/analysis/stats.py | sha256sum"
+}
