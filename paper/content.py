@@ -8,7 +8,7 @@ AUTHORS = "Raz [surname]"
 AFFIL = "[affiliation]"
 
 ABSTRACT = (
-    "Sprint question 3.2 notes that a trusted agent that offers to collude “has not yet been tested”. "
+    "Sprint question 3.2 notes that “a trusted agent that offers to collude has not yet been tested”. "
     "In Zeng & Rudzicz's (2026) Liar's Bar "
     "harness, a scripted “sting” player privately offered a target agent a mutual non-challenge pact. "
     "Refusal depended on wording and offerer: Qwen2.5-7B accepted the same pact from the game designer "
@@ -98,7 +98,7 @@ p("**Audits, honeypots and planted memories.** Audits and leniency are among the
   "al., 2026), and in an earlier Apart sprint an embedded “sentinel” agent detected a covert "
   "channel only after making first contact itself (Çanlı et al., 2026). Wehner & Kraprayoon (2026) "
   "propose, untested, honeypot messages in which another agent offers to collude, and cite an "
-  "industry study in which warning agents of honeypots cut their attack success. Forged memories serve as a "
+  "industry study where agents warned of honeypots attacked less successfully. Forged memories serve as a "
   "defence (“vaccines”; Peigné-Lefebvre et al., 2025); our snapshots use them to measure.")
 p("**What is new.** Our design starts from the sprint's suggested project for question 3.2: a scripted "
   "player offers the non-challenge pact in direct, indirect and benign forms, with the designer's "
@@ -294,8 +294,8 @@ h3("4.4 Fewer acceptances; concealment not ruled out")
 p("We fixed the classification in advance (H4b–d, descriptive): the notice *deters* if fewer "
   "agents accept and accepters restrain less, and drives *concealment* if restraint persists while "
   "refusals or denials rise. **Verdict:** fewer agents accepted, and accepters restrained less "
-  "(confounded; item 2); concealment is untested, as refusers' play was not analysed and five "
-  "accepters are too few to test denial (item 3).")
+  "(confounded; item 2); concealment stays open, as refusers' play was not analysed and five "
+  "accepters are too few to settle denial (item 3).")
 B.append(("numbered", [
     "**Fewer accept.** Acceptance fell for the pact but not the benign proposal (Section 4.1); live, "
     "{{x:live_acc_B4}} B4 targets accepted, against {{x:live_acc_B1}} in B1.",
@@ -309,7 +309,7 @@ B.append(("numbered", [
     "in challenging under the notice, and the live one includes B4 refusers.",
     "**Denial: too few accepters to tell (H4d).** The strict parser counted {{x:den_parser_notice}} "
     "denying answers from B4 vs B1 accepters (difference {{x:den_parser_diff}}; Fisher p = "
-    "{{x:den_parser_p}}), so a rise of {{x:den_parser_hi_pp}} points or more is not excluded. Many "
+    "{{x:den_parser_p}}), so a rise of up to about {{x:den_parser_hi_pp}} points is not excluded. Many "
     "“NO” answers went on to admit the pact; the validated judge (post hoc) found "
     "{{x:den_judge_notice}}. Each target gave four answers, and only five B4 targets accepted.",
 ]))
