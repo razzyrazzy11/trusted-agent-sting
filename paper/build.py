@@ -244,7 +244,9 @@ def main():
             if kind == "numbered":
                 list_counter["numbered_used"] = True
             for item in blk[1]:
-                p = par(P_LIST, item, size=BODY_PT); set_num(p, num); set_jc(p, "both"); set_spacing(p, after=40, line=252)
+                p = par(P_LIST, item, size=BODY_PT); set_num(p, num)
+                set_jc(p, "left" if re.search(r"\S{35,}", N.render(item)) else "both")  # long paths justify badly
+                set_spacing(p, after=40, line=252)
         elif kind == "fig":
             _, fname, width, caption = blk
             p = copy.deepcopy(P_BODY); strip_runs(p); emit(p)
