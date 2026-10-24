@@ -3,3 +3,6 @@
 !*.json
 !*.csv
 !*.png
+# post hoc raw answers and call logs are transcripts (withheld; Appendix A.2), not outputs
+posthoc/suspicion_ablation.jsonl
+posthoc/calls_ablation.jsonl.gz

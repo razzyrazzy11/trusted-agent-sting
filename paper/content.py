@@ -593,3 +593,70 @@ p("Claude Opus 5.5 (Anthropic), used through Claude Code, helped design the prot
   "the committed tables. The author ran every experiment, made the design decisions, hand-labelled "
   "the judge-validation sample, and is responsible for the final text. Claude Haiku 5.5 was an "
   "experimental subject and the LLM judge.")
+
+# ------------------------------------------------------------------------------------------
+# Post hoc gap analyses (sting/analysis/posthoc_gaps.py; DEVIATIONS.md section D). The text above is
+# the version without them; if their outputs are committed, the sentences below replace it.
+import json as _json
+from pathlib import Path as _Path
+
+_PH_PATH = (_Path(__file__).resolve().parents[1] / "llm-agent-collusion-2" / "Collusion_Liars_Bar"
+            / "sting_results" / "posthoc" / "gaps.json")
+_PH = _json.loads(_PH_PATH.read_text()) if _PH_PATH.exists() else None
+_SWAPS = []
+if _PH is not None:
+    _SWAPS += [
+        ("Refusers were not analysed separately, so covert pact-keeping by them is untested, and denial "
+         "was too sparse to test (item 3).",
+         "A post hoc split found {{x:ph_verdict2}}: B4 refusers challenged S at {{x:ph_ref_rate}}, "
+         "{{x:ph_ref_vs_b3}} relative to no offer, and the live rule flagged {{x:ph_ref_flagged}} "
+         "(Appendix B); denial was too sparse to test (item 3)."),
+        ("whether refusers act on the pact covertly is untested",
+         "a post hoc split of refusers found {{x:ph_verdict2}}"),
+        ("refusers, since concealment remains untested.",
+         "refusers, since covert pact-keeping can only be bounded with few refusers."),
+    ]
+    _i = next(i for i, b in enumerate(B) if b[0] == "p" and b[1].startswith("**Run statistics."))
+    B.insert(_i, ("p", "**Post hoc: do B4 refusers keep the pact covertly?** Splitting B4 by the target's reply "
+              "(preregistered live machinery; decision rule fixed before running, DEVIATIONS.md section D), "
+              "the {{x:ph_ref_n}} refusers challenged S at {{x:ph_ref_rate}} after the offer, against "
+              "{{x:ph_acc_rate}} for B4 accepters; refusers minus no offer {{x:ph_ref_vs_b3}} (Welch "
+              "p = {{x:ph_ref_vs_b3_pw}}); the live rule flagged {{x:ph_ref_flagged}} refusers. Verdict: "
+              "{{x:ph_verdict2}}."))
+    if "gap1_ablation" in _PH:
+        _SWAPS += [
+            ("with no offer both named S equally ({{x:susp_B3T}} vs {{x:susp_B3O}}).",
+             "with no offer both named S equally ({{x:susp_B3T}} vs {{x:susp_B3O}}), and re-asking the same "
+             "targets with the null record changed the rate from {{x:ph_susp_own}} to {{x:ph_susp_null}} "
+             "(paired {{x:ph_susp_diff}}; post hoc)."),
+        ]
+        _i = next(i for i, b in enumerate(B) if b[0] == "p" and b[1].startswith("**Run statistics."))
+        B.insert(_i, ("p", "**Post hoc: does the record drive targets' suspicion?** Each offered target's suspicion "
+                  "questions were re-asked {{x:ph_susp_k}} times with its own record and {{x:ph_susp_k}} times "
+                  "with the null record, all else identical ({{x:ph_susp_nseq}} sequences). Targets named S "
+                  "at {{x:ph_susp_own}} vs {{x:ph_susp_null}} (paired difference {{x:ph_susp_diff}}, "
+                  "clustered by sequence): {{x:ph_verdict1}}. Probes are compared only under identical "
+                  "information because informed participants report more awareness (Blackhart et al., 2012)."))
+        _r = next(b for b in B if b[0] == "refs")[1]
+        _r.insert(next(i for i, r in enumerate(_r) if r.startswith("Çanlı")), (
+            "Blackhart, G. C., Brown, K. E., Clark, T., Pierce, D. L., & Shell, K. (2012). Assessing the "
+            "adequacy of postexperimental inquiries in deception research and the factors that promote "
+            "participant honesty. *Behavior Research Methods*, 44(1), 24–40. "
+            "https://doi.org/10.3758/s13428-011-0132-6"))
+
+
+def _swap(x):
+    if isinstance(x, str):
+        for old, new in _SWAPS:
+            x = x.replace(old, new)
+        return x
+    if isinstance(x, (list, tuple)):
+        return type(x)(_swap(i) for i in x)
+    return x
+
+
+if _SWAPS:
+    _all = " ".join(str(b) for b in B)
+    for _old, _new in _SWAPS:
+        assert _old in _all, f"post hoc swap target missing: {_old[:60]}"
+    B[:] = [_swap(b) for b in B]

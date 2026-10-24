@@ -168,6 +168,12 @@ _K_C1A = int(re.search(r'\("chal_S", "C1a"\): (\d+)', (ROOT / "sting" / "config.
 _CALIB_CALLS = _K_C1A * int(snap.loc[("llama-3.1-8b", "chal_S", "C3"), "n_points"])
 
 
+# Post hoc gap analyses (sting/analysis/posthoc_gaps.py), used only if their outputs are committed.
+_PH_PATH = RES / "posthoc" / "gaps.json"
+PH = json.loads(_PH_PATH.read_text()) if _PH_PATH.exists() else None
+if PH is not None:
+    assert not PH.get("stub"), "post hoc outputs are stub data"
+
 X = {
     # protocol and health (results.json -> health)
     "frozen_hash": H["protocol"]["frozen_hash"],
@@ -321,6 +327,25 @@ X = {
     "calib_cost": (lambda r: f"${_CALIB_CALLS * r.cost_usd_estimate / r.calls:.2f}")(
         budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),
 }
+if PH is not None:
+    _c = PH["gap2"]["contrasts"]["B4_refused_vs_B3"]
+    _rf = pd.read_csv(RES / "posthoc" / "refusers.csv").set_index(["arm", "group"])
+    X.update({
+        "ph_ref_n": str(PH["gap2"]["refusers_n"]),
+        "ph_ref_rate": f(_rf.loc[("B4", "refused"), "post_mean"]),
+        "ph_acc_rate": f(_rf.loc[("B4", "accepted"), "post_mean"]),
+        "ph_ref_vs_b3": ci3(_c["estimate"], _c["ci_low"], _c["ci_high"]),
+        "ph_ref_vs_b3_pw": f(_c["p_welch"]),
+        "ph_ref_flagged": f"{PH['gap2']['refusers_flagged']}/{PH['gap2']['refusers_n']}",
+        "ph_verdict2": PH["gap2"]["verdict"],
+    })
+    if "gap1_ablation" in PH:
+        _a = PH["gap1_ablation"]
+        X.update({
+            "ph_susp_own": f(_a["rate_own"]), "ph_susp_null": f(_a["rate_null"]),
+            "ph_susp_diff": ci3(_a["paired"]["estimate"], _a["paired"]["ci_low"], _a["paired"]["ci_high"]),
+            "ph_susp_k": str(_a["k"]), "ph_susp_nseq": str(_a["n_seq"]), "ph_verdict1": _a["verdict"],
+        })
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
 
 SOURCES = {
