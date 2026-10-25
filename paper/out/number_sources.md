@@ -200,6 +200,7 @@ file noted there).
 | `x:e_ll_c1a` | 0.640 |
 | `x:e_ll_flag_C1b` | 0.142 |
 | `x:e_ll_flag_C1b_ci` | 0.142 [0.076, 0.239] |
+| `x:e_ll_flag_C1b_hi2` | 0.24 |
 | `x:e_ll_flag_C2` | 0.045 |
 | `x:e_ll_flag_C3` | 0.999 |
 | `x:e_ll_flag_C3_ci` | 0.999 [0.993, 1.000] |
@@ -291,6 +292,7 @@ file noted there).
 | `x:kappa_parser` | 0.893 |
 | `x:live_acc_B1` | 14/15 |
 | `x:live_acc_B4` | 5/10 |
+| `x:live_acc_B4_n_word` | five |
 | `x:llama_C1` | 0.629 |
 | `x:llama_C3` | 0.189 |
 | `x:median_game` | 0.79 |

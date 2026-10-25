@@ -543,6 +543,24 @@ assert X["e_cl_susp_T"].startswith("0/") and X["e_qw_susp_T"].startswith("0/"), 
 
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
 
+# ---- claims typed into the text that depend on results (each fails the build if the data stop supporting it)
+X["e_ll_flag_C1b_hi2"] = f(_ed.loc["llama-3.1-8b", "flag_C1b_hi"], 2)
+X["live_acc_B4_n_word"] = _NUM_WORD[round(H["live_acceptance_by_arm"]["B4"] * H["sequences_by_arm"]["B4"])]
+assert all(R[k]["passed"] for k in ("PC1", "PC2", "PC3")), "Table 1 and Section 4 say all positive controls passed"
+assert R["H2"]["supported"] and R["H3"]["supported"], "Table 1 says every preregistered test was supported"
+assert all(v < 0.001 for v in R["holm"]["adjusted"].values()), "Table 1 prints Holm p < 0.001"
+assert curve.loc[20, "flag_C1b_lo"] <= 0.10 <= curve.loc[20, "flag_C1b_hi"], "Table 1: FPR CI includes 0.10"
+assert H["capped_games"] == 0 and EJ["qwen"]["capped"] == 0 and EJ["claude"]["capped"] == 0, "text says no game hit the cap"
+assert H["stage_a_unclear_rate"] == 0, "Appendix B says no offer-battery reply was unparseable"
+assert abs(_flag_prob(-curve.loc[20, "tau"], 20) - 0.5) < 0.05, "Section 4.3: flagged about half the time at the threshold rate"
+assert EJ["verdicts"]["qwen_H2_live_ITT_replicates"] and not EJ["verdicts"]["claude_H2_live_ITT_replicates"], "H2-live replicates for Qwen, not Claude"
+assert EJ["verdicts"]["item3_snap_general_notice_effect"], "Appendix B: the notice alone raises challenging in snapshots"
+assert all(_cc.loc[(m, "K4-K1"), "p"] >= 0.06 for m in ("claude-haiku-5.5", "qwen2.5-7b")), "Appendix B: both sign-flip p >= 0.06"
+assert _g2["B4_refused_vs_B3"]["ci_low"] > _rf.loc[("B1", "accepted"), "post_mean"] - _rf.loc[("B3", "no offer"), "post_mean"], "Section 4.4 item 3: the refusers' interval excludes a drop like B1 accepters'"
+assert all(_ts.loc[("qwen2.5-7b", a, "accepted"), "post_S"] == 0 for a in ("B0", "B1")), "Appendix B: both Qwen accepter groups challenged S at 0.000"
+# deterrence verdict for Llama (preregistered rule): acceptance falls (H4a) and accepters restrain less (H4b)
+assert R["H4a"]["estimate"] < 0 and R["H4a"]["ci_high"] < 0 and R["H4b"]["ci_low"] > 0, "Section 4.4: verdict for Llama is deterrence"
+
 SOURCES = {
     "ci": "claims.json", "v": "claims.json", "pp": "claims.json", "ppci": "claims.json",
 }
