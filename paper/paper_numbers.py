@@ -363,6 +363,7 @@ X.update({
     "ph_b3_pre": f(_rf.loc[("B3", "no offer"), "pre_mean"]),
     "ph_ref_vs_b3": ci3(_g2["B4_refused_vs_B3"]["estimate"], _g2["B4_refused_vs_B3"]["ci_low"],
                         _g2["B4_refused_vs_B3"]["ci_high"]),
+    "ph_ref_vs_b3_v": f(_g2["B4_refused_vs_B3"]["estimate"]),
     "ph_ref_vs_b3_pw": f(_g2["B4_refused_vs_B3"]["p_welch"], 2),
     "ph_ref_vs_acc": ci3(_g2["B4_refused_vs_B4_accepted"]["estimate"], _g2["B4_refused_vs_B4_accepted"]["ci_low"],
                          _g2["B4_refused_vs_B4_accepted"]["ci_high"]),
@@ -477,6 +478,24 @@ for _t, _tag in (("qw", "qwen"), ("cl", "claude")):
         X[f"e_{_t}_tau"] = f(_j["detector_live"]["tau_rate"])
     if _j.get("balance_pre"):
         X[f"e_{_t}_bal_pre"] = _c(_j["balance_pre"])
+# exploratory targeting / change-from-baseline (sting/analysis/posthoc_targeting.py)
+_tg = pd.read_csv(EXT / "targeting_contrasts.csv")
+_ts = pd.read_csv(EXT / "targeting.csv").set_index(["model", "arm", "group"])
+for _t, _m in _MK.items():
+    for _, _r in _tg[_tg["model"] == _m].iterrows():
+        if pd.isna(_r["ci_low"]):
+            continue
+        _k = f"tg_{_t}_{_r['arm']}_{_r['group']}_{_r['measure']}"
+        X[_k] = _c(_r)
+        X[_k + "_v"] = f(_r["estimate"])
+        X[_k + "_w"] = f"[{f(_r['welch_lo'])}, {f(_r['welch_hi'])}]"
+    for (_mm, _arm, _g), _r in _ts.loc[[_m]].iterrows() if _m in _ts.index.get_level_values(0) else []:
+        for _col in ("post_S", "pre_S", "post_O"):
+            X[f"ts_{_t}_{_arm}_{_g}_{_col}"] = f(_r[_col])
+for _t in ("qw", "cl"):
+    for _k in ("H2_live_ITT", "B6_vs_B3_ITT", "B1_refused_vs_B3"):
+        if f"e_{_t}_{_k}" in X:
+            X[f"e_{_t}_{_k}_v"] = X[f"e_{_t}_{_k}"].split(" [")[0]
 assert X["e_cl_susp_T"].startswith("0/") and X["e_qw_susp_T"].startswith("0/"), "text says no Claude/Qwen target named S"
 
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"

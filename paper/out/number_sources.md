@@ -28,13 +28,11 @@ file noted there).
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C6-C1` | 0.262 [0.168, 0.361] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 [0.005, 0.108] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C3-C1` | −0.440 [−0.493, −0.387] |
-| `ci:snapshot.llama-3.1-8b.chal_S.C5-C3` | 0.124 [0.043, 0.198] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C8-C1` | −0.622 [−0.663, −0.581] |
 | `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.227 [−0.307, −0.143] |
 | `ci:snapshot.llama-3.1-8b.play_vs_S.C3-C1` | −0.065 [−0.138, 0.006] |
 | `pp:live.H2_live_ITT` | 41 |
 | `pp:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 |
-| `v:H3.auroc_m20` | 0.998 |
 | `v:H3.fpr_benign_m20` | 0.040 |
 | `v:H3.fpr_m20` | 0.161 |
 | `v:H3.tpr_m20` | 0.999 |
@@ -61,7 +59,7 @@ file noted there).
 | `v:acceptance.qwen2.5-7b.A6` | 0.000 |
 | `v:acceptance.qwen2.5-7b.A7` | 0.988 |
 | `v:acceptance.qwen2.5-7b.A8` | 0.000 |
-| `v:live.H2_live_PP` | −0.444 |
+| `v:live.H2_live_ITT` | −0.410 |
 | `v:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 |
 | `v:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 |
 | `v:snapshot.llama-3.1-8b.chal_S.C4-C1` | 0.175 |
@@ -109,16 +107,20 @@ file noted there).
 | `x:e_B5_vs_B3_pw` | 0.60 |
 | `x:e_cl_B1_refused` | 0.538 |
 | `x:e_cl_B1_refused_vs_B3` | 0.058 [−0.058, 0.176] |
+| `x:e_cl_B1_refused_vs_B3_v` | 0.058 |
 | `x:e_cl_B3` | 0.480 |
-| `x:e_cl_B6_accepted` | 0.011 |
 | `x:e_cl_B6_accepted_vs_B3` | −0.468 [−0.553, −0.380] |
+| `x:e_cl_B6_itt_pp` | 42 |
 | `x:e_cl_B6_vs_B3_ITT` | −0.418 [−0.519, −0.301] |
+| `x:e_cl_B6_vs_B3_ITT_v` | −0.418 |
 | `x:e_cl_C10C1` | −0.034 [−0.117, 0.046] |
 | `x:e_cl_C9C1` | −0.590 [−0.705, −0.466] |
 | `x:e_cl_C9C1_a` | 0.025 |
 | `x:e_cl_C9C1_b` | 0.615 |
 | `x:e_cl_C9C1_v` | −0.590 |
 | `x:e_cl_C9C2` | −0.282 [−0.392, −0.181] |
+| `x:e_cl_H2_live_ITT` | 0.058 [−0.055, 0.175] |
+| `x:e_cl_H2_live_ITT_v` | 0.058 |
 | `x:e_cl_acc_B1` | 0/15 |
 | `x:e_cl_acc_B6` | 13/15 |
 | `x:e_cl_bal_pre` | −0.136 [−0.249, −0.015] |
@@ -141,6 +143,7 @@ file noted there).
 | `x:e_cl_nseq` | 45 |
 | `x:e_cl_reask` | 0.000 vs 0.000 |
 | `x:e_cl_susp_T` | 0/45 |
+| `x:e_cl_tau` | 0.333 |
 | `x:e_did_live` | 0.272 [0.114, 0.423] |
 | `x:e_ll_C10C1` | 0.039 [0.004, 0.071] |
 | `x:e_ll_C5C3C10C1` | 0.085 [0.002, 0.161] |
@@ -148,17 +151,22 @@ file noted there).
 | `x:e_ll_C9C1_v` | −0.315 |
 | `x:e_ll_C9C2` | −0.369 [−0.440, −0.299] |
 | `x:e_ll_c1a` | 0.640 |
+| `x:e_ll_flag_C1b` | 0.142 |
 | `x:e_ll_flag_C1b_ci` | 0.142 [0.076, 0.239] |
+| `x:e_ll_flag_C2` | 0.045 |
+| `x:e_ll_flag_C3` | 0.999 |
 | `x:e_ll_flag_C3_ci` | 0.999 [0.993, 1.000] |
+| `x:e_ll_flag_C4` | 0.001 |
 | `x:e_ll_flag_C9_ci` | 0.954 [0.868, 0.990] |
 | `x:e_qw_B1_refused` | 0.256 |
 | `x:e_qw_B1_refused_vs_B3` | −0.232 [−0.408, −0.019] |
+| `x:e_qw_B1_refused_vs_B3_v` | −0.232 |
 | `x:e_qw_B2_all` | 0.123 |
-| `x:e_qw_B3` | 0.489 |
 | `x:e_qw_B4_refused` | 0.227 |
 | `x:e_qw_B4_refused_vs_B3` | −0.262 [−0.426, −0.079] |
-| `x:e_qw_B6_accepted` | 0.012 |
+| `x:e_qw_B6_itt_pp` | 48 |
 | `x:e_qw_B6_vs_B3_ITT` | −0.477 [−0.552, −0.403] |
+| `x:e_qw_B6_vs_B3_ITT_v` | −0.477 |
 | `x:e_qw_C10C1` | 0.002 [−0.029, 0.032] |
 | `x:e_qw_C2C1` | −0.159 [−0.221, −0.100] |
 | `x:e_qw_C2C1_v` | −0.159 |
@@ -168,6 +176,7 @@ file noted there).
 | `x:e_qw_C9C1_v` | −0.419 |
 | `x:e_qw_C9C2` | −0.260 [−0.362, −0.166] |
 | `x:e_qw_H2_live_ITT` | −0.301 [−0.448, −0.128] |
+| `x:e_qw_H2_live_ITT_v` | −0.301 |
 | `x:e_qw_H2_live_PP` | −0.489 [−0.562, −0.414] |
 | `x:e_qw_PC2` | −0.489 [−0.562, −0.414] |
 | `x:e_qw_acc_B0` | 10/10 |
@@ -197,6 +206,7 @@ file noted there).
 | `x:e_qw_nseq` | 75 |
 | `x:e_qw_reask` | 0.000 vs 0.000 |
 | `x:e_qw_susp_T` | 0/75 |
+| `x:e_qw_tau` | 0.305 |
 | `x:evade_share` | 71% |
 | `x:excluded` | 54 |
 | `x:fallback` | 2.1% |
@@ -206,7 +216,6 @@ file noted there).
 | `x:flag_C6_m20` | 0.000 |
 | `x:flag_C7_m20` | 1.000 |
 | `x:flag_C8_m20` | 1.000 |
-| `x:flag_at_thr` | 0.50 |
 | `x:fpr_exact_m20` | 0.147 |
 | `x:fpr_hi_m20` | 0.26 |
 | `x:fpr_m40` | 0.166 |
@@ -234,12 +243,10 @@ file noted there).
 | `x:live_acc_B4` | 5/10 |
 | `x:llama_C1` | 0.629 |
 | `x:llama_C3` | 0.189 |
-| `x:llama_C5` | 0.313 |
 | `x:median_game` | 0.79 |
 | `x:named_B3T` | 12/15 |
 | `x:no_pre_cap` | Six |
 | `x:ph_acc_rate` | 0.528 |
-| `x:ph_acc_vs_b1` | 0.223 [0.109, 0.328] |
 | `x:ph_b1acc_rate` | 0.305 |
 | `x:ph_b3_pre` | 0.522 |
 | `x:ph_b3_rate` | 0.749 |
@@ -250,6 +257,7 @@ file noted there).
 | `x:ph_ref_vs_acc` | 0.217 [0.104, 0.345] |
 | `x:ph_ref_vs_b3` | −0.004 [−0.102, 0.095] |
 | `x:ph_ref_vs_b3_pw` | 0.94 |
+| `x:ph_ref_vs_b3_v` | −0.004 |
 | `x:ph_susp_diff` | 0.102 [0.036, 0.173] |
 | `x:ph_susp_k` | 5 |
 | `x:ph_susp_nseq` | 45 |
@@ -281,8 +289,27 @@ file noted there).
 | `x:susp_T_ci` | 0.283 [0.185, 0.408] |
 | `x:tau_rate` | 0.61 |
 | `x:template_share` | 15.4% |
+| `x:tg_cl_B1_all_change` | 0.216 [0.033, 0.404] |
+| `x:tg_cl_B6_all_change` | −0.395 [−0.613, −0.179] |
+| `x:tg_cl_B6_all_targeting` | −0.256 [−0.358, −0.155] |
+| `x:tg_cl_B6_all_targeting_v` | −0.256 |
+| `x:tg_ll_B1_all_change` | −0.579 [−0.864, −0.291] |
+| `x:tg_ll_B1_all_targeting` | −0.089 [−0.242, 0.061] |
+| `x:tg_ll_B1_all_targeting_v` | −0.089 |
+| `x:tg_qw_B1_refused_change` | −0.127 [−0.416, 0.156] |
+| `x:tg_qw_B1_refused_targeting` | 0.085 [−0.102, 0.293] |
+| `x:tg_qw_B2_all_targeting` | −0.192 [−0.375, 0.015] |
+| `x:tg_qw_B4_refused_change` | −0.109 [−0.431, 0.227] |
+| `x:tg_qw_B4_refused_targeting` | 0.069 [−0.117, 0.279] |
+| `x:tg_qw_B6_all_change` | −0.538 [−0.799, −0.272] |
+| `x:tg_qw_B6_all_targeting` | −0.135 [−0.246, −0.010] |
+| `x:tg_qw_B6_all_targeting_v` | −0.135 |
 | `x:thr_rate_m20` | 0.50 |
 | `x:tie_m20` | 0.512 |
 | `x:tr_fpr_m20` | 0.037 |
+| `x:ts_ll_B1_all_post_O` | 0.436 |
+| `x:ts_ll_B3_all_post_O` | 0.758 |
+| `x:ts_qw_B1_refused_post_O` | 0.030 |
+| `x:ts_qw_B3_all_post_O` | 0.348 |
 | `x:zeng_claude_A0z` | 0.354 |
 | `x:zeng_k_claude_A0z` | 177/500 |
