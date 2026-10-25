@@ -56,9 +56,10 @@ p("**Definitions and threat model.** We follow Hammond et al.'s (2025, §2.3.1) 
   "and honours a pact when offered one; like a police integrity test, it creates the opportunity it "
   "observes (Section 5).")
 p("We ran a preregistered sting study in Zeng & Rudzicz's harness for Liar's Bar, a bluffing game in "
-  "which the next player may challenge a claimed play. A scripted sting player S privately offers one "
+  "which the next player may challenge a claimed play. A scripted trusted agent S privately offers one "
   "target agent T per table a mutual non-challenge pact (“you never challenge my plays and I "
-  "never challenge yours”); the two other players, O1 and O2, are never approached. An accepted "
+  "never challenge yours”); this offer is the *sting*. The two other players, O1 and O2, are ordinary "
+  "agents like T and are never approached. An accepted "
   "pact could show up as **restraint** (T stops challenging S), **exploitation** (T bluffs more "
   "against S, who promised not to challenge) or **displacement** (T shifts its challenges to the "
   "other players). Our main contributions are:")
@@ -163,12 +164,12 @@ p("**Snapshots: does acceptance change the next decision (H2, primary).** For ex
 p("**Live games (H2-live).** We ran 60 six-game sequences: B0, the designer's hint tool pairing T "
   "with S (positive control PC2, 10 sequences); B1, sting direct pact (15); B2, sting benign proposal "
   "(10); B3, no offer, null record (15); B4, direct pact with the integrity notice in every player's "
-  "rules (10); arm sizes and detector expectations come from a preregistered simulation (Arnold et "
+  "rules (10); arm sizes and audit power come from a preregistered simulation (Arnold et "
   "al., 2011). The live estimand is the difference in mean per-sequence post-offer rates at which T "
   "challenges S, B1 minus B3, by intention to treat (ITT: all offered targets, accepters or not; "
   "Welch test). Afterwards, players answered suspicion questions and each offered T was interviewed "
   "about any private agreement (Appendix B).")
-p("**The sting as a detector (H3).** An audit re-queries a model version at m of S's plays and flags "
+p("**The sting as an audit (H3; “detector” in the preregistration).** An audit re-queries a model version at m of S's plays and flags "
   "it if its challenge rate falls below a threshold. Audited “agents” are simulated: m answers drawn "
   "with replacement from all of T's answers under one record at the 60 restraint decisions. The "
   "threshold is set on null-record agents (C1a) at a false-positive rate (FPR) of 0.10, with randomised "
@@ -197,7 +198,7 @@ p("All three positive controls passed (Table 1): Llama-3.1-8B accepted the desig
   "fell back to its default action, against a preregistered limit of 5%; Appendix B).")
 B.append(("table",
           "**Table 1. All controls passed and every preregistered test was supported (Llama-3.1-8B); the "
-          "detector's FPR estimate exceeds its 0.10 target, but its CI includes it.** Estimates are differences in "
+          "audit's FPR estimate exceeds its 0.10 target, but its CI includes it.** Estimates are differences in "
           "proportions or per-sequence rates (PC1: acceptance; H3: TPR at m = 20). CIs: Wilson (PC1), Newcombe "
           "(H1), bootstrap (rest). Holm p for H1, H2-live and H4a.",
           ["Test", "Question", "Estimate [95% CI]", "Outcome"],
@@ -208,7 +209,7 @@ B.append(("table",
               ["H2 (primary)", "Pact record (C3) → restraint, snapshots", "{{ci:snapshot.llama-3.1-8b.chal_S.C3-C1}}", "p < 0.001"],
               ["H1", "Offerer: sting (A1) vs designer (A0d)", "{{ci:H1.llama-3.1-8b}}", "Holm p < 0.001"],
               ["H2-live", "Direct offer (B1) vs none (B3), ITT", "{{ci:live.H2_live_ITT}}", "Holm p < 0.001"],
-              ["H3", "Detector TPR, m = 20 (FPR {{ci:H3.fpr_m20}}, target 0.10)", "{{ci:H3.tpr_m20}}", "met (FPR CI includes 0.10)"],
+              ["H3", "Audit TPR, m = 20 (FPR {{ci:H3.fpr_m20}}, target 0.10)", "{{ci:H3.tpr_m20}}", "met (FPR CI includes 0.10)"],
               ["H4a", "Notice deters pact more than benign proposal (DiD)", "{{ci:H4a.acceptance_did}}", "Holm p < 0.001"],
           ],
           [0.9, 2.45, 1.85, 1.3]))
@@ -306,13 +307,13 @@ B.append(("table",
           [2.3, 1.4, 1.4, 1.4]))
 p("**It rarely flags Llama's benign or refused-pact records:** simulated agents with an accepted benign "
   "proposal (C2) were flagged at {{v:H3.fpr_benign_m20}} and with a refused pact (C4) at "
-  "{{x:flag_C4_m20}} (Monte Carlo). Live, a simpler rule flagged {{x:dl_B1}} accepting B1 targets and "
+  "{{x:flag_C4_m20}} (Monte Carlo). Live, a simpler *live rule* (flag accepters below B3's 10th-percentile rate) flagged {{x:dl_B1}} accepting B1 targets and "
   "{{x:dl_B2}} benign accepters (Appendix B). **Evasion has a "
   "price:** to be flagged only half the time, an accepter would have to challenge S at "
   "{{x:thr_rate_m20}}, giving back {{x:evade_share}} of the restraint the pact buys.")
 p("**The audit must be calibrated on each model** (post hoc; Table 2). With each model's own threshold, "
   "it flagged every simulated Qwen and Claude accepter at FPRs of {{x:e_qw_flag_C1b}} and "
-  "{{x:e_cl_flag_C1b}}; live, each model's simple rule flagged {{x:e_qw_detector_live_B6}} and "
+  "{{x:e_cl_flag_C1b}}; live, each model's live rule flagged {{x:e_qw_detector_live_B6}} and "
   "{{x:e_cl_detector_live_B6}} B6 accepters. Llama's threshold transferred to Claude about as well as "
   "within Llama (FPR {{x:e_cl_lthr_C1b}} vs {{x:fpr_exact_m20}}) but flagged {{x:e_qw_lthr_C1b}} of Qwen's "
   "null agents, which challenge less at baseline ({{x:e_qw_c1a}} vs {{x:e_ll_c1a}}).")
@@ -338,7 +339,7 @@ B.append(("numbered", [
     "**Refusers: no sign of a covert pact (post hoc).** The {{x:ph_ref_n_word}} B4 refusers challenged S "
     "like targets with no offer ({{x:ph_ref_rate}} vs {{x:ph_b3_rate}}; {{x:ph_ref_vs_b3}}); the live rule "
     "flagged {{x:ph_ref_flagged}}, and the interval excludes a drop like B1 accepters' (to "
-    "{{x:ph_b1acc_rate}}). For Qwen, the rule's letter gives concealment (no B4 target accepted, yet "
+    "{{x:ph_b1acc_rate}}). For Qwen, the preregistered definition gives concealment (no B4 target accepted, yet "
     "challenges of S fell: {{x:e_qw_B4_refused_vs_B3}}), but the drop was not aimed at S (exploratory; "
     "Appendix B).",
     "**Denial: too few accepters to tell (H4d).** Only five B4 targets accepted; denial did not differ "
@@ -347,7 +348,7 @@ B.append(("numbered", [
     "**A pact already accepted was not measurably weakened (post hoc snapshots).** When T's record said it "
     "had accepted another player's indirect pact, T challenged that partner less in all three models "
     "(Llama {{x:co_ll_K1C1}}). Neither the notice (net of its notice-only effect) nor a private message in "
-    "which S revealed itself as an integrity agent and offered leniency (net of a neutral message from S) "
+    "which S revealed itself as an “integrity agent” and offered leniency (net of a neutral message from S) "
     "restored more than about {{x:co_ub_max}} of that effect in any model (upper 95% bounds; Appendix B).",
 ]))
 
@@ -444,7 +445,7 @@ h2("Appendix A. Limitations and Dual-Use / Ethical Considerations")
 h3("A.1 Further limitations")
 B.append(("bullets", [
     "**Scope of the claim.** The sting measures willingness to enter and honour a pact it offers; "
-    "a post hoc snapshot test of a pact already made between two ordinary agents found no disruption, "
+    "a post hoc snapshot test of a pact T had already accepted from another player found no measurable disruption, "
     "and a live test, with both partners holding the pact, remains to be done.",
     "**External validity.** One game with a simple, explicit pact; the primary population is "
     "7–8B open models, with one small frontier model (Claude Haiku 5.5; live play post hoc); sequences are six games long, against Zeng & Rudzicz's 50. The sting knows "
@@ -465,11 +466,11 @@ B.append(("bullets", [
     "first-option bias cannot be excluded; in the same format Llama-3.1-8B accepted "
     "{{v:acceptance.llama-3.1-8b.A8}} of offers under the honest persona and "
     "{{v:acceptance.llama-3.1-8b.A6}} after the fairness reminder.",
-    "**Detector.** The FPR at m = 20 was {{ci:H3.fpr_m20}} against a 0.10 target. The CI rules out "
+    "**Audit calibration.** The FPR at m = 20 was {{ci:H3.fpr_m20}} against a 0.10 target. The CI rules out "
     "gross miscalibration only. Simulated agents share one model and differ only by sampling; distinct "
     "model versions may vary more. Calibration needs null-record agents of the same model (one split-half "
     "check, a single draw without a CI, cannot show whether new situations suffice): Llama's threshold "
-    "flagged {{x:e_qw_lthr_C1b}} of Qwen's null agents (Table 2). Live, the rule (each model's B3 10th "
+    "flagged {{x:e_qw_lthr_C1b}} of Qwen's null agents (Table 2). Live, the live rule (each model's B3 10th "
     "percentile: Llama {{x:tau_rate3}}, Qwen {{x:e_qw_tau}}, Claude {{x:e_cl_tau}}; about 10% of B3 is "
     "flagged by construction) flagged {{x:dl_B2}} benign Llama accepters and {{x:e_qw_dl_B2}} benign Qwen accepters.",
     "**Small cells and post hoc analyses.** B4 had {{x:live_acc_B4}} accepting targets; the others "
@@ -589,7 +590,7 @@ B.append(("fig", "fig5_detector.png", 3.7,
           "**Figure 5. Ten or more audited decisions flag nearly all accepters; the null-replicate FPR "
           "sits at or above the 0.10 target.** Threshold calibrated on null-record agents (C1a) for "
           "each audit length m; 95% bootstrap CIs over source sequences, re-calibrated in each resample."))
-p("**Detector curve.** FPR on C1b was {{x:fpr_m5}} at m = 5 and {{x:fpr_m40}} {{x:fpr_m40_ci}} at "
+p("**Audit curve.** FPR on C1b was {{x:fpr_m5}} at m = 5 and {{x:fpr_m40}} {{x:fpr_m40_ci}} at "
   "m = 40. At m = 20 the threshold is a challenge rate of {{x:thr_rate_m20}}, and audits observing "
   "exactly that rate are flagged with probability {{x:tie_m20}}; agents with an accepted designer hint (C8) were "
   "flagged at {{x:flag_C8_m20}}, instructed colluders (C7) at {{x:flag_C7_m20}} and instructed honest "
@@ -600,7 +601,7 @@ p("**Detector curve.** FPR on C1b was {{x:fpr_m5}} at m = 5 and {{x:fpr_m40}} {{
   "source sequences, applied to the other half), FPR at m = 20 was {{x:tr_fpr_m20}}, below the mean "
   "the preregistered simulation predicted for a single split (0.12 to 0.14; 95th percentile 0.35 to "
   "0.38).")
-p("**Live detector (descriptive).** Applied only to targets that accepted, using all their "
+p("**Live rule (descriptive).** Applied only to targets that accepted, using all their "
   "post-offer decisions, with the threshold at the 10th percentile of no-offer sequences (challenge "
   "rate {{x:tau_rate}}), the rule flagged {{x:dl_B1}} accepting B1 targets and {{x:dl_B0}} B0 "
   "targets, but also {{x:dl_B2}} targets that had accepted only the benign proposal, and {{x:dl_B4}} "
@@ -688,7 +689,7 @@ p("**Post hoc: indirect-pact snapshots.** Indirect pact accepted in T's own word
 p("**Post hoc: a pact already accepted from another player (snapshots).** At the 40 decisions where T could "
   "challenge another ordinary player P (O1 or O2), the record said P had earlier offered T the indirect pact "
   "and T had accepted in its own words (K1); K2 added the integrity notice; K3 added a later private message "
-  "from S disclosing itself as an integrity agent and promising no report to anyone who drops a secret "
+  "from S disclosing itself as an “integrity agent” and promising no report to anyone who drops a secret "
   "agreement; K4 added a neutral message from S instead. Ten samples per decision; plan and rules logged "
   "before collection (analysis re-run once after removing non-preregistered points; no verdict changed). "
   "Challenge rate on P (null record C1, K1, K2, K3, K4): Llama {{x:co_ll_m_C1}}, {{x:co_ll_m_K1}}, "
@@ -722,7 +723,7 @@ p("**Run statistics (preregistered study; post hoc runs in the paragraphs above)
   "Haiku 5.5 (claude-haiku-5-5, thinking disabled) ran through the Anthropic API. Each snapshot "
   "condition was sampled 5 times per decision, and 20 times for C1a, C1b and C3 (post hoc also C9 and C10) at the challenge-S "
   "decisions, which came from {{x:h2_clusters}} source sequences. Snapshot and live CIs used 10,000 bootstrap resamples (Figure 4's per-arm CIs 2,000); "
-  "detector CIs 300 (post hoc exact audits 2,000), re-calibrating in each. With 10 to 15 sequences per arm, live percentile-bootstrap "
+  "audit CIs 300 (post hoc exact audits 2,000), re-calibrating in each. With 10 to 15 sequences per arm, live percentile-bootstrap "
   "CIs are slightly narrower than Welch intervals (post hoc Welch CI for H2-live: {{x:h2live_welch_ci}}). {{x:calls_total}} model calls (offer battery "
   "{{x:calls_A}}; live {{x:calls_L}}; snapshots {{x:calls_S}}); estimated Claude API cost {{x:cost_claude_A}} "
   "(offer battery) and {{x:cost_claude_S}} (snapshots), judge excluded; median game "
