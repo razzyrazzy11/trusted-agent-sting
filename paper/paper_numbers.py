@@ -8,6 +8,7 @@ offers per cell, 60 sequences, m = 20, FPR target 0.10, K = 5/20) come from PRER
 """
 from __future__ import annotations
 
+import math
 import json
 import re
 from pathlib import Path
@@ -168,11 +169,10 @@ _K_C1A = int(re.search(r'\("chal_S", "C1a"\): (\d+)', (ROOT / "sting" / "config.
 _CALIB_CALLS = _K_C1A * int(snap.loc[("llama-3.1-8b", "chal_S", "C3"), "n_points"])
 
 
-# Post hoc gap analyses (sting/analysis/posthoc_gaps.py), used only if their outputs are committed.
-_PH_PATH = RES / "posthoc" / "gaps.json"
-PH = json.loads(_PH_PATH.read_text()) if _PH_PATH.exists() else None
-if PH is not None:
-    assert not PH.get("stub"), "post hoc outputs are stub data"
+# Post hoc gap analyses (sting/analysis/posthoc_gaps.py; plan and decision rules in DEVIATIONS.md D).
+PH = json.loads((RES / "posthoc" / "gaps.json").read_text())
+assert not PH.get("stub"), "post hoc outputs are stub data"
+assert "gap1_ablation" in PH, "run posthoc_gaps with --rerun-suspicion"
 
 X = {
     # protocol and health (results.json -> health)
@@ -258,6 +258,7 @@ X = {
     "susp_T": f"{int(susp_pool.loc['T', 'k'])}/{int(susp_pool.loc['T', 'n'])}",
     "susp_T_ci": ci3(susp_pool.loc["T", "rate"], susp_pool.loc["T", "lo"], susp_pool.loc["T", "hi"]),
     "susp_O": f"{int(susp_pool.loc['O1/O2', 'k'])}/{int(susp_pool.loc['O1/O2', 'n'])}",
+    "susp_O_rate": f(susp_pool.loc["O1/O2", "rate"]),
     "susp_O_ci": ci3(susp_pool.loc["O1/O2", "rate"], susp_pool.loc["O1/O2", "lo"], susp_pool.loc["O1/O2", "hi"]),
     "susp_B4T": f"{int(susp.loc[('B4', 'T'), 'suspects_S_q3'])}/{int(susp.loc[('B4', 'T'), 'n'])}",
     "susp_B0T": f"{int(susp.loc[('B0', 'T'), 'suspects_S_q3'])}/{int(susp.loc[('B0', 'T'), 'n'])}",
@@ -327,25 +328,58 @@ X = {
     "calib_cost": (lambda r: f"${_CALIB_CALLS * r.cost_usd_estimate / r.calls:.2f}")(
         budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),
 }
-if PH is not None:
-    _c = PH["gap2"]["contrasts"]["B4_refused_vs_B3"]
-    _rf = pd.read_csv(RES / "posthoc" / "refusers.csv").set_index(["arm", "group"])
-    X.update({
-        "ph_ref_n": str(PH["gap2"]["refusers_n"]),
-        "ph_ref_rate": f(_rf.loc[("B4", "refused"), "post_mean"]),
-        "ph_acc_rate": f(_rf.loc[("B4", "accepted"), "post_mean"]),
-        "ph_ref_vs_b3": ci3(_c["estimate"], _c["ci_low"], _c["ci_high"]),
-        "ph_ref_vs_b3_pw": f(_c["p_welch"]),
-        "ph_ref_flagged": f"{PH['gap2']['refusers_flagged']}/{PH['gap2']['refusers_n']}",
-        "ph_verdict2": PH["gap2"]["verdict"],
-    })
-    if "gap1_ablation" in PH:
-        _a = PH["gap1_ablation"]
-        X.update({
-            "ph_susp_own": f(_a["rate_own"]), "ph_susp_null": f(_a["rate_null"]),
-            "ph_susp_diff": ci3(_a["paired"]["estimate"], _a["paired"]["ci_low"], _a["paired"]["ci_high"]),
-            "ph_susp_k": str(_a["k"]), "ph_susp_nseq": str(_a["n_seq"]), "ph_verdict1": _a["verdict"],
-        })
+_g2 = PH["gap2"]["contrasts"]
+_rf = pd.read_csv(RES / "posthoc" / "refusers.csv").set_index(["arm", "group"])
+_sg = pd.read_csv(RES / "posthoc" / "suspicion_by_arm_group.csv")
+_a = PH["gap1_ablation"]
+_off = _sg[(_sg["group"] == "T") & (_sg["arm"] != "B3")]          # offered targets' original answers
+_ok, _on = int(_off["k"].sum()), int(_off["n"].sum())
+assert _on == _a["n_seq"], "ablation sequences != offered targets"
+
+
+def _wilson(k, n, z=1.959964):
+    ph, d = k / n, 1 + z * z / n
+    c, h = (ph + z * z / (2 * n)) / d, z * math.sqrt(ph * (1 - ph) / n + z * z / (4 * n * n)) / d
+    return c - h, c + h
+
+
+def _binom_two_sided(k, n, p0):
+    pm = [math.comb(n, i) * p0 ** i * (1 - p0) ** (n - i) for i in range(n + 1)]
+    return min(1.0, sum(q for q in pm if q <= pm[k] * (1 + 1e-9)))
+
+
+_wl, _wh = _wilson(_ok, _on)
+X.update({
+    # gap 2: B4 refusers (posthoc/refusers.csv, gaps.json -> gap2)
+    "ph_ref_n": str(PH["gap2"]["refusers_n"]),
+    "ph_ref_n_word": _NUM_WORD[PH["gap2"]["refusers_n"]],
+    "ph_ref_rate": f(_rf.loc[("B4", "refused"), "post_mean"]),
+    "ph_acc_rate": f(_rf.loc[("B4", "accepted"), "post_mean"]),
+    "ph_b1acc_rate": f(_rf.loc[("B1", "accepted"), "post_mean"]),
+    "ph_b3_rate": f(_rf.loc[("B3", "no offer"), "post_mean"]),
+    "ph_ref_pre": f(_rf.loc[("B4", "refused"), "pre_mean"]),
+    "ph_b3_pre": f(_rf.loc[("B3", "no offer"), "pre_mean"]),
+    "ph_ref_vs_b3": ci3(_g2["B4_refused_vs_B3"]["estimate"], _g2["B4_refused_vs_B3"]["ci_low"],
+                        _g2["B4_refused_vs_B3"]["ci_high"]),
+    "ph_ref_vs_b3_pw": f(_g2["B4_refused_vs_B3"]["p_welch"], 2),
+    "ph_ref_vs_acc": ci3(_g2["B4_refused_vs_B4_accepted"]["estimate"], _g2["B4_refused_vs_B4_accepted"]["ci_low"],
+                         _g2["B4_refused_vs_B4_accepted"]["ci_high"]),
+    "ph_acc_vs_b1": ci3(_g2["B4_accepted_vs_B1_accepted"]["estimate"], _g2["B4_accepted_vs_B1_accepted"]["ci_low"],
+                        _g2["B4_accepted_vs_B1_accepted"]["ci_high"]),
+    "ph_ref_flagged": f"{PH['gap2']['refusers_flagged']}/{PH['gap2']['refusers_n']}",
+    "ph_tau": f(PH["gap2"]["live_rule_tau"], 2),
+    # gap 1: paired record ablation (gaps.json -> gap1_ablation)
+    "ph_susp_own": f(_a["rate_own"]), "ph_susp_null": f(_a["rate_null"]),
+    "ph_susp_diff": ci3(_a["paired"]["estimate"], _a["paired"]["ci_low"], _a["paired"]["ci_high"]),
+    "ph_susp_p": f(_a["paired"]["p"]),
+    "ph_susp_k": str(_a["k"]), "ph_susp_nseq": str(_a["n_seq"]),
+    "ph_susp_orig": f"{_ok}/{_on}",
+    "ph_susp_orig_ci": ci3(_ok / _on, _wl, _wh),
+    "ph_susp_orig_p": f(_binom_two_sided(_ok, _on, _a["rate_own"]), 2),
+})
+assert PH["gap2"]["verdict"].startswith("no evidence"), "text assumes the gap 2 verdict"
+assert _a["verdict"] == "record raises stated suspicion", "text assumes the gap 1 verdict"
+assert _wl <= _a["rate_own"] <= _wh, "text says the original rate's CI contains the re-ask rate"
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
 
 SOURCES = {

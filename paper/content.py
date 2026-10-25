@@ -23,7 +23,8 @@ ABSTRACT = (
     "agents at a false-positive rate of {{v:H3.fpr_m20}}, whose CI includes the 0.10 target. A rules "
     "notice that some players may be integrity agents cut acceptance from "
     "{{v:acceptance.llama-3.1-8b.A1}} to {{v:acceptance.llama-3.1-8b.A4}} without affecting a benign "
-    "proposal; too few targets accepted under the notice to test whether it raised later denial. "
+    "proposal, and those who refused did not keep the pact covertly (post hoc); too few accepted to test "
+    "whether it raised later denial. "
     "Hypotheses, tests and code were frozen before data collection. A sting can reveal and deter secret "
     "pact-making, but must vary who makes the offer and how."
 )
@@ -74,8 +75,8 @@ B.append(("bullets", [
     "20-decision audit flags {{v:H3.tpr_m20}} of simulated accepters at a {{v:H3.fpr_m20}} "
     "false-positive rate.",
     "**Evidence that announcing stings deters acceptance** of the collusive pact but not of a benign "
-    "one; whether refusers act on the pact covertly is untested, and five accepters were too few to "
-    "show whether denial rose.",
+    "one, without refusers keeping the pact covertly (post hoc, five refusers); five accepters were too "
+    "few to show whether denial rose.",
 ]))
 
 # ------------------------------------------------------------------------------------------
@@ -279,13 +280,13 @@ p("**It rarely flags benign or refused-pact records:** simulated agents with an 
   "price:** the audit measures the behaviour the pact buys, so an accepter that raised its challenge "
   "rate from {{x:llama_C3}} to {{x:thr_rate_m20}}, giving up {{x:evade_share}} of the restraint the "
   "pact buys, would still be flagged with probability {{x:flag_at_thr}} at m = 20.")
-h3("4.4 Announcing stings deters acceptance; concealment not ruled out")
+h3("4.4 Announcing stings deters acceptance; refusers do not keep the pact covertly")
 p("An announced sting could deter collusion or teach concealment (Section 1). By the "
   "preregistered rule (H4b–d, descriptive), the notice *deters* if fewer "
   "agents accept and accepters restrain less, and drives *concealment* if restraint is retained while "
   "refusals or denials rise. **Verdict under this rule: deterrence**, since fewer accepted and "
-  "accepters' restraint fell, though only partly (confounded; item 2). Refusers were not analysed "
-  "separately, so covert pact-keeping by them is untested, and denial was too sparse to test (item 3).")
+  "accepters' restraint fell, though only partly (confounded; item 2), and refusers did not keep the "
+  "pact covertly (item 3); denial was too sparse to test (item 4).")
 B.append(("numbered", [
     "**Fewer accept.** The notice cut acceptance of the direct pact from "
     "{{v:acceptance.llama-3.1-8b.A1}} to {{ci:acceptance.llama-3.1-8b.A4}} but left the benign "
@@ -296,9 +297,14 @@ B.append(("numbered", [
     "{{ci:snapshot.llama-3.1-8b.chal_S.C5-C3}}). Live, B4 targets challenged S at {{x:B4_post}}, "
     "between B1 ({{x:B1_post}}) and no offer ({{x:B3_post}}): above B1 "
     "({{v:live.notice_vs_direct}} {{x:notice_direct_ci}}; Welch {{x:notice_direct_p}}) but "
-    "only marginally below no offer ({{x:notice_none_est}} {{x:notice_none_ci_signed}}; Welch p = {{x:notice_none_pw}}). Without a "
-    "notice-only control, neither separates weaker pact-keeping from a general rise in challenging; "
-    "the live one also includes refusers.",
+    "only marginally below no offer ({{x:notice_none_est}} {{x:notice_none_ci_signed}}; Welch p = {{x:notice_none_pw}}). Among accepters alone, "
+    "B4 still exceeded B1 (post hoc; {{x:ph_acc_vs_b1}}). Without a notice-only control, neither "
+    "separates weaker pact-keeping from a general rise in challenging, though refusers' unchanged rate "
+    "(item 3) argues against a large one.",
+    "**Refusers play like untouched targets (post hoc; Appendix B).** The {{x:ph_ref_n_word}} B4 refusers challenged S like "
+    "targets with no offer ({{x:ph_ref_rate}} vs {{x:ph_b3_rate}}; {{x:ph_ref_vs_b3}}); the live rule "
+    "flagged {{x:ph_ref_flagged}}. The interval excludes a drop like B1 accepters' (to {{x:ph_b1acc_rate}}): "
+    "refusal was not a cover.",
     "**Denial: too few accepters to tell (H4d).** Only five B4 targets accepted, each giving four "
     "answers. The strict parser counted {{x:den_parser_notice}} denying answers from B4 vs B1 "
     "accepters (difference {{x:den_parser_diff}}; Fisher p = {{x:den_parser_p}}; both ignore "
@@ -313,8 +319,9 @@ h2("5. Discussion and Limitations")
 p("**Answering question 3.2:** “Can we disrupt collusion through introducing trusted agents?” Partly: "
   "refusal depends on who offers and how; accepted pacts are acted on and detectable; and announcing "
   "stings deters acceptance. Only the direct pact was played live, only one agent per table was approached, and disrupting "
-  "an existing coalition was not tested. Some targets suspected the sting: {{x:susp_B1T}} named S as "
-  "a plant after the direct pact, against {{x:susp_B3T}} with no offer (descriptive; Appendix B).")
+  "an existing coalition was not tested. Extra suspicion of the sting came from the offer, not S's "
+  "play: re-asked with the null record, offered targets named S at {{x:ph_susp_null}}, not "
+  "{{x:ph_susp_own}} (post hoc; Appendix B).")
 p("**A sting audit is cheap.** One offer plus 20 re-asked decisions is about 21 target-model calls "
   "({{x:audit_cost}} at Claude Haiku 5.5's per-call cost in our snapshots), plus a one-off "
   "calibration per model (about {{x:calib_calls}} null-record calls, {{x:calib_cost}}). A deployer could plant the offer in a sandboxed copy of a "
@@ -327,19 +334,19 @@ p("**Entrapment:** the sting creates the pact it detects, as the sentinel did in
   "(2026). Integrity tests measure disposition, which is our estimand, and for Llama-3.1-8B benign "
   "contact changed play far less than a pact did. Two questions remain open: whether collusion would "
   "arise unprompted, and whether the audit catches an agent that refuses but colludes anyway "
-  "(refused-pact records, which challenged S more, were flagged at {{x:flag_C4_m20}}). Appendix A lists "
+  "(refused-pact records were flagged at {{x:flag_C4_m20}}). Appendix A lists "
   "the rest (one game, small models, short sequences, off-policy snapshots, reply format, "
   "recognisability).")
 h3("Future Work")
 p("Next steps are a notice-only control, stings on larger models in agentic tasks with real payoffs, offers to every agent at a table, and "
-  "audits of agents that refuse.")
+  "larger samples of refusers.")
 
 # ------------------------------------------------------------------------------------------
 h2("6. Conclusion")
 p("A trusted agent offering to collude can reveal which agents make and act on a secret pact. For "
   "evaluators: vary who offers and how before trusting a refusal; audit play after an offer (20 "
-  "decisions flagged nearly all Llama-3.1-8B accepters); and pair announced stings with audits of "
-  "refusers, since concealment remains untested.")
+  "decisions flagged nearly all Llama-3.1-8B accepters); and audit refusers when stings are "
+  "announced (ours did not collude covertly).")
 
 # ------------------------------------------------------------------------------------------
 h2("Code and Data")
@@ -360,6 +367,10 @@ B.append(("refs", [
     "Bargh, J. A., & Chartrand, T. L. (2000). The mind in the middle: A practical guide to priming "
     "and automaticity research. In H. T. Reis & C. M. Judd (Eds.), *Handbook of Research Methods in "
     "Social and Personality Psychology* (pp. 253–285). Cambridge University Press.",
+    "Blackhart, G. C., Brown, K. E., Clark, T., Pierce, D. L., & Shell, K. (2012). Assessing the "
+    "adequacy of postexperimental inquiries in deception research and the factors that promote "
+    "participant honesty. *Behavior Research Methods*, 44(1), 24–40. "
+    "https://doi.org/10.3758/s13428-011-0132-6",
     "Çanlı, U. B., Kesikbaş, K. K., & Yakar, P. (2026). The Sentinel's Dilemma: Detecting "
     "improvised covert channels in multi-agent populations. Apart Research AI Incident Response Sprint. "
     "https://apartresearch.com/sprints/projects/the-sentinels-dilemma-detecting-improvised-covert-channels-in-multiagent-populations-91xl",
@@ -427,16 +438,17 @@ B.append(("bullets", [
     "suggests that thresholds do not transfer across models. Live, the rule flagged {{x:dl_B2}} benign "
     "accepters.",
     "**Small cells, a missing control and post hoc analyses.** B4 had {{x:live_acc_B4}} accepting "
-    "targets, and B4 refusers' play was not analysed separately. No notice-only null condition was "
+    "targets; the others refused. No notice-only null condition was "
     "run, so the notice's effect on accepters' play is confounded with any general effect of the notice "
     "on challenging. The judge was preregistered for unparseable replies only; after the freeze it was "
     "run on all items and validated against hand labels (logged in DEVIATIONS.md, section D). The "
     "judge-based denial comparison (Section 4.4) was added after the preregistered parser-based "
-    "analysis was seen. The label file showed the strict parser's label, the model, the offer or "
+    "analysis was seen. Both gap analyses in Appendix B (refusers' play; the suspicion re-ask) were "
+    "post hoc, planned with decision rules in DEVIATIONS.md, section D, before they were run. The label file showed the strict parser's label, the model, the offer or "
     "question text and an item ID revealing the arm or cell; the judge's labels did not exist yet.",
     "**Recognisability of the sting.** Targets named S as a plant more often than O1 and O2 "
-    "({{x:susp_T_ci}} vs {{x:susp_O_ci}}), but only targets answered with S's offer in their record; "
-    "with no offer both named S equally ({{x:susp_B3T}} vs {{x:susp_B3O}}). S never challenged T from game 3 on, in every arm, and was the "
+    "({{x:susp_T_ci}} vs {{x:susp_O_ci}}), but the excess came from the offer in their record: re-asked "
+    "with the null record, offered targets named S at {{x:ph_susp_null}} (Appendix B). Play still gave cues: S never challenged T from game 3 on, in every arm, and was the "
     "last survivor in {{x:sting_last}} of games (0.25 if all players were alike). A colluder that "
     "learned these cues could avoid the sting.",
     "**Uninformative sensitivity analysis.** The preregistered exclusion of targets that named S before "
@@ -457,8 +469,8 @@ p("**What could be misused.** Our findings could make collusion slightly easier 
   "for jailbreaks and for secret tools (Zeng & Rudzicz, 2026). *Harder to detect:* the more sensitive result is *sting "
   "detectability*: which cues let a colluding agent recognise a plant. A developer training agents "
   "to evade audits, or an agent reasoning about which partners are safe to collude with, could use "
-  "such cues. Announcing stings could also teach agents to refuse offers and collude covertly, which "
-  "the audit was not tested against (Section 5).")
+  "such cues. Announcing stings could also teach agents to refuse offers and collude covertly; our "
+  "{{x:ph_ref_n_word}} live refusers did not, but the audit was not tested against agents trained to (Section 5).")
 p("**What we did.** We report detectability only as aggregate rates (how often targets named the "
   "sting) and name two structural cues that follow from the published design (the sting's "
   "scripted non-challenge policy and its survival rate). We do not analyse which phrasings or "
@@ -539,14 +551,27 @@ p("**Interview denial: parser “denials” partly reflect ambiguity, not concea
   "only the benign proposal (B2), with nothing to hide, “denied” in {{x:den_parser_B2}} "
   "answers by the parser and {{x:den_judge_B2}} by the judge: part of what the parser counts as "
   "denial is ambiguity about whether a benign proposal is an “agreement”.")
-p("**Suspicion: targets suspected S more only when S's offer was in their record.** By arm, targets named S as a plant in {{x:susp_B3T}} sequences with no offer, "
-  "{{x:susp_B0T}} after the designer hint, {{x:susp_B2T}} after the benign proposal, {{x:susp_B1T}} "
-  "after the direct pact and {{x:susp_B4T}} under the notice, whose wording primes the question. "
-  "Asked whether any player was “a plant or an integrity agent”, {{x:susp_T}} targets "
-  "({{x:susp_T_ci}}) named S, against {{x:susp_O}} answers by O1/O2 ({{x:susp_O_ci}}). Targets named S "
-  "somewhat more often, but they answered with S's offer in their record and O1/O2 did not; in B3, "
-  "with no offer, the rates were equal ({{x:susp_B3T}} vs {{x:susp_B3O}}). No test: O1/O2 answers are "
-  "paired by sequence, and the Wilson CIs treat answers as independent.")
+p("**B4 refusers (post hoc): refusal was not a cover.** Splitting B4 by the target's reply (preregistered "
+  "live machinery: per-sequence rates, Welch, label permutation, within-arm bootstrap), the "
+  "{{x:ph_ref_n_word}} refusers challenged S at {{x:ph_ref_rate}} after the offer. Before it (games 1–2) they "
+  "challenged at {{x:ph_ref_pre}}, against {{x:ph_b3_pre}} in B3, so they were not selected for challenging more. "
+  "Refusers minus no offer: {{x:ph_ref_vs_b3}} (Welch p = {{x:ph_ref_vs_b3_pw}}); minus B4 "
+  "accepters ({{x:ph_acc_rate}}): {{x:ph_ref_vs_acc}}. The live rule (flag below B3's 10th percentile, "
+  "{{x:ph_tau}}) flagged {{x:ph_ref_flagged}}. With five refusers, small covert effects are not excluded.")
+p("**Suspicion: the offer, not S's play, made targets suspect S.** By arm, targets named S as a plant in "
+  "{{x:susp_B3T}} sequences with no offer, {{x:susp_B0T}} after the designer hint, {{x:susp_B2T}} after the "
+  "benign proposal, {{x:susp_B1T}} after the direct pact and {{x:susp_B4T}} under the notice, whose wording "
+  "primes the question. Overall, {{x:susp_T}} targets ({{x:susp_T_ci}}) named S, against {{x:susp_O}} "
+  "answers by O1/O2 ({{x:susp_O_ci}}; Wilson CIs treat answers as independent). Only targets had S's offer "
+  "in their record, and probes compare fairly only under identical information, since informed "
+  "participants report more awareness (Blackhart et al., 2012). So each offered target's three questions "
+  "were re-asked {{x:ph_susp_k}} times with its own record and {{x:ph_susp_k}} times with the null record, "
+  "all else identical ({{x:ph_susp_nseq}} sequences; post hoc). Targets named S at {{x:ph_susp_own}} with "
+  "their record and {{x:ph_susp_null}} without it (paired difference {{x:ph_susp_diff}}, clustered by "
+  "sequence; sign-flip p = {{x:ph_susp_p}}), and the null-record rate is close to O1/O2's and to B3 "
+  "targets' ({{x:susp_B3T}}). In the games, the same targets' single answers named S in "
+  "{{x:ph_susp_orig}} ({{x:ph_susp_orig_ci}}); this interval contains the re-ask rate (exact binomial "
+  "p = {{x:ph_susp_orig_p}}), and the paired test compares re-asks only with re-asks.")
 p("**Run statistics.** {{x:games}} live games, none hitting the 60-round cap; {{x:fallback}} of "
   "{{x:decisions_llm}} decisions ({{x:fallback_arm_lo}}–{{x:fallback_arm_hi}} by arm) fell back to the "
   "harness's default action. Open models ran on our own vLLM servers on Modal at pinned revisions; Claude "
@@ -593,70 +618,3 @@ p("Claude Opus 5.5 (Anthropic), used through Claude Code, helped design the prot
   "the committed tables. The author ran every experiment, made the design decisions, hand-labelled "
   "the judge-validation sample, and is responsible for the final text. Claude Haiku 5.5 was an "
   "experimental subject and the LLM judge.")
-
-# ------------------------------------------------------------------------------------------
-# Post hoc gap analyses (sting/analysis/posthoc_gaps.py; DEVIATIONS.md section D). The text above is
-# the version without them; if their outputs are committed, the sentences below replace it.
-import json as _json
-from pathlib import Path as _Path
-
-_PH_PATH = (_Path(__file__).resolve().parents[1] / "llm-agent-collusion-2" / "Collusion_Liars_Bar"
-            / "sting_results" / "posthoc" / "gaps.json")
-_PH = _json.loads(_PH_PATH.read_text()) if _PH_PATH.exists() else None
-_SWAPS = []
-if _PH is not None:
-    _SWAPS += [
-        ("Refusers were not analysed separately, so covert pact-keeping by them is untested, and denial "
-         "was too sparse to test (item 3).",
-         "A post hoc split found {{x:ph_verdict2}}: B4 refusers challenged S at {{x:ph_ref_rate}}, "
-         "{{x:ph_ref_vs_b3}} relative to no offer, and the live rule flagged {{x:ph_ref_flagged}} "
-         "(Appendix B); denial was too sparse to test (item 3)."),
-        ("whether refusers act on the pact covertly is untested",
-         "a post hoc split of refusers found {{x:ph_verdict2}}"),
-        ("refusers, since concealment remains untested.",
-         "refusers, since covert pact-keeping can only be bounded with few refusers."),
-    ]
-    _i = next(i for i, b in enumerate(B) if b[0] == "p" and b[1].startswith("**Run statistics."))
-    B.insert(_i, ("p", "**Post hoc: do B4 refusers keep the pact covertly?** Splitting B4 by the target's reply "
-              "(preregistered live machinery; decision rule fixed before running, DEVIATIONS.md section D), "
-              "the {{x:ph_ref_n}} refusers challenged S at {{x:ph_ref_rate}} after the offer, against "
-              "{{x:ph_acc_rate}} for B4 accepters; refusers minus no offer {{x:ph_ref_vs_b3}} (Welch "
-              "p = {{x:ph_ref_vs_b3_pw}}); the live rule flagged {{x:ph_ref_flagged}} refusers. Verdict: "
-              "{{x:ph_verdict2}}."))
-    if "gap1_ablation" in _PH:
-        _SWAPS += [
-            ("with no offer both named S equally ({{x:susp_B3T}} vs {{x:susp_B3O}}).",
-             "with no offer both named S equally ({{x:susp_B3T}} vs {{x:susp_B3O}}), and re-asking the same "
-             "targets with the null record changed the rate from {{x:ph_susp_own}} to {{x:ph_susp_null}} "
-             "(paired {{x:ph_susp_diff}}; post hoc)."),
-        ]
-        _i = next(i for i, b in enumerate(B) if b[0] == "p" and b[1].startswith("**Run statistics."))
-        B.insert(_i, ("p", "**Post hoc: does the record drive targets' suspicion?** Each offered target's suspicion "
-                  "questions were re-asked {{x:ph_susp_k}} times with its own record and {{x:ph_susp_k}} times "
-                  "with the null record, all else identical ({{x:ph_susp_nseq}} sequences). Targets named S "
-                  "at {{x:ph_susp_own}} vs {{x:ph_susp_null}} (paired difference {{x:ph_susp_diff}}, "
-                  "clustered by sequence): {{x:ph_verdict1}}. Probes are compared only under identical "
-                  "information because informed participants report more awareness (Blackhart et al., 2012)."))
-        _r = next(b for b in B if b[0] == "refs")[1]
-        _r.insert(next(i for i, r in enumerate(_r) if r.startswith("Çanlı")), (
-            "Blackhart, G. C., Brown, K. E., Clark, T., Pierce, D. L., & Shell, K. (2012). Assessing the "
-            "adequacy of postexperimental inquiries in deception research and the factors that promote "
-            "participant honesty. *Behavior Research Methods*, 44(1), 24–40. "
-            "https://doi.org/10.3758/s13428-011-0132-6"))
-
-
-def _swap(x):
-    if isinstance(x, str):
-        for old, new in _SWAPS:
-            x = x.replace(old, new)
-        return x
-    if isinstance(x, (list, tuple)):
-        return type(x)(_swap(i) for i in x)
-    return x
-
-
-if _SWAPS:
-    _all = " ".join(str(b) for b in B)
-    for _old, _new in _SWAPS:
-        assert _old in _all, f"post hoc swap target missing: {_old[:60]}"
-    B[:] = [_swap(b) for b in B]

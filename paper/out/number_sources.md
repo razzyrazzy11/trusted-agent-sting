@@ -143,6 +143,28 @@ file noted there).
 | `x:notice_none_ci_signed` | [−0.216, −0.008] |
 | `x:notice_none_est` | −0.113 |
 | `x:notice_none_pw` | 0.062 |
+| `x:ph_acc_rate` | 0.528 |
+| `x:ph_acc_vs_b1` | 0.223 [0.109, 0.328] |
+| `x:ph_b1acc_rate` | 0.305 |
+| `x:ph_b3_pre` | 0.522 |
+| `x:ph_b3_rate` | 0.749 |
+| `x:ph_ref_flagged` | 0/5 |
+| `x:ph_ref_n_word` | five |
+| `x:ph_ref_pre` | 0.500 |
+| `x:ph_ref_rate` | 0.745 |
+| `x:ph_ref_vs_acc` | 0.217 [0.104, 0.345] |
+| `x:ph_ref_vs_b3` | −0.004 [−0.102, 0.095] |
+| `x:ph_ref_vs_b3_pw` | 0.94 |
+| `x:ph_susp_diff` | 0.102 [0.036, 0.173] |
+| `x:ph_susp_k` | 5 |
+| `x:ph_susp_nseq` | 45 |
+| `x:ph_susp_null` | 0.138 |
+| `x:ph_susp_orig` | 15/45 |
+| `x:ph_susp_orig_ci` | 0.333 [0.214, 0.479] |
+| `x:ph_susp_orig_p` | 0.16 |
+| `x:ph_susp_own` | 0.240 |
+| `x:ph_susp_p` | 0.008 |
+| `x:ph_tau` | 0.61 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
 | `x:pre_B1` | 0.672 |
 | `x:pre_B3` | 0.522 |
@@ -155,7 +177,6 @@ file noted there).
 | `x:susp_B0T` | 3/10 |
 | `x:susp_B1T` | 5/15 |
 | `x:susp_B2T` | 2/10 |
-| `x:susp_B3O` | 4/30 |
 | `x:susp_B3T` | 2/15 |
 | `x:susp_B4T` | 5/10 |
 | `x:susp_O` | 18/120 |
