@@ -64,6 +64,8 @@ file noted there).
 | `v:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 |
 | `v:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 |
 | `v:snapshot.llama-3.1-8b.chal_S.C4-C1` | 0.175 |
+| `v:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.228 |
+| `v:snapshot.llama-3.1-8b.play_vs_S.C3-C1` | −0.065 |
 | `x:B0_post` | 0.011 |
 | `x:B1_post` | 0.339 |
 | `x:B3_post` | 0.749 |
