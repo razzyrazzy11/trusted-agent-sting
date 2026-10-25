@@ -59,7 +59,7 @@ URL_RE = re.compile(r"(https?://[^\s]+[^\s.,;)])")
 PART = None  # document part, set in main(), for hyperlink relationships
 
 
-def rpr(bold=False, italic=False, size=None, color=None, font=None):
+def rpr(bold=False, italic=False, size=None, color=None, font=None, underline=False):
     r = OxmlElement("w:rPr")
     f = OxmlElement("w:rFonts")
     for a in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
@@ -76,6 +76,8 @@ def rpr(bold=False, italic=False, size=None, color=None, font=None):
     if size:
         for t in ("w:sz", "w:szCs"):
             s = OxmlElement(t); s.set(W("w:val"), str(int(size * 2))); r.append(s)
+    if underline:
+        u = OxmlElement("w:u"); u.set(W("w:val"), "single"); r.append(u)
     return r
 
 
@@ -93,16 +95,20 @@ def add_runs(p, text, size=None, bold_all=False, italic_all=False):
         for chunk in URL_RE.split(tok):
             if not chunk:
                 continue
-            target = p
-            if URL_RE.fullmatch(chunk) and PART is not None:
-                rid = PART.relate_to(chunk, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+            target, is_link = p, bool(URL_RE.fullmatch(chunk))
+            if is_link and PART is not None:
+                href = chunk.replace("<", "%3C").replace(">", "%3E")  # e.g. the Newcombe (1998) DOI
+                rid = PART.relate_to(href, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
                                      is_external=True)
                 target = OxmlElement("w:hyperlink"); target.set(qn("r:id"), rid); p.append(target)
+            else:
+                chunk = re.sub(r"(?<=\w)'", "\u2019", chunk)  # typographic apostrophes, as the quotes are curly
             for piece in re.split(f"([{FALLBACK_CHARS}])", chunk):
                 if not piece:
                     continue
                 r = OxmlElement("w:r")
-                r.append(rpr(b, i, size, font=MINUS_FONT if piece in FALLBACK_CHARS else None))
+                r.append(rpr(b, i, size, font=MINUS_FONT if piece in FALLBACK_CHARS else None,
+                             color="1155CC" if is_link else None, underline=is_link))
                 t = OxmlElement("w:t"); t.set(qn("xml:space"), "preserve"); t.text = piece
                 r.append(t)
                 target.append(r)
@@ -154,6 +160,19 @@ def keep_next(p):
         (st.addnext(k) if st is not None else ppr.insert(0, k))
 
 
+def keep_lines(p):
+    """Keep all lines of a paragraph on one page (captions)."""
+    ppr = p.get_or_add_pPr()
+    if ppr.find(W("w:keepLines")) is None:
+        kl = OxmlElement("w:keepLines")
+        kn = ppr.find(W("w:keepNext"))
+        if kn is not None:
+            kn.addnext(kl)
+        else:
+            st = ppr.find(W("w:pStyle"))
+            (st.addnext(kl) if st is not None else ppr.insert(0, kl))
+
+
 def set_num(p, num_id):
     ppr = p.find(W("w:pPr"))
     np_ = ppr.find(W("w:numPr"))
@@ -168,6 +187,21 @@ def main():
     cp = d.core_properties
     cp.title, cp.author = content.TITLE, content.AUTHORS
     cp.subject = "Apart Research AI Collusion Research Sprint, October 2026"
+    cp.last_modified_by = content.AUTHORS
+    cp.keywords = "LLM agents; collusion; trusted agent; sting; audit; preregistration"
+    cp.language = "en-GB"
+    import datetime as _dt
+    cp.created = cp.modified = _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0, tzinfo=None)
+    sty = d.styles.element
+    lang = OxmlElement("w:lang"); lang.set(W("w:val"), "en-GB")
+    sty.find(W("w:docDefaults")).find(W("w:rPrDefault")).find(W("w:rPr")).append(lang)
+    for lvl, name in enumerate(("Heading 1", "Heading 2", "Heading 3")):  # headings become the PDF outline
+        st = d.styles[name].element
+        ppr = st.get_or_add_pPr()
+        if ppr.find(W("w:outlineLvl")) is None:
+            o = OxmlElement("w:outlineLvl"); o.set(W("w:val"), str(lvl)); ppr.append(o)
+    from docx.shared import RGBColor
+    d.styles["Heading 3"].font.color.rgb = RGBColor(0, 0, 0)
 
     # --- prototypes from the template ----------------------------------------------------------
     P_H2 = copy.deepcopy(find_par(body, "1. Introduction"))
@@ -233,13 +267,13 @@ def main():
     for blk in content.B:
         kind = blk[0]
         if kind == "h2":
-            p = par(P_H2, blk[1]); set_spacing(p, before=180, after=40, line=260)
+            p = par(P_H2, blk[1], size=14, bold_all=True); set_spacing(p, before=180, after=40, line=260)
             if list_counter.pop("page_break_next", False):  # page break before this heading, no empty page
                 ppr = p.find(W("w:pPr")); pb = OxmlElement("w:pageBreakBefore")
                 prev = [e for e in (ppr.find(W(t)) for t in ("w:pStyle", "w:keepNext", "w:keepLines")) if e is not None]
                 (prev[-1].addnext(pb) if prev else ppr.insert(0, pb))  # schema order: pStyle, keepNext, keepLines, pageBreakBefore
         elif kind == "h3":
-            p = par(P_H3, blk[1], size=12); set_spacing(p, before=100, after=30, line=260)
+            p = par(P_H3, blk[1], size=13, bold_all=True); set_spacing(p, before=100, after=30, line=260)
         elif kind == "p":
             p = par(P_BODY, blk[1], size=BODY_PT); set_jc(p, "left" if "https://" in blk[1] else "both")
             set_spacing(p, after=60, line=245)
@@ -257,11 +291,15 @@ def main():
             set_jc(p, "center"); set_spacing(p, before=80, after=40, line=240); keep_next(p)
             from docx.text.paragraph import Paragraph
             Paragraph(p, d._body).add_run().add_picture(str(FIGS / fname), width=Inches(width))
+            alt = re.sub(r"\*\*", "", (re.match(r"\*\*(.+?)\*\*", caption) or re.match(r"(.+)", caption)).group(1))
+            for dp in p.iter(qn("wp:docPr")):
+                dp.set("descr", N.render(alt))
             c = par(P_BODY, caption, size=9.5); set_jc(c, "both"); set_spacing(c, after=100, line=230)
+            keep_lines(c)
         elif kind == "table":
             _, caption, head, rows, widths = blk
             c = par(P_BODY, caption, size=9.5); set_jc(c, "both"); set_spacing(c, before=80, after=60, line=240)
-            keep_next(c)
+            keep_next(c); keep_lines(c)
             t = d.add_table(rows=1 + len(rows), cols=len(head))
             t.alignment = WD_TABLE_ALIGNMENT.CENTER
             tbl = t._tbl
@@ -330,6 +368,23 @@ def main():
     print(out, f"{len(N.USED)} numbers resolved")
     abstract_words = len(N.render(content.ABSTRACT).split())
     print("abstract words:", abstract_words)
+    problems = []
+    if not 150 <= abstract_words <= 250:
+        problems.append(f"abstract has {abstract_words} words (the sprint requires 150-250)")
+    pdf = OUT / "undercover_agents.pdf"
+    if pdf.exists():
+        try:
+            pages = subprocess.run(["pdftotext", "-layout", str(pdf), "-"], capture_output=True, text=True,
+                                   check=True).stdout.split("\f")
+            ref_page = next(i + 1 for i, pg in enumerate(pages)
+                            if any(l.strip() == "References" for l in pg.splitlines()[:3]))
+            print("References start on page", ref_page)
+            if ref_page > 9:
+                problems.append(f"main text runs to page {ref_page - 1} (the sprint allows 8)")
+        except (FileNotFoundError, subprocess.CalledProcessError, StopIteration) as e:
+            problems.append(f"could not check the page limit: {e!r}")
+    if problems:
+        sys.exit("BUILD CHECK FAILED: " + "; ".join(problems))
 
 
 if __name__ == "__main__":

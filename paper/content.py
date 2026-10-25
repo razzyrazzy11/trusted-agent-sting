@@ -394,6 +394,7 @@ p("Code, data, preregistration and deviations log: https://github.com/razzyrazzy
   "(private: access and raw logs on request). Protocol hash: {{x:frozen_hash}}… (commit 6885d5c). Harness: Zeng & Rudzicz's, via the "
   "sprint starter repository (commit d585a7b); our game subclass fixes two of its scoring and display bugs (Appendix C).")
 
+B.append(("pagebreak",))
 h2("References")
 B.append(("refs", [
     "Agrawal, K., Teo, V., Vazquez, J. J., Kunnavakkam, S., Srikanth, V., & Liu, A. (2025). Evaluating "
