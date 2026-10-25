@@ -319,7 +319,7 @@ X = {
     "k_qwen_A2": acc("qwen2.5-7b", "A2"),
     "notice_direct_p": _p(live_c.loc["notice_vs_direct", "p_welch"]),
     "den_parser_hi_pp": f(100 * sc['hi'], 0),
-    # sequences with no pre-offer T-on-S decision (no open circle in Figure 4)
+    # sequences with no pre-offer T-on-S decision (no open circle in Figure 2b)
     "no_pre": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())],
     "no_pre_cap": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())].capitalize(),
     "notice_none_est": f(live_c.loc["notice_vs_none", "estimate"]),
@@ -540,7 +540,7 @@ X["co_ub_max_cons"] = f(max(_shares_cons) * 100, 0) + "%"
 X["tau_rate3"] = f(ls["detector_live"]["tau_rate"])
 _sc = pd.read_csv(TAB / "snapshot_contrasts.csv")
 _sc = _sc[(_sc["model"] == "llama-3.1-8b") & (_sc["point_type"] == "play_vs_S")]
-X["expl_max"] = f(_sc["estimate"].abs().max(), 2)  # Figure 3 headline: largest change in bluffing against S
+X["expl_max"] = f(_sc["estimate"].abs().max(), 2)  # Figure B2 headline: largest change in bluffing against S
 assert all(_cj["verdicts"][_m]["coalition_formed"] for _m in _MK.values())
 assert not any(_cj["verdicts"][_m]["notice_disrupts"] or _cj["verdicts"][_m]["warning_disrupts_beyond_contact"]
                for _m in _MK.values()), "text says no intervention disrupted the coalition"

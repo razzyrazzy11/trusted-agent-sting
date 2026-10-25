@@ -51,7 +51,7 @@ which the sprint notes “has not yet been tested”. Such a sting could expose 
 deter collusion if agents know such offers may come. It could also fail: agents might accept without
 changing their play, or announced stings might teach agents concealment, refusing or denying a pact
 while acting on it, as agents told they are monitored can degrade monitors (Kale et al., 2025).
-Definitions and threat model. We follow Hammond et al.'s (2025, §2.3.1) general definition: collusion
+Definitions and threat model. We follow Hammond et al.’s (2025, §2.3.1) general definition: collusion
 “generally refers to secretive cooperation between two or more parties at the expense of one or more other
 parties”; here, a private pact that spares two players at the others’ expense. The colluder is an LLM agent
 that may accept such a pact. The defender, a platform or evaluator, scripts one inserted trusted
@@ -457,18 +457,18 @@ A.1 Further limitations
        decision rules were logged before collection, and each verdict follows those rules. The targeting
        analysis (S − others; change from baseline) had no decision rule and is exploratory. Their own
        cells are small (10–15 sequences per arm), percentile-bootstrap CIs at this size are slightly
-        narrow (Welch CIs in posthoc_ext/targeting_contrasts.csv), and about sixty post hoc contrasts
-        are reported without multiplicity correction; verdicts resting on a CI bound within 0.01 of 0 are
-        tentative. Accepter- and refuser-only comparisons are self-selected groups. The judge was
-        preregistered for unparseable replies only; after the freeze it was run on all items and validated
-        against hand labels (logged in DEVIATIONS.md, section D). Claude Haiku 5.5 served as the
-        LLM judge, deciding no preregistered outcome (Cohen’s κ 0.933 on 100 hand labels; strict
-        parser κ 0.893, possibly inflated by anchoring, see below). The judge-based denial comparison
-        (Section 4.4) was added after the preregistered parser-based analysis was seen. These two
-        checks in Appendix B (B4 refusers’ play and the suspicion re-ask) were planned with decision
-        rules in DEVIATIONS.md, section D, before they were run. The label file showed the strict
-        parser’s label, the model, the offer or question text and an item ID revealing the arm or cell; the
-        judge’s labels did not exist yet.
+        narrow (Welch CIs in sting_results/posthoc_ext/targeting_contrasts.csv), and about sixty post
+        hoc contrasts are reported without multiplicity correction; verdicts resting on a CI bound
+        within 0.01 of 0 are tentative. Accepter- and refuser-only comparisons are self-selected groups.
+        The judge was preregistered for unparseable replies only; after the freeze it was run on all
+        items and validated against hand labels (logged in DEVIATIONS.md, section D). Claude
+        Haiku 5.5 served as the LLM judge, deciding no preregistered outcome (Cohen’s κ 0.933 on
+        100 hand labels; strict parser κ 0.893, possibly inflated by anchoring, see below). The judge-
+        based denial comparison (Section 4.4) was added after the preregistered parser-based analysis
+        was seen. These two checks in Appendix B (B4 refusers’ play and the suspicion re-ask) were
+        planned with decision rules in DEVIATIONS.md, section D, before they were run. The label
+        file showed the strict parser’s label, the model, the offer or question text and an item ID
+        revealing the arm or cell; the judge’s labels did not exist yet.
     -   Recognisability of the sting. Targets named S as a plant more often than O1 and O2 (0.283
         [0.185, 0.408] vs 0.150 [0.097, 0.225]), but the excess came from the offer in their record: re-
         asked with the null record, offered targets named S at 0.138 (Appendix B). Play still gave cues: S
@@ -648,9 +648,9 @@ the 450 games hit the round cap. In interviews, Qwen accepters (B0, B1, B6) deni
 0/116 answers, and benign B2 accepters in 2/40.
 Exploratory: targeting and change from baseline (Sections 4.2, 4.4). For each sequence we computed
 the post-offer challenge rate on S minus that on O1 and O2 (S − others) and the post-offer minus pre-offer
-rate on S (change), and compared each with B3 (Table B2; Welch CIs in
-posthoc_ext/targeting_contrasts.csv). Qwen refusers’ lower post-offer rate on S was neither aimed at S
-nor clearly a change from their own baseline.
+rate on S (change), and compared each with B3 (Table B2; Welch CIs are in targeting_contrasts.csv, in
+sting_results/posthoc_ext/). Qwen refusers’ lower post-offer rate on S was neither aimed at S nor clearly
+a change from their own baseline.
 Table B2. Exploratory: was the drop aimed at S, and was it a change from baseline? Differences from B3 with
 95% bootstrap CIs; no decision rule was logged for these analyses.
  Model, arm (targets)                  S − others                         Change from baseline
@@ -727,10 +727,10 @@ calibrating in each. With 10 to 15 sequences per arm, live percentile-bootstrap 
 than Welch intervals (post hoc Welch CI for H2-live: [−0.526, −0.294]). Every number is rounded to the
 printed digits, halves away from zero, from unrounded results, so a printed difference may differ by 0.001
 from the difference of the printed values it compares. Monte Carlo p-values cannot fall below 1/10,001,
-and results.json stores such values as 0. There were 71,765 model calls: 16,500 in the offer battery,
-32,622 live and 22,643 in snapshots. The estimated Claude API cost was $0.87 (offer battery) and
-$2.85 (snapshots), excluding the judge. The median game took 0.79 minutes, and 0.59% of snapshot
-samples failed to parse. PREREG.md calls seatings R and E arrangements A and B.
+and sting_results/results.json stores such values as 0. There were 71,765 model calls: 16,500 in the
+offer battery, 32,622 live and 22,643 in snapshots. The estimated Claude API cost was $0.87 (offer
+battery) and $2.85 (snapshots), excluding the judge. The median game took 0.79 minutes, and 0.59% of
+snapshot samples failed to parse. PREREG.md calls seatings R and E arrangements A and B.
 
 Appendix C. Provenance of code
     -   Design origin. A scripted player offering ordinary agents a direct pact, an indirect offer or a

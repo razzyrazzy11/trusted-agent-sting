@@ -14,7 +14,7 @@ Part 3 simulates the snapshot stage: point-level heterogeneity, K samples per po
 condition, the paired H2 test, and the H3 detector operating characteristics as a function of
 audit length m (decisions observed per audited agent).
 
-    python -m sting.simulate --out results/sim [--n-seq 60] [--reps 2000]
+    python -m sting.simulate --out sting_results/sim [--n-seq 60] [--reps 2000]
 """
 from __future__ import annotations
 
@@ -203,7 +203,7 @@ def detector_curve(reps: int, rng: np.random.Generator, k: int = 20, P: int = 60
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--out", default="results/sim")
+    ap.add_argument("--out", default="sting_results/sim")
     ap.add_argument("--n-seq", type=int, default=60)
     ap.add_argument("--reps", type=int, default=2000)
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2)))

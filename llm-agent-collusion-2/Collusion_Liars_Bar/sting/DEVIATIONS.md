@@ -5,8 +5,8 @@ study's game and the harness or Zeng & Rudzicz (2026), (C) design changes made d
 before any real-model data, (D) the post-freeze log (append-only).
 
 Preexisting code: github.com/poseidon-research/collusion_hackathon at commit `d585a7b`
-(2026-10-23), folder `llm-agent-collusion-2/` (Zeng & Rudzicz's Liar's Bar, extended from
-LYiHub/liars-bar-llm, Apache-2.0).
+(2026-10-23), folder `llm-agent-collusion-2/` (Zeng & Rudzicz's Liar's Bar harness,
+Apache-2.0).
 
 ## A. Changes to preexisting harness files (commit "Fix double round reset ...")
 
@@ -88,6 +88,7 @@ No other preexisting file is modified. The study's own game (`sting/game.py`) su
 | 2026-10-25 12:34 | Yes | Figure 4 redrawn at print size from a new export of per-sequence live rates (`sting/analysis/export_live_seq.py`, commit ec12bb3; `sting_results/tables/live_seq_rates.csv`, commit b59b93f). The export reuses `analyze.seq_rates` and asserts that its per-arm counts and means equal the committed `tables/live_rates.csv`. Later the same day the snapshot restraint panel and this live panel became the paper's main-text Figure 2, and the appendix figures were renumbered B1-B3 | Legibility (text printed at about 6 pt); the preregistered primary result (H2) belongs in the main text | None: plotting only, same seed and the same 2,000 bootstrap resamples, so plotted means and CIs are unchanged |
 | 2026-10-25 13:19 | Yes | Code audit against PREREG and the rows above (no change to code or results). (1) The extension's notice-only check (C10 - C1) used a two-sided CI where the logged rule says "raises"; the CI is [0.004, 0.071], so the verdict is the same. (2) The B6 accepter contrasts were computed with at least 2 accepters where the logged rule says at least 3; there were 13 (Claude) and 15 (Qwen). (3) Monte Carlo p-values with no resample as extreme as the data are stored as 0 in `results.json` (H2 sign-flip, H4a bootstrap, Holm H4a); the smallest attainable value is 1/10,001, so the paper reports p < 0.001 | Disclosure | None on any estimate, CI or verdict |
 | 2026-10-25 13:19 | Yes | Note on this table's history: some rows were corrected in place after they were first committed (times in d18f39f and 2d245e2, wording in 0532adf, coalition values re-rounded in 77ab060, each disclosed where it changed a number). The When column gives the time a row's event happened or the row was written, to the minute; the first committed version of every row is in git history | Disclosure | None |
+| 2026-10-25 20:45 | Yes | Repository sweep (no change to protocol files, data or results). The header of this file no longer says the harness was "extended from LYiHub/liars-bar-llm": neither the starter repository nor Zeng & Rudzicz's README states it, so the claim could not be verified (README and paper already omit it). Documentation brought up to date: test count (59), stub dry-run size, the post hoc commands, the paper rebuild (`paper/requirements.txt`) and the freeze check; `python -m sting analyze` now says the raw logs are withheld instead of failing; `simulate`'s default output is `sting_results/sim`, where its committed output is; stale figure numbers in comments | Accuracy and reproducibility of the repository | None: documentation, comments and a CLI message only |
 
 Note on this section and the tag (added 2026-10-24, paper review). The first five rows were written
 together in commit 812f5ca (13:11 UTC), after the changes they describe; the times and commits in

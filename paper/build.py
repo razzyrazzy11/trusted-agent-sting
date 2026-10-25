@@ -102,7 +102,7 @@ def add_runs(p, text, size=None, bold_all=False, italic_all=False):
                                      is_external=True)
                 target = OxmlElement("w:hyperlink"); target.set(qn("r:id"), rid); p.append(target)
             else:
-                chunk = re.sub(r"(?<=\w)'", "\u2019", chunk)  # typographic apostrophes, as the quotes are curly
+                chunk = re.sub(r"(?<=\w)'|(?<=\.)'(?=s\b)", "\u2019", chunk)  # typographic apostrophes, as the quotes are curly
             for piece in re.split(f"([{FALLBACK_CHARS}])", chunk):
                 if not piece:
                     continue
@@ -374,6 +374,7 @@ def main():
     pdf = OUT / "undercover_agents.pdf"
     if pdf.exists():
         try:
+            subprocess.run(["pdftotext", "-layout", str(pdf), str(OUT / "paper.txt")], check=True)
             pages = subprocess.run(["pdftotext", "-layout", str(pdf), "-"], capture_output=True, text=True,
                                    check=True).stdout.split("\f")
             ref_page = next(i + 1 for i, pg in enumerate(pages)

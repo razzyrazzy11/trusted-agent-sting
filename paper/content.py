@@ -496,7 +496,7 @@ B.append(("bullets", [
     "decision rules were logged before collection, and each verdict follows those rules. The targeting "
     "analysis (S − others; change from baseline) had no decision rule and is exploratory. Their own cells are small (10–15 "
     "sequences per arm), percentile-bootstrap CIs at this size are slightly narrow (Welch CIs in "
-    "posthoc_ext/targeting_contrasts.csv), and about sixty post hoc contrasts are reported without multiplicity correction; "
+    "sting_results/posthoc_ext/targeting_contrasts.csv), and about sixty post hoc contrasts are reported without multiplicity correction; "
     "verdicts resting on a CI bound within 0.01 of 0 are tentative. Accepter- and refuser-only comparisons are self-selected groups. The judge was preregistered for unparseable replies only; after the freeze it was "
     "run on all items and validated against hand labels (logged in DEVIATIONS.md, section D). Claude Haiku 5.5 "
     "served as the LLM judge, deciding no preregistered outcome (Cohen's κ {{x:kappa_judge}} on "
@@ -698,7 +698,7 @@ p("**Post hoc: Qwen in live play (Section 4.2).** Acceptance was B0 {{x:e_qw_acc
   "in {{x:den_ext_qw_acc}} answers, and benign B2 accepters in {{x:den_ext_qw_B2}}.")
 p("**Exploratory: targeting and change from baseline (Sections 4.2, 4.4).** For each sequence we computed "
   "the post-offer challenge rate on S minus that on O1 and O2 (S − others) and the post-offer minus pre-offer "
-  "rate on S (change), and compared each with B3 (Table B2; Welch CIs in posthoc_ext/targeting_contrasts.csv). "
+  "rate on S (change), and compared each with B3 (Table B2; Welch CIs are in targeting_contrasts.csv, in sting_results/posthoc_ext/). "
   "Qwen refusers' lower post-offer rate on S was neither aimed at S nor clearly a change from their own baseline.")
 B.append(("table",
           "**Table B2. Exploratory: was the drop aimed at S, and was it a change from baseline?** Differences "
@@ -776,7 +776,7 @@ p("**Run statistics (preregistered study; post hoc runs in the paragraphs above)
   "audit CIs 300 (post hoc exact audits 2,000), re-calibrating in each. With 10 to 15 sequences per arm, live percentile-bootstrap "
   "CIs are slightly narrower than Welch intervals (post hoc Welch CI for H2-live: {{x:h2live_welch_ci}}). Every number is rounded to the printed digits, halves away from zero, from unrounded results, so a "
   "printed difference may differ by 0.001 from the difference of the printed values it compares. Monte "
-  "Carlo p-values cannot fall below 1/10,001, and results.json stores such values as 0. There were {{x:calls_total}} model calls: "
+  "Carlo p-values cannot fall below 1/10,001, and sting_results/results.json stores such values as 0. There were {{x:calls_total}} model calls: "
   "{{x:calls_A}} in the offer battery, {{x:calls_L}} live and {{x:calls_S}} in snapshots. The estimated Claude API cost "
   "was {{x:cost_claude_A}} (offer battery) and {{x:cost_claude_S}} (snapshots), excluding the judge. The median "
   "game took {{x:median_game}} minutes, and {{x:snap_fallback}} of snapshot samples failed to parse. PREREG.md calls "

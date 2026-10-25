@@ -48,6 +48,11 @@ def main():
         if cmd == "judge":
             argv = ["judge"] + argv
     elif cmd == "analyze":
+        runs = Path(argv[argv.index("--runs") + 1]) if "--runs" in argv else Path("sting_runs")
+        if not runs.exists():
+            print(f"{runs}/ not found: the raw run logs are not in the repository (shared on request). "
+                  "The committed results are in sting_results/; the paper rebuilds from them (paper/build.py).")
+            return 1
         from .analysis.analyze import main as m
     elif cmd == "simulate":
         from .simulate import main as m

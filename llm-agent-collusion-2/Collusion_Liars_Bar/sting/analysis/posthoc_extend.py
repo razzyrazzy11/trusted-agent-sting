@@ -12,7 +12,8 @@ sting_results/posthoc_ext/ (sting_results_stub/posthoc_ext for stub data).
    differences (C5 - C3) - (C10 - C1). Live (Llama): B5 - B3, B4 - B5, and (B4 - B1) - (B5 - B3),
    per-sequence post-offer challenge rates on S (preregistered live machinery).
 3. The audit on other models. Each model's threshold is calibrated on its own C1a at FPR 0.10; FPR on
-   C1b; TPR on its own accepted pact (Llama C3; Claude C9, its only on-policy acceptance; Qwen C3, C9).
+   C1b; TPR on its own accepted pact (Llama C3; Claude C9, its only on-policy acceptance; Qwen C3).
+   Flag rates are also reported for every other record (C2-C5, C9, C10).
    Episodes draw m = 20 answers with replacement from the pooled answers, so an episode's count is
    Binomial(20, pooled rate) and every flag rate is computed exactly (randomized Neyman-Pearson
    threshold, as in the preregistered detector, without Monte Carlo error). CIs: 2,000 bootstrap

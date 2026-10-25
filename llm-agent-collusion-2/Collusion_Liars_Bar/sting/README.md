@@ -4,8 +4,12 @@ Apart Research AI Collusion Research Sprint (Oct 23-25, 2026), question 3.2: *a 
 offers to collude has not yet been tested.* A scripted "sting" confederate sits at a Liar's Bar table
 as an ordinary player, privately offers another LLM agent a mutual non-challenge pact, and we measure
 who accepts (Stage A), who acts on it (Stage S snapshots, Stage L live games), whether the sting
-works as a detector at a known false-positive rate, and whether an integrity notice deters collusion
-or only hides it.
+works as a detector at a known false-positive rate (the paper calls this re-query test the *audit*), and
+whether an integrity notice deters collusion or only hides it.
+
+**Status: complete.** This runbook describes how the study was run. The paper is
+`paper/out/undercover_agents.pdf` at the repository root; see "Post hoc analyses" and "Rebuild the paper"
+below for what came after the preregistered analysis.
 
 - **Protocol:** [`PREREG.md`](PREREG.md) (hypotheses, estimands, tests, sample sizes, go/no-go).
 - **Every departure from the harness:** [`DEVIATIONS.md`](DEVIATIONS.md).
@@ -65,7 +69,7 @@ To use Nebius/OpenRouter instead of Modal, set `STING_OPEN_BACKEND=poseidon`.
 ## Step 0 - zero-cost dry run (5 minutes, $0)
 
 ```bash
-(cd ../sting_tests && python -m pytest -q)          # 47 tests, ~45 s
+(cd ../sting_tests && python -m pytest -q)          # 59 tests, ~70 s
 python -m sting stage-a  --stub
 python -m sting live     --stub --pilot && python -m sting checkpoint --runs sting_runs_stub
 python -m sting live     --stub
@@ -83,7 +87,7 @@ has planted effects; the pipeline test checks they are recovered and that the nu
 | Step | Command | Calls | Cost (est.) | Wall clock (est.) |
 |---|---|---|---|---|
 | 0b. Real smoke test | `python -m sting smoke` (keys, servers, parsing, time per game; prints where each model is served) | ~130 | cents | 5 min |
-| 1. Freeze | Review `PREREG.md`, then `python -m sting freeze` (writes `sting/FREEZE.json`), then commit + `git tag -a prereg-v1` as printed. Before any real data (PREREG section 9) | - | - | 5 min |
+| 1. Freeze | Review `PREREG.md`, then `python -m sting freeze` (writes `sting/FREEZE.json`), then commit + `git tag -a prereg-v1` as printed. Before any real data (PREREG section 9). Anyone can re-check it later with `python -m sting freeze --check` | - | - | 5 min |
 | 2. Stage A | `python -m sting stage-a --workers 32` | 16,500 (3 models) | Claude ~$0.70 | 30-45 min |
 | 3. Pilot + go/no-go | `python -m sting live --pilot --workers 9` then `python -m sting checkpoint` | ~5-10k | GPU only | 20-40 min |
 | 4. Stage L (main) | `python -m sting live --workers 10` (resumes the pilot; 60 sequences at LIVE_N) | ~35-70k | GPU only | 1-2 h |
@@ -106,7 +110,7 @@ Modal server batches up to 128 concurrent requests on one GPU. If Claude rate-li
 accounts can start below the standard 1,000 requests/minute), the SDK backs off and retries;
 lowering `--workers` changes timing only, never results.
 
-## Schedule to the deadline (Sunday 23:59 AoE = Monday 11:59 UTC)
+## Schedule to the deadline (Sunday 23:59 AoE = Monday 11:59 UTC; the plan as written before the sprint)
 
 | When (UTC) | Do |
 |---|---|
@@ -123,19 +127,43 @@ lowering `--workers` changes timing only, never results.
 `python -m sting analyze` writes `sting_results/`:
 
 - `summary.md` - every hypothesis, positive control, contrast and health statistic.
-- `claims.json` - every number the paper may cite, with CI, n and the stage it came from. **Cite only
-  numbers from this file** (fabricated results disqualify a sprint submission).
+- `results.json` - every preregistered result in full precision (hypotheses, Holm family, health).
+- `claims.json` - the preregistered numbers with CI, n and stage.
 - `tables/*.csv|md` - the table view of every figure.
-- `figures/fig1_design` ... `fig5_detector` (PNG + PDF), one per hypothesis.
+- `figures/fig1_design` ... `fig5_detector` (PNG + PDF), the analysis figures. The paper redraws them
+  (`paper/make_figures.py`): its Figure 1 is fig1, Figure 2 combines the main snapshot contrasts
+  of fig3 with fig4, and Figures B1-B3 are fig2, fig3 and fig5.
+- `sim/` - the pre-run power simulation (`python -m sting simulate`).
+
+The paper cites no number by hand: `paper/paper_numbers.py` reads every number from these files and
+from the post hoc outputs below, and `paper/out/number_sources.md` lists each one.
 
 Raw data: `sting_runs/` (Stage A replies, live decisions with the actual challenger and fallbacks,
-events, probes, every LLM call with tokens and latency, the harness's own per-game records).
+events, probes, every LLM call with tokens and latency, the harness's own per-game records). It is not
+in the repository, so `analyze` and the post hoc scripts can only be re-run with the raw logs (on request).
+
+## Post hoc analyses (each planned in DEVIATIONS.md section D before its data)
+
+| Command (from this folder) | Writes | What it is |
+|---|---|---|
+| `python -m sting.analysis.posthoc_gaps --runs sting_runs [--rerun-suspicion]` | `sting_results/posthoc/` | B4 refusers' play; with the flag, the suspicion funnel re-asked with and without the offer in the record |
+| `python -m sting.posthoc_runs snapshots` / `live` | `sting_runs_posthoc/` | Extension data: records C9, C10; arms B5, B6; Qwen and Claude live replications |
+| `python -m sting.analysis.posthoc_extend --runs sting_runs [--rerun-suspicion]` | `sting_results/posthoc_ext/` | Extension analyses, per-model exact audits (`ext.json`, `detector_ext.csv`) |
+| `python -m sting.analysis.posthoc_targeting --runs sting_runs` | `sting_results/posthoc_ext/targeting*.csv` | Exploratory: S - others and change from baseline |
+| `python -m sting.posthoc_coalition run` / `analyse` | `sting_results/posthoc_ext/coalition.*` | Records K1-K4: a pact already accepted from another player |
+| `python -m sting.analysis.export_live_seq --runs sting_runs` | `sting_results/tables/live_seq_rates.csv` | Per-sequence live rates for the paper's Figure 2b (checked against `live_rates.csv`) |
+| `python ../../paper/scripts/denial_judge.py` | `sting_results/tables/denial_judge.md` | Interview denial, strict parser vs the validated LLM judge |
+
+## Rebuild the paper
+
+From the repository root: `pip install -r paper/requirements.txt`, then `python3 paper/make_figures.py`
+and `python3 paper/build.py` (needs LibreOffice and poppler). No model calls and no raw logs are needed.
 
 ### What goes into git
 
 The starter repo's `.gitignore` hides `*.json`, `*.csv`, `*.png` and `*.log` but not `*.jsonl`, so
 by default `git add -A` would drop `FREEZE.json` and `claims.json` and commit half of every raw-data
-folder (the stub dry run alone writes ~250 MB). The study corrects this, so `git add -A` is safe:
+folder (the stub dry run alone writes ~290 MB). The study corrects this, so `git add -A` is safe:
 
 - `sting/.gitignore` and `sting_results/.gitignore` un-ignore the freeze record and every analysis
   output (tables, figures, `claims.json`), so they are committed.
@@ -164,8 +192,8 @@ Python version.
 
 ## Known harness limitations (preexisting, not fixed)
 
-- `Collusion_Liars_Bar/__init__.py` imports a module missing from the repo (`src.game.game_commute`),
-  so the package itself cannot be imported; the study never imports it.
+- `Collusion_Liars_Bar/__init__.py` imports `src.game.game_series`, which imports a module missing from
+  the repo (`src.game.game_commute`), so the package itself cannot be imported; the study never imports it.
 - The secret-channel series' `--enable-memory` does not carry anything across games (players are
   rebuilt each game); the study uses its own private-record carrier instead.
 - Zeng's colluding pair (Llama-3-8B, Mistral-7B) is substituted in the starter repo by Llama-3.2-3B

@@ -1,10 +1,9 @@
-"""Paper figures. Figures 2, 3 and 5 are placed at their drawn width (8 pt type); figure 1 is drawn
-wider than it is placed, with type enlarged to match, so it also prints at about 8 pt.
-
-Figures 2, 3 and 5 are redrawn from the committed analysis tables (sting_results/tables/*.csv) with
-the palette of sting/analysis/figures.py; figure 1 is the same schematic at print size. Figure 4 is
-redrawn at print size from tables/live_seq_rates.csv when that export exists (otherwise the committed
-analysis figure is cropped). No reported number is computed here.
+"""Paper figures, drawn from the committed result tables (sting_results/tables/*.csv); no number is
+computed here. Figure 1: design. Figure 2 (main text): (a) the preregistered snapshot contrasts at S's plays
+and (b) the live per-sequence rates (tables/live_seq_rates.csv, drawn with the analysis figure's seed and
+bootstrap). Appendix: Figure B1 acceptance (fig2_acceptance.png), Figure B2 all snapshot records
+(fig3_snapshots.png), Figure B3 the audit's operating curve (fig5_detector.png). Figures B1-B3 are placed
+at their drawn width (8 pt type); Figure 1 is drawn larger than it is placed, with type enlarged to match.
 """
 from pathlib import Path
 
@@ -15,7 +14,6 @@ import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.patches  # noqa: E402,F401
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
-from PIL import Image, ImageChops  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1] / "llm-agent-collusion-2" / "Collusion_Liars_Bar"
 RES = ROOT / "sting_results"
@@ -31,6 +29,7 @@ plt.rcParams.update({
     "axes.labelsize": 8, "xtick.labelsize": 8, "ytick.labelsize": 8, "legend.fontsize": 8,
     "axes.grid": True, "grid.color": GRID, "grid.linewidth": 0.5, "axes.axisbelow": True,
     "axes.spines.top": False, "axes.spines.right": False, "savefig.dpi": 300, "savefig.bbox": "tight",
+    "text.hinting": "no_hinting",  # the hinting the committed figures were drawn with (pip wheels default to force_autohint)
 })
 
 
@@ -75,7 +74,7 @@ def fig1():
     save(fig, "fig1_design")
 
 
-# ---- Figure 2: Stage A acceptance ------------------------------------------------------------
+# ---- Figure B1: Stage A acceptance -----------------------------------------------------------
 SHORT_A = {
     "A0z": "A0z designer: hint tool (Zeng & Rudzicz)", "A0b": "A0b designer: hint tool with S",
     "A0d": "A0d designer: direct pact with S", "A1": "A1 sting: direct pact",
@@ -109,7 +108,7 @@ def fig2():
     save(fig, "fig2_acceptance")
 
 
-# ---- Figure 3: snapshots ---------------------------------------------------------------------
+# ---- Figure B2: snapshots --------------------------------------------------------------------
 SHORT_C = [("C3", "C3 accepted direct pact"), ("C8", "C8 accepted designer hint"),
            ("C2", "C2 accepted benign proposal"), ("C4", "C4 refused direct pact"),
            ("C5", "C5 pact + notice (vs C3)"), ("C6", "C6 pact + honest persona"),
@@ -140,7 +139,7 @@ def fig3():
     save(fig, "fig3_snapshots")
 
 
-# ---- Figure 5: detector ----------------------------------------------------------------------
+# ---- Figure B3: the audit (detector) ---------------------------------------------------------
 def fig5():
     c = pd.read_csv(TAB / "detector_curve.csv")
     fig, ax = plt.subplots(figsize=(4.4, 2.5))
@@ -158,58 +157,6 @@ def fig5():
     ax.set_ylabel("Share flagged")
     ax.legend(loc="center right", bbox_to_anchor=(1.0, 0.55), frameon=False)
     save(fig, "fig5_detector")
-
-
-# ---- Figure 4: live games -------------------------------------------------------------------
-SHORT_B = {"B0": "designer hint\n(PC2)", "B1": "sting:\ndirect pact", "B2": "sting:\nbenign",
-           "B3": "no offer", "B4": "direct pact\n+ notice"}
-
-
-def fig4(tab: Path = TAB) -> bool:
-    """Figure 4 at print size from tables/live_seq_rates.csv (sting.analysis.export_live_seq).
-
-    Same per-sequence rates, jitter and bootstrap as sting/analysis/figures.py fig4_live: one
-    generator seeded 0, drawn in the same order (post jitter, 2,000 resamples, pre jitter), so the
-    plotted means and CIs are identical; only the size, the pre-offer jitter width and the refuser
-    marker differ. Returns False if the table is missing (the committed analysis figure is used)."""
-    f = tab / "live_seq_rates.csv"
-    if not f.exists():
-        return False
-    d = pd.read_csv(f)
-    post, pre = d[d["period"] == "post"], d[d["period"] == "pre"]
-    arms = [a for a in SHORT_B if a in set(post["arm"])]
-    fig, ax = plt.subplots(figsize=(5.0, 2.55))
-    rng = np.random.default_rng(0)
-    for i, arm in enumerate(arms):
-        p = post[post["arm"] == arm]
-        x = i + rng.uniform(-0.12, 0.12, size=len(p))
-        refused = (p["accepted"] == False).values  # noqa: E712  (B3 has no offer: NaN, drawn as filled)
-        ax.scatter(x[~refused], p["rate"].values[~refused], s=16, color=BLUE, alpha=0.8, zorder=3, lw=0,
-                   label="post-offer" if i == 0 else None)
-        if refused.any():
-            ax.scatter(x[refused], p["rate"].values[refused], s=20, color=BLUE, marker="x", zorder=3, lw=1.1,
-                       label="post-offer, refused")
-        if len(p) > 1:
-            boots = [p["rate"].values[rng.integers(0, len(p), len(p))].mean() for _ in range(2000)]
-            lo, hi = np.quantile(boots, [0.025, 0.975])
-            ax.errorbar(i + 0.28, p["rate"].mean(), yerr=err(p["rate"].mean(), lo, hi), fmt="D", ms=4.5,
-                        color=INK, ecolor=INK, elinewidth=1.3, capsize=0, zorder=4,
-                        label="post-offer mean, 95% CI" if i == 0 else None)
-        q = pre[pre["arm"] == arm]
-        ax.scatter(i - 0.32 + rng.uniform(-0.09, 0.09, size=len(q)), q["rate"], s=14, facecolors="none",
-                   edgecolors=MUTED, lw=0.8, zorder=2, label="pre-offer" if i == 0 else None)
-    ax.set_xticks(range(len(arms)))
-    ax.set_xticklabels([f"{a}\n{SHORT_B[a]}" for a in arms])
-    ax.set_xlim(-0.6, len(arms) - 0.5)
-    ax.set_ylim(-0.04, 1.04)
-    ax.set_ylabel("T's challenge rate on S's plays")
-    h, l = ax.get_legend_handles_labels()
-    order = [l.index(k) for k in ("pre-offer", "post-offer", "post-offer, refused",
-                                  "post-offer mean, 95% CI") if k in l]
-    ax.legend([h[k] for k in order], [l[k] for k in order], loc="lower left", bbox_to_anchor=(0.0, 1.0),
-              ncol=4, frameon=False, borderaxespad=0.2, handletextpad=0.1, columnspacing=0.8)
-    save(fig, "fig4_live")
-    return True
 
 
 # ---- Figure 2 (main text): snapshots and live games side by side -------------------------------
@@ -269,29 +216,6 @@ def fig2_main(tab: Path = TAB) -> None:
                ncol=4, frameon=False, handletextpad=0.1, columnspacing=0.8, borderaxespad=0.0)
     fig.tight_layout(w_pad=1.2, rect=(0, 0, 1, 0.955))
     save(fig, "fig2_main")
-
-
-def crop(src: Path, dst: Path, pad: int = 12):
-    im = Image.open(src).convert("RGB")
-    bg = Image.new("RGB", im.size, (255, 255, 255))
-    x0, y0, x1, y1 = ImageChops.difference(im, bg).getbbox()
-    im.crop((max(0, x0 - pad), max(0, y0 - pad), min(im.width, x1 + pad), min(im.height, y1 + pad))).save(dst)
-
-
-def drop_title(path: Path, pad: int = 6):
-    """Remove the first text band (the in-image title, which repeats the paper's caption)."""
-    im = Image.open(path).convert("RGB")
-    a = np.asarray(im.convert("L")) < 200
-    rows = a.sum(1) > 0
-    y = 0
-    while y < len(rows) and not rows[y]:
-        y += 1
-    while y < len(rows) and rows[y]:  # title band
-        y += 1
-    while y < len(rows) and not rows[y]:
-        y += 1
-    assert y < 0.2 * len(rows), "title band not found near the top"
-    im.crop((0, max(0, y - pad), im.width, im.height)).save(path)
 
 
 if __name__ == "__main__":

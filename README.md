@@ -3,8 +3,18 @@
 Apart Research AI Collusion Research Sprint (October 23-25, 2026), sprint question 3.2: can a trusted
 agent that *offers* to collude expose and deter collusion between LLM agents? A scripted "sting" player
 in the Liar's Bar harness privately offers another LLM agent a mutual non-challenge pact. The study
-measures who accepts, who acts on it, how well the sting works as a detector at a fixed false-positive
-rate, and whether an integrity notice deters collusion or only hides it.
+measures who accepts, who acts on it, how well a re-query audit built on the sting flags pact-takers at a
+fixed false-positive rate (the preregistration and code call it the "detector"), and whether an integrity
+notice deters collusion or only hides it.
+
+**Status: complete.** The paper is [`paper/out/undercover_agents.pdf`](paper/out/undercover_agents.pdf)
+(Word source alongside). Its answer to question 3.2 is *partly*: the sting exposes agents whose play
+changes after its offer, and announcing stings deters acceptance of that offer, but in replayed decisions
+neither the notice nor a warning from the sting measurably weakened a pact already accepted from another
+player. Preregistered analyses are in `llm-agent-collusion-2/Collusion_Liars_Bar/sting_results/`
+(`summary.md`, `results.json`, `claims.json`, `tables/`); post hoc analyses, each planned in
+`DEVIATIONS.md` section D before its data, are in `sting_results/posthoc/` and `sting_results/posthoc_ext/`.
+Raw run logs and suspicion transcripts are not in the repository (shared on request).
 
 | File | What it is |
 |---|---|
@@ -12,6 +22,21 @@ rate, and whether an integrity notice deters collusion or only hides it.
 | [`sting/PREREG.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/PREREG.md) | Pre-registration: hypotheses, estimands, tests, sample sizes, go/no-go |
 | [`sting/DEVIATIONS.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/DEVIATIONS.md) | Every departure from the harness and every design change, with reasons |
 | [`sting/TEXTS.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/TEXTS.md) | Every text the study shows the agents, verbatim |
+| [`paper/`](paper/) | The paper: `content.py` (text), `paper_numbers.py` (every number, resolved from the result files), `make_figures.py`, `build.py`; outputs in `paper/out/` |
+
+## Verify and rebuild without any model calls
+
+```bash
+cd llm-agent-collusion-2/Collusion_Liars_Bar
+python -m sting freeze --check            # MATCH: the protocol files are unchanged since the freeze
+(cd ../sting_tests && python -m pytest -q) # 59 tests
+cd ../.. && pip install -r paper/requirements.txt
+python3 paper/make_figures.py && python3 paper/build.py   # needs LibreOffice (soffice) and poppler (pdftotext)
+```
+
+`paper/build.py` resolves every number in the text from the committed result files (the list is
+`paper/out/number_sources.md`), asserts every result-dependent claim, and stops if the main text exceeds
+8 pages or the abstract leaves 150-250 words.
 
 ## Quick start (Linux, or WSL on Windows)
 
@@ -21,7 +46,7 @@ cp compute.env.example compute.env      # add ANTHROPIC_API_KEY and HF_TOKEN (se
 ./setup.sh llm-agent-collusion-2        # needs uv: https://docs.astral.sh/uv/
 ```
 
-Then follow the runbook from "Setup (once)". Models: Llama-3.1-8B-Instruct and Qwen2.5-7B-Instruct on the
+The repository is private during judging (access on request). Then follow the runbook from "Setup (once)". Models: Llama-3.1-8B-Instruct and Qwen2.5-7B-Instruct on the
 study's own vLLM servers on Modal, Claude Haiku 5.5 through the Anthropic API.
 
 ## Provenance
@@ -30,7 +55,7 @@ study's own vLLM servers on Modal, Claude Haiku 5.5 through the Anthropic API.
   [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon) at
   commit `d585a7b` (`setup.sh`, `COMPUTE.md`, `compute.env.example`, `.gitignore`, `util/`,
   `llm-agent-collusion-2/`). The starter's README is kept as [`STARTER_README.md`](STARTER_README.md); its
-  nine other projects are omitted.
+  other project folders and `literature/` are omitted.
 - The Liar's Bar harness in `llm-agent-collusion-2/` is Zeng & Rudzicz (2026), "Voluntary Collusion with
   Secret Tools in Competing LLM Agents" (arXiv:2605.27593), under the Apache-2.0 licence.
 - Every later commit is separate: first the bug fixes to preexisting harness files, then the new study

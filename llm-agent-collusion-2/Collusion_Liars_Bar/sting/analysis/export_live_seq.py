@@ -1,4 +1,4 @@
-"""Export the per-sequence live restraint rates behind the paper's Figure 4 (no model calls).
+"""Export the per-sequence live restraint rates behind the paper's Figure 2b (no model calls).
 
 T's challenge rate on S's plays per sequence, before the offer (games 1-2) and after it (games 3-6),
 computed with the same function and data as `python -m sting analyze` (analyze.seq_rates on the

@@ -1,5 +1,5 @@
 # The starter repo's .gitignore hides *.json, *.csv and *.png; every analysis output belongs in git
-# (claims.json is the only source of the paper's numbers).
+# (paper/paper_numbers.py reads the paper's numbers from these files; see paper/out/number_sources.md).
 !*.json
 !*.csv
 !*.png
