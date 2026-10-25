@@ -124,7 +124,8 @@ def cmd_analyse(a) -> int:
         print("no coalition responses", file=sys.stderr)
         return 1
     Sx = pd.concat([d0.S, de.S, pd.DataFrame(co)], ignore_index=True)
-    Sx = Sx[(Sx["point_type"] == "chal_other") & (~Sx["fallback"].astype(bool))].copy()
+    ids = {q["point_id"] for q in json.loads((src / "stageS" / "points.json").read_text())}
+    Sx = Sx[(Sx["point_type"] == "chal_other") & (~Sx["fallback"].astype(bool)) & Sx["point_id"].isin(ids)].copy()
     Sx["y"] = Sx["outcome"].astype(float)
     rng = np.random.default_rng(ANALYSIS_SEED + 17)
     rows, verdicts = [], {}
