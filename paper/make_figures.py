@@ -213,9 +213,9 @@ def fig4(tab: Path = TAB) -> bool:
 
 
 # ---- Figure 2 (main text): snapshots and live games side by side -------------------------------
-MAIN_C = [("C3", "C3 accepted pact"), ("C8", "C8 accepted hint"), ("C2", "C2 accepted benign"),
-          ("C4", "C4 refused pact")]
-MAIN_B = {"B0": "hint\n(PC2)", "B1": "direct\npact", "B2": "benign", "B3": "no offer", "B4": "pact +\nnotice"}
+MAIN_C = [("C3", "C3 accepted direct pact"), ("C8", "C8 accepted designer hint"),
+          ("C2", "C2 accepted benign proposal"), ("C4", "C4 refused direct pact")]
+MAIN_B = {"B0": "designer\nhint", "B1": "direct\npact", "B2": "benign\nproposal", "B3": "no offer", "B4": "pact +\nnotice"}
 
 
 def fig2_main(tab: Path = TAB) -> None:
@@ -227,7 +227,7 @@ def fig2_main(tab: Path = TAB) -> None:
     t = t[(t["model"] == "llama-3.1-8b") & (t["point_type"] == "chal_S")].set_index("condition")
     d = pd.read_csv(tab / "live_seq_rates.csv")
     post, pre = d[d["period"] == "post"], d[d["period"] == "pre"]
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(6.5, 2.55), gridspec_kw={"width_ratios": [1, 1.7]})
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(6.5, 2.55), gridspec_kw={"width_ratios": [0.8, 1.7]})
     for i, (c, _) in enumerate(MAIN_C):
         r = t.loc[c]
         col = BLUE if c == "C3" else (AQUA if c == "C8" else MUTED)
@@ -236,7 +236,7 @@ def fig2_main(tab: Path = TAB) -> None:
     a1.axvline(0, color=AXIS, lw=0.9)
     a1.set_yticks(range(len(MAIN_C))); a1.set_yticklabels([l for _, l in MAIN_C]); a1.invert_yaxis()
     a1.set_ylim(len(MAIN_C) - 0.5, -0.6)
-    a1.set_xlim(-0.72, 0.3); a1.set_xticks([-0.6, -0.4, -0.2, 0.0, 0.2])
+    a1.set_xlim(-0.72, 0.3); a1.set_xticks([-0.6, -0.3, 0.0])
     a1.set_xlabel("Change vs null record (C1)")
     a1.set_title("(a) Snapshots: T challenges S", loc="left")
     rng = np.random.default_rng(0)

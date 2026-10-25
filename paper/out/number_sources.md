@@ -38,9 +38,17 @@ file noted there).
 | `v:H3.fpr_benign_m20` | 0.040 |
 | `v:H3.fpr_m20` | 0.161 |
 | `v:H3.tpr_m20` | 0.999 |
+| `v:acceptance.claude-haiku-5.5.A0b` | 0.000 |
+| `v:acceptance.claude-haiku-5.5.A0d` | 0.000 |
+| `v:acceptance.claude-haiku-5.5.A0z` | 0.000 |
+| `v:acceptance.claude-haiku-5.5.A1` | 0.000 |
+| `v:acceptance.claude-haiku-5.5.A2` | 0.892 |
 | `v:acceptance.claude-haiku-5.5.A3` | 1.000 |
+| `v:acceptance.claude-haiku-5.5.A4` | 0.000 |
 | `v:acceptance.claude-haiku-5.5.A5` | 1.000 |
+| `v:acceptance.claude-haiku-5.5.A6` | 0.000 |
 | `v:acceptance.claude-haiku-5.5.A7` | 0.840 |
+| `v:acceptance.claude-haiku-5.5.A8` | 0.000 |
 | `v:acceptance.llama-3.1-8b.A0b` | 1.000 |
 | `v:acceptance.llama-3.1-8b.A0d` | 1.000 |
 | `v:acceptance.llama-3.1-8b.A0z` | 1.000 |
@@ -53,7 +61,9 @@ file noted there).
 | `v:acceptance.llama-3.1-8b.A7` | 1.000 |
 | `v:acceptance.llama-3.1-8b.A8` | 0.040 |
 | `v:acceptance.qwen2.5-7b.A0b` | 1.000 |
+| `v:acceptance.qwen2.5-7b.A0d` | 0.986 |
 | `v:acceptance.qwen2.5-7b.A0z` | 1.000 |
+| `v:acceptance.qwen2.5-7b.A1` | 0.112 |
 | `v:acceptance.qwen2.5-7b.A2` | 1.000 |
 | `v:acceptance.qwen2.5-7b.A3` | 1.000 |
 | `v:acceptance.qwen2.5-7b.A4` | 0.000 |
@@ -195,7 +205,6 @@ file noted there).
 | `x:e_ll_flag_C3_ci` | 0.999 [0.993, 1.000] |
 | `x:e_ll_flag_C4` | 0.001 |
 | `x:e_ll_flag_C9_ci` | 0.954 [0.868, 0.990] |
-| `x:e_ll_gamma2` | 0.46 |
 | `x:e_qw_B1_refused` | 0.256 |
 | `x:e_qw_B1_refused_vs_B3` | −0.232 [−0.408, −0.019] |
 | `x:e_qw_B1_refused_vs_B3_v` | −0.232 |
@@ -331,6 +340,7 @@ file noted there).
 | `x:tau_rate3` | 0.610 |
 | `x:template_share` | 15.4% |
 | `x:tg_cl_B1_all_change` | 0.216 [0.033, 0.404] |
+| `x:tg_cl_B1_all_targeting` | 0.077 [−0.076, 0.218] |
 | `x:tg_cl_B6_all_change` | −0.395 [−0.613, −0.179] |
 | `x:tg_cl_B6_all_targeting` | −0.256 [−0.358, −0.155] |
 | `x:tg_cl_B6_all_targeting_v` | −0.256 |
@@ -339,6 +349,7 @@ file noted there).
 | `x:tg_ll_B1_all_targeting_v` | −0.089 |
 | `x:tg_qw_B1_refused_change` | −0.127 [−0.416, 0.156] |
 | `x:tg_qw_B1_refused_targeting` | 0.085 [−0.102, 0.293] |
+| `x:tg_qw_B2_all_change` | −0.262 [−0.494, −0.035] |
 | `x:tg_qw_B2_all_targeting` | −0.192 [−0.375, 0.015] |
 | `x:tg_qw_B4_refused_change` | −0.109 [−0.431, 0.227] |
 | `x:tg_qw_B4_refused_targeting` | 0.069 [−0.117, 0.279] |
@@ -347,9 +358,12 @@ file noted there).
 | `x:tg_qw_B6_all_targeting_v` | −0.135 |
 | `x:thr_rate_m20` | 0.50 |
 | `x:tie_m20` | 0.512 |
-| `x:tie_m20_2` | 0.51 |
 | `x:tr_fpr_m20` | 0.037 |
+| `x:ts_cl_B3_all_post_S` | 0.480 |
+| `x:ts_cl_B6_all_post_S` | 0.061 |
 | `x:ts_qw_B1_refused_post_O` | 0.030 |
 | `x:ts_qw_B3_all_post_O` | 0.348 |
+| `x:ts_qw_B3_all_post_S` | 0.489 |
+| `x:ts_qw_B6_all_post_S` | 0.012 |
 | `x:zeng_claude_A0z` | 0.354 |
 | `x:zeng_k_claude_A0z` | 177/500 |
