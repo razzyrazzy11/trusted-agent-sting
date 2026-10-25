@@ -83,6 +83,9 @@ file noted there).
 | `x:cost_claude_S` | $2.85 |
 | `x:data_folders` | 65 |
 | `x:decisions_llm` | 10,472 |
+| `x:den_ext_cl_acc` | 0/52 |
+| `x:den_ext_qw_B2` | 2/40 |
+| `x:den_ext_qw_acc` | 0/116 |
 | `x:den_judge_B1_rh` | 1/14 |
 | `x:den_judge_B1_rh_unclear` | 3 |
 | `x:den_judge_B2` | 4/40 |
@@ -311,5 +314,6 @@ file noted there).
 | `x:ts_ll_B3_all_post_O` | 0.758 |
 | `x:ts_qw_B1_refused_post_O` | 0.030 |
 | `x:ts_qw_B3_all_post_O` | 0.348 |
+| `x:ts_qw_B4_refused_post_O` | 0.016 |
 | `x:zeng_claude_A0z` | 0.354 |
 | `x:zeng_k_claude_A0z` | 177/500 |

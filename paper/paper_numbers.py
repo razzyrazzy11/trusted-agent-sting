@@ -496,6 +496,13 @@ for _t in ("qw", "cl"):
     for _k in ("H2_live_ITT", "B6_vs_B3_ITT", "B1_refused_vs_B3"):
         if f"e_{_t}_{_k}" in X:
             X[f"e_{_t}_{_k}_v"] = X[f"e_{_t}_{_k}"].split(" [")[0]
+for _t, _tag in (("qw", "qwen"), ("cl", "claude")):
+    _dn = pd.read_csv(EXT / f"{_tag}_denial.csv")
+    _acc = _dn[_dn["arm"].isin(["B0", "B1", "B6"])]
+    X[f"den_ext_{_t}_acc"] = f"{int(_acc['denials'].sum())}/{int(_acc['n'].sum())}"
+    _b2 = _dn[_dn["arm"] == "B2"]
+    if len(_b2):
+        X[f"den_ext_{_t}_B2"] = f"{int(_b2['denials'].sum())}/{int(_b2['n'].sum())}"
 assert X["e_cl_susp_T"].startswith("0/") and X["e_qw_susp_T"].startswith("0/"), "text says no Claude/Qwen target named S"
 
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
