@@ -349,6 +349,11 @@ def main():
 
     OUT.mkdir(exist_ok=True)
     out = OUT / "undercover_agents.docx"
+    # drop hyperlink relationships the body no longer uses (left over from the template's instructions)
+    body_xml = d.element.xml
+    for rid, rel in list(d.part.rels.items()):
+        if rel.reltype.endswith("/hyperlink") and f'r:id="{rid}"' not in body_xml:
+            del d.part.rels[rid]
     d.save(str(out))
 
     # provenance list for reviewers
