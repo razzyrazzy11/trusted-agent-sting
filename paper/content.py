@@ -3,7 +3,7 @@ Block kinds: ("h2", text) ("h3", text) ("p", text) ("bullets", [text]) ("numbere
 ("fig", file, width_in, caption) ("table", caption, header, rows, col_widths_in) ("refs", [text])
 ("pagebreak",). Inline: **bold**, *italic*."""
 
-TITLE = "Undercover Agents: A Trusted Agent That Offers to Collude Exposes and Deters Pact-Taking by LLM Agents"
+TITLE = "Undercover Agents: A Trusted Agent That Offers to Collude Partly Exposes and Deters Pact-Taking by LLM Agents"
 AUTHORS = "Raz [surname]"
 AFFIL = "[affiliation]"
 
