@@ -533,6 +533,9 @@ for _t, _m in _MK.items():
 X["e_qw_benign_pp"] = f(abs(pd.read_csv(EXT / 'qwen_live_contrasts.csv').set_index('key').loc['benign_vs_none', 'estimate']) * 100, 0)
 X["co_ub_max"] = f(max(_shares) * 100, 0) + "%"
 X["tau_rate3"] = f(ls["detector_live"]["tau_rate"])
+_sc = pd.read_csv(TAB / "snapshot_contrasts.csv")
+_sc = _sc[(_sc["model"] == "llama-3.1-8b") & (_sc["point_type"] == "play_vs_S")]
+X["expl_max"] = f(_sc["estimate"].abs().max(), 2)  # Figure 3 headline: largest change in bluffing against S
 assert all(_cj["verdicts"][_m]["coalition_formed"] for _m in _MK.values())
 assert not any(_cj["verdicts"][_m]["notice_disrupts"] or _cj["verdicts"][_m]["warning_disrupts_beyond_contact"]
                for _m in _MK.values()), "text says no intervention disrupted the coalition"

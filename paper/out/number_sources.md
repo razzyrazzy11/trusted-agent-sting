@@ -22,6 +22,7 @@ file noted there).
 | `ci:live.notice_vs_direct` | 0.297 [0.167, 0.422] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.197] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.719, −0.490] |
+| `ci:snapshot.claude-haiku-5.5.chal_S.C4-C1` | 0.129 [0.028, 0.236] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.003 [−0.016, 0.009] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C7-C1` | −0.545 [−0.652, −0.428] |
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C3-C1` | 0.218 [0.134, 0.315] |
@@ -248,6 +249,7 @@ file noted there).
 | `x:e_qw_tau` | 0.305 |
 | `x:evade_share` | 71% |
 | `x:excluded` | 54 |
+| `x:expl_max` | 0.08 |
 | `x:fallback` | 2.1% |
 | `x:fallback_arm_hi` | 2.9% |
 | `x:fallback_arm_lo` | 1.4% |
@@ -307,7 +309,6 @@ file noted there).
 | `x:ph_susp_orig_p` | 0.16 |
 | `x:ph_susp_own` | 0.240 |
 | `x:ph_susp_p` | 0.008 |
-| `x:ph_tau` | 0.61 |
 | `x:pooled` | −0.404 [−0.493, −0.314] |
 | `x:pre_B1` | 0.672 |
 | `x:pre_B3` | 0.522 |
@@ -327,7 +328,6 @@ file noted there).
 | `x:susp_O_ci` | 0.150 [0.097, 0.225] |
 | `x:susp_T` | 17/60 |
 | `x:susp_T_ci` | 0.283 [0.185, 0.408] |
-| `x:tau_rate` | 0.61 |
 | `x:tau_rate3` | 0.610 |
 | `x:template_share` | 15.4% |
 | `x:tg_cl_B1_all_change` | 0.216 [0.033, 0.404] |
