@@ -503,6 +503,20 @@ for _t, _tag in (("qw", "qwen"), ("cl", "claude")):
     _b2 = _dn[_dn["arm"] == "B2"]
     if len(_b2):
         X[f"den_ext_{_t}_B2"] = f"{int(_b2['denials'].sum())}/{int(_b2['n'].sum())}"
+# post hoc coalition-disruption snapshots (sting/posthoc_coalition.py)
+_co = pd.read_csv(EXT / "coalition.csv")
+_cj = json.loads((EXT / "coalition.json").read_text())
+assert not _cj["stub"]
+for _t, _m in _MK.items():
+    for _, _r in _co[_co["model"] == _m].iterrows():
+        _k = "co_" + _t + "_" + _r["contrast"].replace("(", "").replace(")", "").replace("-", "")
+        X[_k] = _c(_r)
+        X[_k + "_v"] = f(_r["estimate"])
+    for _cn, _val in _cj["verdicts"][_m]["means"].items():
+        X[f"co_{_t}_m_{_cn}"] = f(_val)
+assert all(_cj["verdicts"][_m]["coalition_formed"] for _m in _MK.values())
+assert not any(_cj["verdicts"][_m]["notice_disrupts"] or _cj["verdicts"][_m]["warning_disrupts_beyond_contact"]
+               for _m in _MK.values()), "text says no intervention disrupted the coalition"
 assert X["e_cl_susp_T"].startswith("0/") and X["e_qw_susp_T"].startswith("0/"), "text says no Claude/Qwen target named S"
 
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
