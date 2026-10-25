@@ -210,6 +210,7 @@ X = {
     "zeng_claude_A0z": f(stage_a.loc[("claude-haiku-5.5", "A0z")].zeng_p),
     "zeng_k_claude_A0z": f"{int(stage_a.loc[('claude-haiku-5.5', 'A0z')].zeng_k)}/{int(stage_a.loc[('claude-haiku-5.5', 'A0z')].zeng_n)}",
     "judge_claude_A0z": f(stage_a.loc[("claude-haiku-5.5", "A0z")].judge_p),
+    "h4b": ci3(R["H4b"]["estimate"], R["H4b"]["ci_low"], R["H4b"]["ci_high"]),
     "notice_eff_direct": f(R["H4a"]["notice_effect_direct"], 3, sign=True),
     "notice_eff_benign": f(R["H4a"]["notice_effect_benign"], 3, sign=True),
     "notice_eff_direct_abs": f(abs(R["H4a"]["notice_effect_direct"])),

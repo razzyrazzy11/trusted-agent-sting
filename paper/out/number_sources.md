@@ -19,6 +19,7 @@ file noted there).
 | `ci:live.benign_vs_none` | 0.051 [−0.129, 0.198] |
 | `ci:live.displacement_B1_vs_B3` | −0.321 [−0.445, −0.199] |
 | `ci:live.exploitation_B1_vs_B3` | −0.019 [−0.160, 0.110] |
+| `ci:live.notice_vs_direct` | 0.297 [0.167, 0.422] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.197] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.719, −0.490] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.002 [−0.016, 0.009] |
@@ -262,6 +263,7 @@ file noted there).
 | `x:gee_or` | 0.177 [0.116, 0.271] |
 | `x:h2_clusters` | 44 |
 | `x:h2live_welch_ci` | [−0.526, −0.294] |
+| `x:h4b` | 0.124 [0.043, 0.198] |
 | `x:judge_claude_A0z` | 0.000 |
 | `x:k_claude_A1` | 0/500 |
 | `x:k_claude_A2` | 446/500 |
@@ -282,6 +284,7 @@ file noted there).
 | `x:named_B3T` | 12/15 |
 | `x:no_pre_cap` | Six |
 | `x:ph_acc_rate` | 0.528 |
+| `x:ph_acc_vs_b1` | 0.223 [0.109, 0.328] |
 | `x:ph_b1acc_rate` | 0.305 |
 | `x:ph_b3_pre` | 0.522 |
 | `x:ph_b3_rate` | 0.749 |
