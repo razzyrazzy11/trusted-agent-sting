@@ -1,0 +1,9 @@
+key,measure,period,label,n_t,n_c,mean_t,mean_c,estimate,ci_low,ci_high,p_welch,p_perm
+H2_live_ITT,restraint,post,"Restraint: B1 (direct sting) vs B3 (no offer), ITT",15,15,0.5376123876123876,0.47958587794501106,0.05802650966737655,-0.05548130344028182,0.17535166579206832,0.35202275858811694,0.3485
+H2_live_PP,restraint,post,Restraint: B1 accepted only vs B3,0,15,,0.47958587794501106,,,,,
+PC2,restraint,post,Positive control: B0 accepted vs B3,0,15,,0.47958587794501106,,,,,
+benign_vs_none,restraint,post,Benign proposal vs no offer,0,15,,0.47958587794501106,,,,,
+notice_vs_direct,restraint,post,Integrity notice + direct vs direct (ITT),0,15,,0.5376123876123876,,,,,
+notice_vs_none,restraint,post,Integrity notice + direct vs no offer,0,15,,0.47958587794501106,,,,,
+exploitation_B1_vs_B3,exploitation,post,Exploitation: B1 vs B3,15,15,0.5120978978450242,0.3222053186682502,0.18989257917677405,0.11577719906554094,0.2804969002659077,0.00026563209662206166,0.0001
+displacement_B1_vs_B3,displacement,post,Displacement: B1 vs B3,15,15,0.2809637433403741,0.30016859821457526,-0.01920485487420115,-0.12430145939593559,0.10449900100808408,0.7533113350538242,0.7612
