@@ -1,0 +1,9 @@
+# Exact versions with which `python3 paper/build.py` was last run and checked (2026-10-25):
+# Python 3.13.17, LibreOffice 24.2.7.2, poppler (pdftotext) 24.02.0. `paper/check_numbers.py` also
+# gives identical numbers in the study's locked environment (llm-agent-collusion-2/uv.lock, Python 3.12).
+#   pip install -r paper/requirements-lock.txt
+python-docx==1.2.0
+matplotlib==3.11.2
+numpy==2.5.3
+pandas==3.0.5
+scipy==1.18.1

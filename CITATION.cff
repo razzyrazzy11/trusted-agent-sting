@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite the paper below."
+type: software
+title: "Undercover Agents: code, preregistration and results for a trusted-agent sting study"
+abstract: >-
+  Preregistered study, run during the Apart Research AI Collusion Research Sprint (question 3.2),
+  of whether a scripted trusted agent that privately offers LLM agents a collusive pact in Liar's
+  Bar exposes and deters pact-taking. Includes the study code, the hash-frozen preregistration,
+  the deviations log, the aggregate results and the paper build.
+authors:
+  - given-names: Raz
+repository-code: "https://github.com/razzyrazzy11/trusted-agent-sting"
+license: Apache-2.0
+version: "1.0.0"
+date-released: "2026-10-25"
+keywords:
+  - AI safety
+  - multi-agent systems
+  - collusion
+  - LLM agents
+  - preregistration
+  - sting audit
+preferred-citation:
+  type: report
+  title: "Undercover Agents: A Trusted Agent That Offers to Collude Partly Exposes and Deters Pact-Taking by LLM Agents"
+  authors:
+    - given-names: Raz
+  institution:
+    name: "Apart Research"
+  year: 2026
+  month: 10
+  notes: "AI Collusion Research Sprint, October 2026."
+  url: "https://github.com/razzyrazzy11/trusted-agent-sting"

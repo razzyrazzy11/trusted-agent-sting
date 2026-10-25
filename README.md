@@ -27,16 +27,24 @@ Raw run logs and suspicion transcripts are not in the repository (shared on requ
 ## Verify and rebuild without any model calls
 
 ```bash
-cd llm-agent-collusion-2/Collusion_Liars_Bar
-python -m sting freeze --check            # MATCH: the protocol files are unchanged since the freeze
-(cd ../sting_tests && python -m pytest -q) # 59 tests
-cd ../.. && pip install -r paper/requirements.txt
+cd llm-agent-collusion-2 && uv sync --locked                       # the study's locked environment (uv.lock)
+uv pip install -r Collusion_Liars_Bar/sting/requirements.txt
+cd Collusion_Liars_Bar && ../.venv/bin/python -m sting freeze --check   # MATCH: protocol unchanged since the freeze
+(cd ../sting_tests && ../.venv/bin/python -m pytest -q)                 # 59 tests
+cd ../.. && llm-agent-collusion-2/.venv/bin/python paper/check_numbers.py  # 364 numbers match the committed paper
+pip install -r paper/requirements-lock.txt                              # to rebuild the document itself:
 python3 paper/make_figures.py && python3 paper/build.py   # needs LibreOffice (soffice) and poppler (pdftotext)
 ```
 
+The first four checks run on every push ([`.github/workflows/checks.yml`](.github/workflows/checks.yml)),
+on Python 3.12; the paper was built on Python 3.13 with the versions in `paper/requirements-lock.txt`.
 `paper/build.py` resolves every number in the text from the committed result files (the list is
 `paper/out/number_sources.md`), asserts every result-dependent claim, and stops if the main text exceeds
 8 pages or the abstract leaves 150-250 words.
+
+**Citing.** [`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository") points to the paper. Each
+submitted version of the paper is tagged `submission-v*` (latest: `submission-v1`); the preregistration is
+tagged `prereg-v1`.
 
 ## Quick start (Linux, or WSL on Windows)
 

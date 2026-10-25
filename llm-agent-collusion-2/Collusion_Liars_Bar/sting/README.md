@@ -157,8 +157,11 @@ in the repository, so `analyze` and the post hoc scripts can only be re-run with
 
 ## Rebuild the paper
 
-From the repository root: `pip install -r paper/requirements.txt`, then `python3 paper/make_figures.py`
-and `python3 paper/build.py` (needs LibreOffice and poppler). No model calls and no raw logs are needed.
+From the repository root: `pip install -r paper/requirements.txt` (exact tested versions:
+`paper/requirements-lock.txt`), then `python3 paper/make_figures.py` and `python3 paper/build.py` (needs
+LibreOffice and poppler). No model calls and no raw logs are needed. `python paper/check_numbers.py`
+checks every number against the committed paper without building it; it runs in CI with the freeze
+check and the tests (`.github/workflows/checks.yml`).
 
 ### What goes into git
 

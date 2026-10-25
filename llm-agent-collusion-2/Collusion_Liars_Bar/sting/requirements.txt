@@ -1,3 +1,4 @@
+# Live-robustness GEE (analysis); the tests and checks pass with 0.15.0.
 statsmodels>=0.14
 # Open models on the study's own vLLM servers (sting/modal_app.py); built and tested with 1.6.2.
 modal>=1.6.2,<1.7
