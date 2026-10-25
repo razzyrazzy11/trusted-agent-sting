@@ -448,7 +448,7 @@ for _t, _tag in (("qw", "qwen"), ("cl", "claude")):
         if _arm in _acc:
             X[f"e_{_t}_acc_{_arm}"] = _acc[_arm]
     X[f"e_{_t}_B3"] = f(_sp.loc[("B3", "all"), "mean"])
-    for _arm in ("B1", "B4", "B6"):
+    for _arm in ("B1", "B2", "B4", "B6"):
         for _g in ("accepted", "refused", "all"):
             if (_arm, _g) in _sp.index:
                 X[f"e_{_t}_{_arm}_{_g}"] = f(_sp.loc[(_arm, _g), "mean"])
