@@ -50,6 +50,15 @@ from .load import load
 REPS = 10_000
 
 
+def _md(df: pd.DataFrame) -> str:
+    """Markdown table without the optional `tabulate` dependency."""
+    cols = list(df.columns)
+    fmt = lambda v: f"{v:.3f}" if isinstance(v, float) else str(v)
+    lines = ["| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
+    lines += ["| " + " | ".join(fmt(v) for v in row) + " |" for row in df.itertuples(index=False)]
+    return "\n".join(lines)
+
+
 def _rates(data, period):
     return seq_rates(data, dtype="challenge", counterpart_roles=["S"], period=period, outcome="challenged")
 
@@ -169,11 +178,11 @@ def main(argv=None):
         res["gap1_ablation"] = gap1_ablation(runs, out, a.k, data.stub, rng)
     (out / "gaps.json").write_text(json.dumps(res, indent=2, default=float))
     md = ["# Post hoc gap analyses" + (" (STUB DATA - NOT RESULTS)" if data.stub else ""), "",
-          "## Gap 2: B4 refusers' post-offer challenge rate on S", "", g2["table"].to_markdown(index=False), "",
+          "## Gap 2: B4 refusers' post-offer challenge rate on S", "", _md(g2["table"]), "",
           *[f"- {k}: {json.dumps(v, default=float)}" for k, v in g2["contrasts"].items()],
           f"- live rule tau {g2['live_rule_tau']:.3f}; refusers flagged {g2['refusers_flagged']}/{g2['refusers_n']}",
           f"- verdict: {g2['verdict']}", "", "## Gap 1 (i): suspicion of S by arm and group", "",
-          g1["table"].to_markdown(index=False), ""]
+          _md(g1["table"]), ""]
     if "gap1_ablation" in res:
         ab = res["gap1_ablation"]
         md += ["## Gap 1 (ii): paired record ablation", "",
