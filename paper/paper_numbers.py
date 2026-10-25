@@ -471,6 +471,10 @@ for _t, _tag in (("qw", "qwen"), ("cl", "claude")):
     for _arm, _v in _dl.items():
         if _v["n"]:
             X[f"e_{_t}_dl_{_arm}"] = f"{_v['flagged']}/{_v['n']}"
+    if "B6_vs_B3_ITT" in _j["extra"]:
+        X[f"e_{_t}_B6_itt_pp"] = f"{abs(_j['extra']['B6_vs_B3_ITT']['estimate']) * 100:.0f}"
+    if (_j.get("detector_live") or {}).get("tau_rate") is not None:
+        X[f"e_{_t}_tau"] = f(_j["detector_live"]["tau_rate"])
     if _j.get("balance_pre"):
         X[f"e_{_t}_bal_pre"] = _c(_j["balance_pre"])
 assert X["e_cl_susp_T"].startswith("0/") and X["e_qw_susp_T"].startswith("0/"), "text says no Claude/Qwen target named S"
