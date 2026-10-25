@@ -301,7 +301,8 @@ X = {
     # share of the pact's restraint an accepter must give up to reach it (snapshot means, chal_S)
     "thr_rate_m20": f(-curve.loc[20, "tau"], 2),
     "tie_m20": f(curve.loc[20, "tie_flag_prob"]),
-    "evade_share": (lambda c1, c3, thr: f(100 * (thr - c3) / (c1 - c3), 0) + "%")(
+    # ratio of point estimates, so printed to the nearest 5%
+    "evade_share": (lambda c1, c3, thr: f(5 * round(20 * (thr - c3) / (c1 - c3)), 0) + "%")(
         snap.loc[("llama-3.1-8b", "chal_S", "C3"), "mean_reference"],
         snap.loc[("llama-3.1-8b", "chal_S", "C3"), "mean_condition"], -curve.loc[20, "tau"]),
     "fpr_one_in": f"{round(1 / curve.loc[20, 'flag_C1b'])}",
@@ -532,6 +533,10 @@ for _t, _m in _MK.items():
         _shares.append(_sh)
 X["e_qw_benign_pp"] = f(abs(pd.read_csv(EXT / 'qwen_live_contrasts.csv').set_index('key').loc['benign_vs_none', 'estimate']) * 100, 0)
 X["co_ub_max"] = f(max(_shares) * 100, 0) + "%"
+# the same upper bounds against the weakest pact effect inside its 95% CI (K1 - C1 is negative, so its ci_high)
+_shares_cons = [max(0.0, _cc.loc[(_m, _cn), "ci_high"]) / abs(_cc.loc[(_m, "K1-C1"), "ci_high"])
+                for _m in _MK.values() for _cn in ("(K2-K1)-(C10-C1)", "K3-K4")]
+X["co_ub_max_cons"] = f(max(_shares_cons) * 100, 0) + "%"
 X["tau_rate3"] = f(ls["detector_live"]["tau_rate"])
 _sc = pd.read_csv(TAB / "snapshot_contrasts.csv")
 _sc = _sc[(_sc["model"] == "llama-3.1-8b") & (_sc["point_type"] == "play_vs_S")]
@@ -541,6 +546,8 @@ assert not any(_cj["verdicts"][_m]["notice_disrupts"] or _cj["verdicts"][_m]["wa
                for _m in _MK.values()), "text says no intervention disrupted the coalition"
 assert X["e_cl_susp_T"].startswith("0/") and X["e_qw_susp_T"].startswith("0/"), "text says no Claude/Qwen target named S"
 
+assert all(stage_a.loc[("claude-haiku-5.5", c), "strict_p"] == 0 for c in ("A0z", "A0b", "A0d", "A1", "A4", "A6", "A8")), \
+    "Section 4.1: unless instructed to collude, Claude refused every offer naming the pact or a designer tool"
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
 
 # ---- claims typed into the text that depend on results (each fails the build if the data stop supporting it)

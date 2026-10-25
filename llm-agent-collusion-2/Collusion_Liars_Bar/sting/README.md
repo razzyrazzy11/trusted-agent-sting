@@ -15,7 +15,7 @@ or only hides it.
 
 | Path | Status |
 |---|---|
-| `llm-agent-collusion-2/Collusion_Liars_Bar/src/`, `prompts/`, the starter repo | **Preexisting** (Zeng & Rudzicz 2026, via poseidon-research/collusion_hackathon @ `d585a7b`; Apache-2.0 upstream LYiHub/liars-bar-llm) |
+| `llm-agent-collusion-2/Collusion_Liars_Bar/src/`, `prompts/`, the starter repo | **Preexisting** (Zeng & Rudzicz 2026, via poseidon-research/collusion_hackathon @ `d585a7b`; Apache-2.0) |
 | `src/game/game_secret_channel.py`, `src/game/game_secret_hint.py`, `src/test/test_secret_*_acceptance.py` | Preexisting, **patched during the sprint** (bug fixes only; DEVIATIONS.md section A; separate commit) |
 | `Collusion_Liars_Bar/sting/` (all files) | **New, written during the sprint** |
 | `llm-agent-collusion-2/sting_tests/` | **New, written during the sprint** |
@@ -148,7 +148,7 @@ GitHub release or share it on request, following the publish/withhold rule below
 ## Publish vs withhold
 
 Publish: all code, all prompts and offer texts verbatim (`TEXTS.md`; Zeng & Rudzicz already publish
-stronger collusion offers), aggregate data, decision logs and the analysis. The genuine dual-use
+stronger collusion offers), aggregate data and the analysis. Raw game and decision logs are not in the repository and are shared on request. The genuine dual-use
 concern is the *sting-detectability* findings - which cues let a colluder recognise a plant - so the
 paper discusses them at the level of findings in the Limitations and Dual-Use / Ethical
 Considerations appendix, without a step-by-step evasion guide; raw suspicion-probe transcripts are

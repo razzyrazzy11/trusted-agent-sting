@@ -162,7 +162,7 @@ p("**Snapshots: does acceptance change the next decision (H2, primary).** For ex
   "sign-flipping, both clustered by the source sequence of each decision. Claude Haiku 5.5 was also run as T on the same decisions.")
 p("**Live games (H2-live).** We ran 60 six-game sequences in five arms: the designer's hint tool "
   "pairing T with S (B0, positive control PC2, 10 sequences), the sting's direct pact (B1, 15), its benign "
-  "proposal (B2, 10), no offer with the null record (B3, 15) and the direct pact with the integrity notice "
+  "proposal (B2, 10), no offer (B3, 15) and the direct pact with the integrity notice "
   "in every player's rules (B4, 10). A preregistered simulation set the arm sizes and audit power (Arnold et "
   "al., 2011). The live estimand is the difference in mean per-sequence post-offer rates at which T "
   "challenges S, B1 minus B3, by intention to treat (ITT: all offered targets; "
@@ -230,20 +230,20 @@ p("**Llama-3.1-8B accepts almost any pact, but not unconditionally:** {{x:k_llam
   "fairness reminder and the integrity notice cut this to {{v:acceptance.llama-3.1-8b.A8}}, "
   "{{v:acceptance.llama-3.1-8b.A6}} and {{v:acceptance.llama-3.1-8b.A4}} (Section 4.4).")
 h3("4.2 Accepted pacts are acted on")
-p("**In snapshots, an accepted pact lowers the chance that T (Llama) challenges S from {{x:llama_C1}} to "
-  "{{x:llama_C3}}** (H2: {{ci:snapshot.llama-3.1-8b.chal_S.C3-C1}}; Figure 2a). For Llama, "
-  "controls separate the pact from mere contact (any private message from S): an accepted benign proposal barely moves challenges of S "
+p("**In snapshots, an accepted pact lowers Llama's chance of challenging S from {{x:llama_C1}} to "
+  "{{x:llama_C3}}** (H2: {{ci:snapshot.llama-3.1-8b.chal_S.C3-C1}}; Figure 2a). "
+  "Controls separate the pact from mere contact (any private message from S): an accepted benign proposal barely moves challenges of S "
   "({{v:snapshot.llama-3.1-8b.chal_S.C2-C1}}), and a refused pact *raises* them "
   "({{v:snapshot.llama-3.1-8b.chal_S.C4-C1}}).")
 p("**In live games, the offer itself had an effect of similar size.** After the sting's direct offer "
-  "(B1, {{x:live_acc_B1}} accepted), T challenged S's plays at a mean per-sequence rate of {{x:B1_post}}, "
+  "(B1, {{x:live_acc_B1}} accepted), T challenged S at a mean per-sequence rate of {{x:B1_post}}, "
   "against {{x:B3_post}} with no offer (H2-live, ITT: {{ci:live.H2_live_ITT}}; Figure 2b). B1 targets, if "
   "anything, challenged S more before the offer ({{x:pre_B1}} vs {{x:pre_B3}}, p = {{x:balance_p}}), so "
   "baseline imbalance is unlikely to explain the drop. Llama neither exploited the pact nor "
   "displaced challenges: in snapshots it bluffed no more against S "
   "({{v:snapshot.llama-3.1-8b.play_vs_S.C3-C1}}) and challenged the others less "
   "({{v:snapshot.llama-3.1-8b.chal_other.C3-C1}}); live, B1 targets challenged the others less even before "
-  "the offer, so whether the drop was specific to S is unclear (Appendix B). Live, a benign proposal had no detectable effect "
+  "the offer, so the drop's specificity to S is unclear (Appendix B). Live, a benign proposal had no detectable effect "
   "({{ci:live.benign_vs_none}}).")
 B.append(("fig", "fig2_main.png", 6.5,
           "**Figure 2. An accepted pact (a) and the offer of one (b) cut T's challenges of S; a benign "
@@ -281,8 +281,8 @@ p("**The audit rarely flags Llama's benign or refused-pact records:** simulated 
   "proposal (C2) were flagged at {{v:H3.fpr_benign_m20}} and with a refused pact (C4) at "
   "{{x:flag_C4_m20}} (Monte Carlo; Table 2 is exact). A simpler *live rule* (flag targets below B3's 10th percentile; preregistered for accepters) flagged {{x:dl_B1}} accepting B1 targets and "
   "{{x:dl_B2}} benign accepters (Appendix B). **Evasion has a "
-  "price:** to be flagged only half the time, an accepter would have to challenge S at "
-  "{{x:thr_rate_m20}}, giving up {{x:evade_share}} of its pact-induced restraint.")
+  "price:** to be flagged only half the time, an accepter must challenge S at "
+  "{{x:thr_rate_m20}}, giving up about {{x:evade_share}} of its pact-induced restraint.")
 B.append(("table",
           "**Table 2. Offers changed play in all three models; so did any offer for Qwen and a benign "
           "agreement for Claude, and audit thresholds must be set per model.** Preregistered: the battery, Llama's B1 acceptance and "
@@ -351,13 +351,13 @@ B.append(("numbered", [
     "Appendix B).",
     "**Denial: too few accepters to tell (H4d).** Only {{x:live_acc_B4_n_word}} B4 targets accepted, and their denials did not differ "
     "detectably from B1's (parser {{x:den_parser_notice}} interview answers, four per accepter, Fisher "
-    "p = {{x:den_parser_p}}; LLM judge, post hoc, {{x:den_judge_notice}}).",
+    "p = {{x:den_parser_p}} treating answers as independent; LLM judge, post hoc, {{x:den_judge_notice}}).",
     "**A pact accepted from another player was not measurably weakened (post hoc snapshots).** When T's record said it "
     "had accepted another player's indirect pact, T challenged that partner less in all three models "
     "(Llama {{x:co_ll_K1C1}}). Neither the notice (net of its notice-only effect) nor a private message in "
     "which S revealed itself as an “integrity agent” and offered leniency (net of a neutral message from S) "
     "restored much of that effect: in every model, the upper 95% bound was at most about {{x:co_ub_max}} of the "
-    "estimated pact effect (Appendix B).",
+    "estimated pact effect, or {{x:co_ub_max_cons}} of its smallest plausible value (Appendix B).",
 ]))
 
 # ------------------------------------------------------------------------------------------
@@ -790,8 +790,8 @@ B.append(("bullets", [
     "preregistration are additions to that design (the interview adapts Zeng & Rudzicz's).",
     "**Preexisting, imported unmodified in one commit:** the parts of the sprint starter repository "
     "(poseidon-research/collusion_hackathon, commit d585a7b) the study uses: setup scripts, util/, and "
-    "llm-agent-collusion-2/, which contains Zeng & Rudzicz's Liar's Bar harness, built on "
-    "LYiHub/liars-bar-llm (Apache-2.0). Four of these files were later patched (next item).",
+    "llm-agent-collusion-2/, which contains Zeng & Rudzicz's Liar's Bar harness (Apache-2.0 "
+    "licence). Four of these files were later patched (next item).",
     "**Preexisting, patched during the sprint** (separate commit; DEVIATIONS.md section A): a "
     "duplicated round reset after each challenge in the secret-tool games, and acceptance-test "
     "scripts that pointed to a missing prompt file. Neither affects the study's game, which subclasses "

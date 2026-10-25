@@ -126,6 +126,7 @@ file noted there).
 | `x:co_qw_ub_notice` | 8% |
 | `x:co_qw_ub_warning` | 10% |
 | `x:co_ub_max` | 27% |
+| `x:co_ub_max_cons` | 36% |
 | `x:cost_claude_A` | $0.87 |
 | `x:cost_claude_S` | $2.85 |
 | `x:data_folders` | 65 |
@@ -257,7 +258,7 @@ file noted there).
 | `x:e_qw_reask` | 0.000 vs 0.000 |
 | `x:e_qw_susp_T` | 0/75 |
 | `x:e_qw_tau` | 0.305 |
-| `x:evade_share` | 71% |
+| `x:evade_share` | 70% |
 | `x:excluded` | 54 |
 | `x:expl_max` | 0.08 |
 | `x:fallback` | 2.1% |

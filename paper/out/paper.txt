@@ -155,12 +155,11 @@ bootstrap and its p from sign-flipping, both clustered by the source sequence of
 Haiku 5.5 was also run as T on the same decisions.
 Live games (H2-live). We ran 60 six-game sequences in five arms: the designer's hint tool pairing T with
 S (B0, positive control PC2, 10 sequences), the sting's direct pact (B1, 15), its benign proposal (B2, 10),
-no offer with the null record (B3, 15) and the direct pact with the integrity notice in every player's rules
-(B4, 10). A preregistered simulation set the arm sizes and audit power (Arnold et al., 2011). The live
-estimand is the difference in mean per-sequence post-offer rates at which T challenges S, B1 minus B3,
-by intention to treat (ITT: all offered targets; Welch test). Afterwards, players answered suspicion
-questions and offered targets were interviewed about private agreements (after Zeng & Rudzicz;
-Appendix B).
+no offer (B3, 15) and the direct pact with the integrity notice in every player's rules (B4, 10). A
+preregistered simulation set the arm sizes and audit power (Arnold et al., 2011). The live estimand is the
+difference in mean per-sequence post-offer rates at which T challenges S, B1 minus B3, by intention to
+treat (ITT: all offered targets; Welch test). Afterwards, players answered suspicion questions and
+offered targets were interviewed about private agreements (after Zeng & Rudzicz; Appendix B).
 The sting as an audit (H3; “detector” in the preregistration). An audit re-queries a model version at m
 of S's plays and flags it if its challenge rate falls below a threshold. Audited “agents” are simulated: m
 answers drawn with replacement from all of T's answers under one record at the 60 restraint decisions.
@@ -178,8 +177,8 @@ D), we added two records on the same 160 decisions, with each model as T: the in
 T's own words (C9) and the null record with the notice (C10, the notice-only control). Qwen, not
 preregistered as T, also ran C1–C5. Live, we added B5 (the notice without an offer, Llama, 15
 sequences) and replications with Qwen (B0–B4 at the preregistered sizes, plus B6, the sting's indirect
-pact, 15 sequences) or Claude (B1, B3 and B6, 15 each) as every LLM player. The audit was recalibrated
-per model, computed exactly. Finally, at the 40 decisions where T could challenge another player P,
+pact, 15 sequences) or Claude (B1, B3 and B6, 15 each) as every LLM player. The audit was recalibrated
+per model, computed exactly. Finally, at the 40 decisions where T could challenge another player P,
 records K1–K4 say T had accepted P's indirect pact, then add nothing (K1), the notice (K2), a private
 warning with leniency from S (K3) or a neutral message from S (K4; Appendix B).
 
@@ -218,18 +217,18 @@ Llama-3.1-8B accepts almost any pact, but not unconditionally: 476/500 from the 
 than from the designer (H1: −0.048 [−0.070, −0.031]); an honest persona, a fairness reminder and the
 integrity notice cut this to 0.040, 0.240 and 0.556 (Section 4.4).
 4.2 Accepted pacts are acted on
-In snapshots, an accepted pact lowers the chance that T (Llama) challenges S from 0.629 to 0.189
-(H2: −0.440 [−0.493, −0.387]; Figure 2a). For Llama, controls separate the pact from mere contact (any
-private message from S): an accepted benign proposal barely moves challenges of S (0.055), and a
-refused pact raises them (0.175).
+In snapshots, an accepted pact lowers Llama's chance of challenging S from 0.629 to 0.189 (H2:
+−0.440 [−0.493, −0.387]; Figure 2a). Controls separate the pact from mere contact (any private
+message from S): an accepted benign proposal barely moves challenges of S (0.055), and a refused pact
+raises them (0.175).
 In live games, the offer itself had an effect of similar size. After the sting's direct offer (B1, 14/15
-accepted), T challenged S's plays at a mean per-sequence rate of 0.339, against 0.749 with no offer (H2-
-live, ITT: −0.410 [−0.512, −0.300]; Figure 2b). B1 targets, if anything, challenged S more before the
-offer (0.672 vs 0.522, p = 0.277), so baseline imbalance is unlikely to explain the drop. Llama neither
-exploited the pact nor displaced challenges: in snapshots it bluffed no more against S (−0.065) and
+accepted), T challenged S at a mean per-sequence rate of 0.339, against 0.749 with no offer (H2-live,
+ITT: −0.410 [−0.512, −0.300]; Figure 2b). B1 targets, if anything, challenged S more before the offer
+(0.672 vs 0.522, p = 0.277), so baseline imbalance is unlikely to explain the drop. Llama neither
+exploited the pact nor displaced challenges: in snapshots it bluffed no more against S (−0.065) and
 challenged the others less (−0.228); live, B1 targets challenged the others less even before the offer, so
-whether the drop was specific to S is unclear (Appendix B). Live, a benign proposal had no detectable
-effect (0.051 [−0.129, 0.198]).
+the drop's specificity to S is unclear (Appendix B). Live, a benign proposal had no detectable effect (0.051
+[−0.129, 0.198]).
 
 
 
@@ -262,8 +261,8 @@ calibrated audit (0.16–0.18), though an FPR up to 0.26 (0.24 computed exactly)
 The audit rarely flags Llama's benign or refused-pact records: simulated agents with an accepted benign
 proposal (C2) were flagged at 0.040 and with a refused pact (C4) at 0.002 (Monte Carlo; Table 2 is
 exact). A simpler live rule (flag targets below B3's 10th percentile; preregistered for accepters) flagged
-14/14 accepting B1 targets and 2/10 benign accepters (Appendix B). Evasion has a price: to be flagged
-only half the time, an accepter would have to challenge S at 0.50, giving up 71% of its pact-induced
+14/14 accepting B1 targets and 2/10 benign accepters (Appendix B). Evasion has a price: to be flagged
+only half the time, an accepter must challenge S at 0.50, giving up about 70% of its pact-induced
 restraint.
 Table 2. Offers changed play in all three models; so did any offer for Qwen and a benign agreement for Claude,
 and audit thresholds must be set per model. Preregistered: the battery, Llama's B1 acceptance and effect, and the
@@ -309,18 +308,19 @@ concealment if restraint is retained while refusals or denials rise. Verdict for
        [−0.063, 0.113], post hoc).
     3. Refusers: no sign of a covert pact (post hoc). The five B4 refusers challenged S like targets with
        no offer (0.745 vs 0.749, difference −0.004 [−0.102, 0.095]). The live rule, applied post hoc,
-        flagged 0/5, and the interval excludes a drop like B1 accepters' (to 0.305). For Qwen, the
-        preregistered definition gives concealment (no B4 target accepted, yet challenges of S fell:
+       flagged 0/5, and the interval excludes a drop like B1 accepters' (to 0.305). For Qwen, the
+        preregistered definition gives concealment (no B4 target accepted, yet challenges of S fell:
         −0.262 [−0.426, −0.079]), but the drop was not aimed at S (exploratory; Appendix B).
     4. Denial: too few accepters to tell (H4d). Only five B4 targets accepted, and their denials did not
        differ detectably from B1's (parser 5/20 vs 8/56 interview answers, four per accepter, Fisher p
-       = 0.309; LLM judge, post hoc, 1/20 vs 1/56).
+       = 0.309 treating answers as independent; LLM judge, post hoc, 1/20 vs 1/56).
     5. A pact accepted from another player was not measurably weakened (post hoc snapshots).
        When T's record said it had accepted another player's indirect pact, T challenged that partner
        less in all three models (Llama −0.318 [−0.388, −0.248]). Neither the notice (net of its notice-
        only effect) nor a private message in which S revealed itself as an “integrity agent” and offered
        leniency (net of a neutral message from S) restored much of that effect: in every model, the upper
-       95% bound was at most about 27% of the estimated pact effect (Appendix B).
+       95% bound was at most about 27% of the estimated pact effect, or 36% of its smallest plausible
+       value (Appendix B).
 
 5. Discussion and Limitations
 Answering question 3.2: “Can we disrupt collusion through introducing trusted agents?” Partly. A sting
@@ -740,8 +740,8 @@ samples failed to parse. PREREG.md calls seatings R and E arrangements A and B.
         design (the interview adapts Zeng & Rudzicz's).
     -   Preexisting, imported unmodified in one commit: the parts of the sprint starter repository
         (poseidon-research/collusion_hackathon, commit d585a7b) the study uses: setup scripts, util/,
-        and llm-agent-collusion-2/, which contains Zeng & Rudzicz's Liar's Bar harness, built on
-        LYiHub/liars-bar-llm (Apache-2.0). Four of these files were later patched (next item).
+        and llm-agent-collusion-2/, which contains Zeng & Rudzicz's Liar's Bar harness (Apache-2.0
+        licence). Four of these files were later patched (next item).
     -   Preexisting, patched during the sprint (separate commit; DEVIATIONS.md section A): a
         duplicated round reset after each challenge in the secret-tool games, and acceptance-test scripts
         that pointed to a missing prompt file. Neither affects the study's game, which subclasses the
