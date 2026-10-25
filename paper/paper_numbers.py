@@ -203,6 +203,8 @@ X = {
     "k_qwen_A0d": acc("qwen2.5-7b", "A0d"),
     "k_claude_A2": acc("claude-haiku-5.5", "A2"),
     "k_claude_A7": acc("claude-haiku-5.5", "A7"),
+    "k_llama_A2": acc("llama-3.1-8b", "A2"),
+    "k_claude_A1": acc("claude-haiku-5.5", "A1"),
     "zeng_claude_A0z": f(stage_a.loc[("claude-haiku-5.5", "A0z")].zeng_p),
     "zeng_k_claude_A0z": f"{int(stage_a.loc[('claude-haiku-5.5', 'A0z')].zeng_k)}/{int(stage_a.loc[('claude-haiku-5.5', 'A0z')].zeng_n)}",
     "judge_claude_A0z": f(stage_a.loc[("claude-haiku-5.5", "A0z")].judge_p),
@@ -380,6 +382,99 @@ X.update({
 assert PH["gap2"]["verdict"].startswith("no evidence"), "text assumes the gap 2 verdict"
 assert _a["verdict"] == "record raises stated suspicion", "text assumes the gap 1 verdict"
 assert _wl <= _a["rate_own"] <= _wh, "text says the original rate's CI contains the re-ask rate"
+
+# Post hoc extensions (sting/analysis/posthoc_extend.py; plan and decision rules in DEVIATIONS.md D).
+EXT = RES / "posthoc_ext"
+EJ = json.loads((EXT / "ext.json").read_text())
+assert not EJ["stub"] and EJ["snapshot_points_same"], "extension outputs are stub data or off the preregistered points"
+_es = pd.read_csv(EXT / "snapshots_ext.csv")
+_es = _es[_es["point_type"] == "chal_S"].set_index(["model", "contrast"])
+_ed = pd.read_csv(EXT / "detector_ext.csv").set_index("model")
+_MK = {"ll": "llama-3.1-8b", "qw": "qwen2.5-7b", "cl": "claude-haiku-5.5"}
+
+
+def _live(tag):
+    c = pd.read_csv(EXT / f"{tag}_live_contrasts.csv").set_index("key")
+    sp = pd.read_csv(EXT / f"{tag}_live_split.csv").set_index(["arm", "group"])
+    sp_ = pd.read_csv(EXT / f"{tag}_suspicion_pooled.csv").set_index("group")
+    return c, sp, sp_
+
+
+def _c(d):
+    return ci3(d["estimate"], d["ci_low"], d["ci_high"])
+
+
+for _t, _m in _MK.items():
+    for _con in ("C9-C1", "C9-C2", "C10-C1", "C2-C1", "C4-C1", "C3-C1", "(C5-C3)-(C10-C1)"):
+        if (_m, _con) in _es.index:
+            _r = _es.loc[(_m, _con)]
+            _k = _con.replace("(", "").replace(")", "").replace("-", "")
+            X[f"e_{_t}_{_k}"] = _c(_r)
+            X[f"e_{_t}_{_k}_v"] = f(_r["estimate"])
+            X[f"e_{_t}_{_k}_a"] = f(_r["mean_a"]) if not pd.isna(_r["mean_a"]) else ""
+            X[f"e_{_t}_{_k}_b"] = f(_r["mean_b"]) if not pd.isna(_r["mean_b"]) else ""
+    _d = _ed.loc[_m]
+    X[f"e_{_t}_c1a"] = f(_d["rate_C1a"])
+    for _cond in ("C1b", "C2", "C3", "C4", "C9", "C10"):
+        X[f"e_{_t}_flag_{_cond}"] = f(_d[f"flag_{_cond}"])
+        X[f"e_{_t}_flag_{_cond}_ci"] = ci3(_d[f"flag_{_cond}"], _d[f"flag_{_cond}_lo"], _d[f"flag_{_cond}_hi"])
+        X[f"e_{_t}_lthr_{_cond}"] = f(_d[f"llama_thr_flag_{_cond}"])
+assert EJ["verdicts"]["item2_claude_acts_on_vague_pact"] and EJ["verdicts"]["item2_claude_beyond_contact"]
+assert EJ["verdicts"]["item4_audit_supported_claude-haiku-5.5"] and EJ["verdicts"]["item4_audit_supported_qwen2.5-7b"]
+assert EJ["verdicts"]["item3_snap_notice_weakens_pact_keeping"] and not EJ["verdicts"]["item3_live_notice_alone_raises_challenging"]
+
+# notice-only live arm (Llama, B5)
+_nc = EJ["notice_live"]
+_nr = pd.read_csv(EXT / "notice_live_rates.csv").set_index(["arm", "period"])
+_ns = pd.read_csv(EXT / "notice_live_suspicion.csv").set_index(["arm", "group"])
+X.update({
+    "e_B5_post": f(_nr.loc[("B5", "post"), "mean"]), "e_B5_n": str(int(_nr.loc[("B5", "post"), "n_seq"])),
+    "e_B5_vs_B3": _c(_nc["B5_vs_B3"]), "e_B5_vs_B3_pw": f(_nc["B5_vs_B3"]["p_welch"], 2),
+    "e_B4_vs_B5": _c(_nc["B4_vs_B5"]), "e_B5_pre": _c(_nc["B5_vs_B3_pre"]),
+    "e_did_live": _c(_nc["did_(B4-B1)-(B5-B3)"]),
+    "e_B5_susp_T": f"{int(_ns.loc[('B5', 'T'), 'k'])}/{int(_ns.loc[('B5', 'T'), 'n'])}",
+    "e_B5_susp_O": f"{int(_ns.loc[('B5', 'O1/O2'), 'k'])}/{int(_ns.loc[('B5', 'O1/O2'), 'n'])}",
+})
+
+# cross-model live replications
+for _t, _tag in (("qw", "qwen"), ("cl", "claude")):
+    _lc, _sp, _sus = _live(_tag)
+    _j = EJ[_tag]
+    _acc = _j["acceptance"]
+    X[f"e_{_t}_nseq"] = str(_j["n_seqs"])
+    X[f"e_{_t}_ngames"] = str(_j["n_games"])
+    X[f"e_{_t}_fallback"] = f"{_j['fallback_share']:.2%}"
+    for _arm in ("B0", "B1", "B2", "B4", "B6"):
+        if _arm in _acc:
+            X[f"e_{_t}_acc_{_arm}"] = _acc[_arm]
+    X[f"e_{_t}_B3"] = f(_sp.loc[("B3", "all"), "mean"])
+    for _arm in ("B1", "B4", "B6"):
+        for _g in ("accepted", "refused", "all"):
+            if (_arm, _g) in _sp.index:
+                X[f"e_{_t}_{_arm}_{_g}"] = f(_sp.loc[(_arm, _g), "mean"])
+    for _k in ("H2_live_ITT", "H2_live_PP", "PC2", "benign_vs_none", "notice_vs_none", "notice_vs_direct",
+               "exploitation_B1_vs_B3", "displacement_B1_vs_B3"):
+        if _k in _lc.index and not pd.isna(_lc.loc[_k, "estimate"]):
+            X[f"e_{_t}_{_k}"] = _c(_lc.loc[_k])
+    for _k, _v in _j["extra"].items():
+        if "estimate" in _v:
+            X[f"e_{_t}_{_k}"] = _c(_v)
+            X[f"e_{_t}_{_k}_pw"] = f(_v["p_welch"], 3)
+        elif "flagged" in _v:
+            X[f"e_{_t}_{_k}"] = f"{_v['flagged']}/{_v['n']}"
+    X[f"e_{_t}_susp_T"] = f"{int(_sus.loc['T', 'k'])}/{int(_sus.loc['T', 'n'])}"
+    X[f"e_{_t}_susp_O"] = f"{int(_sus.loc['O1/O2', 'k'])}/{int(_sus.loc['O1/O2', 'n'])}"
+    _ab = (EJ.get("ablation") or {}).get(_tag)
+    if _ab:
+        X[f"e_{_t}_reask"] = f"{f(_ab['rate_own'])} vs {f(_ab['rate_null'])}"
+    _dl = (_j.get("detector_live") or {}).get("by_arm", {})
+    for _arm, _v in _dl.items():
+        if _v["n"]:
+            X[f"e_{_t}_dl_{_arm}"] = f"{_v['flagged']}/{_v['n']}"
+    if _j.get("balance_pre"):
+        X[f"e_{_t}_bal_pre"] = _c(_j["balance_pre"])
+assert X["e_cl_susp_T"].startswith("0/") and X["e_qw_susp_T"].startswith("0/"), "text says no Claude/Qwen target named S"
+
 assert X["kappa_judge"] == X["kappa_judge_md"], "judge kappa differs between results.json and denial_judge.md"
 
 SOURCES = {
