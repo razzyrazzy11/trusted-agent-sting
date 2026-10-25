@@ -2,9 +2,9 @@
 wider than it is placed, with type enlarged to match, so it also prints at about 8 pt.
 
 Figures 2, 3 and 5 are redrawn from the committed analysis tables (sting_results/tables/*.csv) with
-the palette of sting/analysis/figures.py; figure 1 is the same schematic at print size. Figure 4
-needs per-sequence rates that are not in the committed tables, so the committed analysis figure is
-used (cropped, without its in-image title). No number is computed here.
+the palette of sting/analysis/figures.py; figure 1 is the same schematic at print size. Figure 4 is
+redrawn at print size from tables/live_seq_rates.csv when that export exists (otherwise the committed
+analysis figure is cropped). No reported number is computed here.
 """
 from pathlib import Path
 
@@ -160,6 +160,58 @@ def fig5():
     save(fig, "fig5_detector")
 
 
+# ---- Figure 4: live games -------------------------------------------------------------------
+SHORT_B = {"B0": "designer hint\n(PC2)", "B1": "sting:\ndirect pact", "B2": "sting:\nbenign",
+           "B3": "no offer", "B4": "direct pact\n+ notice"}
+
+
+def fig4(tab: Path = TAB) -> bool:
+    """Figure 4 at print size from tables/live_seq_rates.csv (sting.analysis.export_live_seq).
+
+    Same per-sequence rates, jitter and bootstrap as sting/analysis/figures.py fig4_live: one
+    generator seeded 0, drawn in the same order (post jitter, 2,000 resamples, pre jitter), so the
+    plotted means and CIs are identical; only the size, the pre-offer jitter width and the refuser
+    marker differ. Returns False if the table is missing (the committed analysis figure is used)."""
+    f = tab / "live_seq_rates.csv"
+    if not f.exists():
+        return False
+    d = pd.read_csv(f)
+    post, pre = d[d["period"] == "post"], d[d["period"] == "pre"]
+    arms = [a for a in SHORT_B if a in set(post["arm"])]
+    fig, ax = plt.subplots(figsize=(5.0, 2.55))
+    rng = np.random.default_rng(0)
+    for i, arm in enumerate(arms):
+        p = post[post["arm"] == arm]
+        x = i + rng.uniform(-0.12, 0.12, size=len(p))
+        refused = (p["accepted"] == False).values  # noqa: E712  (B3 has no offer: NaN, drawn as filled)
+        ax.scatter(x[~refused], p["rate"].values[~refused], s=16, color=BLUE, alpha=0.8, zorder=3, lw=0,
+                   label="post-offer" if i == 0 else None)
+        if refused.any():
+            ax.scatter(x[refused], p["rate"].values[refused], s=20, color=BLUE, marker="x", zorder=3, lw=1.1,
+                       label="post-offer, refused")
+        if len(p) > 1:
+            boots = [p["rate"].values[rng.integers(0, len(p), len(p))].mean() for _ in range(2000)]
+            lo, hi = np.quantile(boots, [0.025, 0.975])
+            ax.errorbar(i + 0.28, p["rate"].mean(), yerr=err(p["rate"].mean(), lo, hi), fmt="D", ms=4.5,
+                        color=INK, ecolor=INK, elinewidth=1.3, capsize=0, zorder=4,
+                        label="post-offer mean, 95% CI" if i == 0 else None)
+        q = pre[pre["arm"] == arm]
+        ax.scatter(i - 0.32 + rng.uniform(-0.09, 0.09, size=len(q)), q["rate"], s=14, facecolors="none",
+                   edgecolors=MUTED, lw=0.8, zorder=2, label="pre-offer" if i == 0 else None)
+    ax.set_xticks(range(len(arms)))
+    ax.set_xticklabels([f"{a}\n{SHORT_B[a]}" for a in arms])
+    ax.set_xlim(-0.6, len(arms) - 0.5)
+    ax.set_ylim(-0.04, 1.04)
+    ax.set_ylabel("T's challenge rate on S's plays")
+    h, l = ax.get_legend_handles_labels()
+    order = [l.index(k) for k in ("pre-offer", "post-offer", "post-offer, refused",
+                                  "post-offer mean, 95% CI") if k in l]
+    ax.legend([h[k] for k in order], [l[k] for k in order], loc="lower left", bbox_to_anchor=(0.0, 1.0),
+              ncol=4, frameon=False, borderaxespad=0.2, handletextpad=0.1, columnspacing=0.8)
+    save(fig, "fig4_live")
+    return True
+
+
 def crop(src: Path, dst: Path, pad: int = 12):
     im = Image.open(src).convert("RGB")
     bg = Image.new("RGB", im.size, (255, 255, 255))
@@ -185,8 +237,9 @@ def drop_title(path: Path, pad: int = 6):
 
 if __name__ == "__main__":
     fig1(); fig2(); fig3(); fig5()
-    crop(RES / "figures" / "fig4_live.png", OUT / "fig4_live.png")
-    drop_title(OUT / "fig4_live.png")
+    if not fig4():
+        crop(RES / "figures" / "fig4_live.png", OUT / "fig4_live.png")
+        drop_title(OUT / "fig4_live.png")
     for stale in ("fig2_acceptance.pdf",):
         (OUT / stale).unlink(missing_ok=True)
     print(sorted(p.name for p in OUT.iterdir()))
