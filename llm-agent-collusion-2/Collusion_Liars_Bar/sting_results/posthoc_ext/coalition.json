@@ -1,0 +1,45 @@
+{
+  "stub": false,
+  "k": 10,
+  "verdicts": {
+    "claude-haiku-5.5": {
+      "coalition_formed": true,
+      "means": {
+        "C1": 0.6725000000000001,
+        "C10": 0.6968749999999999,
+        "K1": 0.1,
+        "K2": 0.1125,
+        "K3": 0.2375,
+        "K4": 0.25250000000000006
+      },
+      "notice_disrupts": false,
+      "warning_disrupts_beyond_contact": false
+    },
+    "llama-3.1-8b": {
+      "coalition_formed": true,
+      "means": {
+        "C1": 0.6125,
+        "C10": 0.7093750000000001,
+        "K1": 0.29500000000000004,
+        "K2": 0.34750000000000003,
+        "K3": 0.33,
+        "K4": 0.34750000000000003
+      },
+      "notice_disrupts": false,
+      "warning_disrupts_beyond_contact": false
+    },
+    "qwen2.5-7b": {
+      "coalition_formed": true,
+      "means": {
+        "C1": 0.546875,
+        "C10": 0.546875,
+        "K1": 0.0025,
+        "K2": 0.017499999999999998,
+        "K3": 0.045,
+        "K4": 0.035
+      },
+      "notice_disrupts": false,
+      "warning_disrupts_beyond_contact": false
+    }
+  }
+}
