@@ -272,13 +272,13 @@ p("**Because accepted pacts change play, play can be audited: with 20 resampled 
   "not detectably above the 0.10 target, though an FPR up to {{x:fpr_hi_m20}} is not excluded.")
 B.append(("table",
           "**Table 2. Offers changed play in all three models; for Qwen, refusal and contact did too, and "
-          "audit thresholds must be set per model.** Post hoc except the battery, Llama's B1 cells and the "
-          "Llama and Claude C2 cells. Live effect rows: differences in per-sequence challenge rates on S vs no "
-          "offer (B3), all offered targets (refusers row: refusers only); “S − others” subtracts challenge "
-          "rates on O1 and O2 (exploratory). Snapshot and audit rows "
-          "re-ask decisions from Llama games; snapshot rows are paired differences from the null record. Audit "
-          "at m = 20, computed exactly, with each model's threshold refit on its own null answers and, last "
-          "row, Llama's preregistered threshold (Llama's Monte Carlo values: Table 1). CIs: Section 4, Appendix B.",
+          "audit thresholds must be set per model.** Preregistered: the battery, Llama's B1 acceptance and "
+          "effect, and the Llama and Claude C2 cells; the rest is post hoc. Live rows: differences in "
+          "per-sequence challenge rates on S vs no offer (B3), arm in brackets; “S − others” first subtracts "
+          "challenge rates on O1 and O2 (exploratory). Snapshot and audit rows re-ask decisions from Llama "
+          "games; snapshot rows are paired differences from the null record. Audit at m = 20, computed exactly "
+          "with each model's own refit threshold (for Llama, same cut-off; tie probability {{x:e_ll_gamma2}} vs "
+          "the preregistered {{x:tie_m20_2}}) and, last row, Llama's preregistered one. CIs: Section 4, Appendix B.",
           ["", "Llama-3.1-8B", "Qwen2.5-7B", "Claude Haiku 5.5"],
           [
               ["Battery: accepts direct / indirect", "{{x:k_llama_A1}} / {{x:k_llama_A2}}",
@@ -288,9 +288,9 @@ B.append(("table",
               ["Live: B1 direct offer", "{{v:live.H2_live_ITT}}", "{{x:e_qw_H2_live_ITT_v}}",
                "{{x:e_cl_H2_live_ITT_v}}"],
               ["Live: B6 indirect offer", "not run", "{{x:e_qw_B6_vs_B3_ITT_v}}", "{{x:e_cl_B6_vs_B3_ITT_v}}"],
-              ["Live: S − others (B1 / B6 / B6)", "{{x:tg_ll_B1_all_targeting_v}}",
-               "{{x:tg_qw_B6_all_targeting_v}}", "{{x:tg_cl_B6_all_targeting_v}}"],
-              ["Live: refusers only", "{{x:ph_ref_vs_b3_v}} (B4, notice)", "{{x:e_qw_B1_refused_vs_B3_v}} (B1)",
+              ["Live: S − others (exploratory)", "{{x:tg_ll_B1_all_targeting_v}} (B1)",
+               "{{x:tg_qw_B6_all_targeting_v}} (B6)", "{{x:tg_cl_B6_all_targeting_v}} (B6)"],
+              ["Live: refusers only", "{{x:ph_ref_vs_b3_v}} (B4)", "{{x:e_qw_B1_refused_vs_B3_v}} (B1)",
                "{{x:e_cl_B1_refused_vs_B3_v}} (B1)"],
               ["Snapshots: C9 indirect accepted", "{{x:e_ll_C9C1_v}}", "{{x:e_qw_C9C1_v}}",
                "{{x:e_cl_C9C1_v}}"],

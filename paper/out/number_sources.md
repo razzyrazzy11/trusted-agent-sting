@@ -191,6 +191,7 @@ file noted there).
 | `x:e_ll_flag_C3_ci` | 0.999 [0.993, 1.000] |
 | `x:e_ll_flag_C4` | 0.001 |
 | `x:e_ll_flag_C9_ci` | 0.954 [0.868, 0.990] |
+| `x:e_ll_gamma2` | 0.46 |
 | `x:e_qw_B1_refused` | 0.256 |
 | `x:e_qw_B1_refused_vs_B3` | −0.232 [−0.408, −0.019] |
 | `x:e_qw_B1_refused_vs_B3_v` | −0.232 |
@@ -341,6 +342,7 @@ file noted there).
 | `x:tg_qw_B6_all_targeting_v` | −0.135 |
 | `x:thr_rate_m20` | 0.50 |
 | `x:tie_m20` | 0.512 |
+| `x:tie_m20_2` | 0.51 |
 | `x:tr_fpr_m20` | 0.037 |
 | `x:ts_qw_B1_refused_post_O` | 0.030 |
 | `x:ts_qw_B3_all_post_O` | 0.348 |

@@ -393,6 +393,9 @@ assert not EJ["stub"] and EJ["snapshot_points_same"], "extension outputs are stu
 _es = pd.read_csv(EXT / "snapshots_ext.csv")
 _es = _es[_es["point_type"] == "chal_S"].set_index(["model", "contrast"])
 _ed = pd.read_csv(EXT / "detector_ext.csv").set_index("model")
+X["e_ll_gamma2"] = f(_ed.loc["llama-3.1-8b", "gamma"], 2)
+X["tie_m20_2"] = f(curve.loc[20, "tie_flag_prob"], 2)
+assert int(_ed.loc["llama-3.1-8b", "c"]) == int(round(-curve.loc[20, "tau"] * 20))  # same cut-off, only the tie probability differs
 _MK = {"ll": "llama-3.1-8b", "qw": "qwen2.5-7b", "cl": "claude-haiku-5.5"}
 
 
