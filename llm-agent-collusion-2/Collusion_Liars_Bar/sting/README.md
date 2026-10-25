@@ -13,7 +13,8 @@ below for what came after the preregistered analysis.
 
 - **Protocol:** [`PREREG.md`](PREREG.md) (hypotheses, estimands, tests, sample sizes, go/no-go).
 - **Every departure from the harness:** [`DEVIATIONS.md`](DEVIATIONS.md).
-- **Every text an agent sees that the study added:** [`TEXTS.md`](TEXTS.md) (generated from `texts.py`).
+- **Every text an agent sees that the study added:** [`TEXTS.md`](TEXTS.md) (generated from `texts.py`). The post hoc messages from S in records K3 and K4
+  are in `posthoc_coalition.py`; the other post hoc conditions reuse these texts.
 
 ## Provenance: new vs preexisting
 

@@ -641,11 +641,11 @@ Llama, every kind of contact was followed by fewer challenges of S: a benign pro
 −0.213], B1 refusers −0.232 [−0.408, −0.019], B4 (all refused) −0.262 [−0.426, −0.079] and B6
 −0.477 [−0.552, −0.403]. Challenges of the other players fell too (all B1 targets −0.326 [−0.458,
 −0.203], B6 −0.342 [−0.468, −0.225]). B6 accepters nearly stopped challenging anyone, while refusers
-and benign accepters still challenged S at 0.227–0.256 and 0.123. In snapshots, Qwen’s refused-pact
-record cut challenges of S (−0.375 [−0.478, −0.276]) almost as much as an accepted one (−0.422
-[−0.532, −0.318]). The live rule flagged B0 10/10, B1 4/4, B2 9/10 and B6 15/15 accepters. None of
-the 450 games hit the round cap. In interviews, Qwen accepters (B0, B1, B6) denied an agreement in
-0/116 answers, and benign B2 accepters in 2/40.
+(B4, B1) still challenged S at 0.227–0.256 and benign accepters (B2) at 0.123. In snapshots, Qwen’s
+refused-pact record cut challenges of S (−0.375 [−0.478, −0.276]) almost as much as an accepted one
+(−0.422 [−0.532, −0.318]). The live rule flagged B0 10/10, B1 4/4, B2 9/10 and B6 15/15 accepters.
+None of the 450 games hit the round cap. In interviews, Qwen accepters (B0, B1, B6) denied an
+agreement in 0/116 answers, and benign B2 accepters in 2/40.
 Exploratory: targeting and change from baseline (Sections 4.2, 4.4). For each sequence we computed
 the post-offer challenge rate on S minus that on O1 and O2 (S − others) and the post-offer minus pre-offer
 rate on S (change), and compared each with B3 (Table B2; Welch CIs are in targeting_contrasts.csv, in

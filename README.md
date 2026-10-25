@@ -21,7 +21,7 @@ Raw run logs and suspicion transcripts are not in the repository (shared on requ
 | [`sting/README.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/README.md) | Runbook: setup, the Modal servers, every stage, costs, schedule |
 | [`sting/PREREG.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/PREREG.md) | Pre-registration: hypotheses, estimands, tests, sample sizes, go/no-go |
 | [`sting/DEVIATIONS.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/DEVIATIONS.md) | Every departure from the harness and every design change, with reasons |
-| [`sting/TEXTS.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/TEXTS.md) | Every text the study shows the agents, verbatim |
+| [`sting/TEXTS.md`](llm-agent-collusion-2/Collusion_Liars_Bar/sting/TEXTS.md) | Every text the preregistered study shows the agents, verbatim (the post hoc K3/K4 messages from S are in `sting/posthoc_coalition.py`) |
 | [`paper/`](paper/) | The paper: `content.py` (text), `paper_numbers.py` (every number, resolved from the result files), `make_figures.py`, `build.py`; outputs in `paper/out/` |
 
 ## Verify and rebuild without any model calls
