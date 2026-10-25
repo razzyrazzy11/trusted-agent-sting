@@ -3,7 +3,7 @@ Block kinds: ("h2", text) ("h3", text) ("p", text) ("bullets", [text]) ("numbere
 ("fig", file, width_in, caption) ("table", caption, header, rows, col_widths_in) ("refs", [text])
 ("pagebreak",). Inline: **bold**, *italic*."""
 
-TITLE = "Undercover Agents: A Trusted Agent That Offers to Collude Reveals and Deters Secret Pact-Making by LLM Agents"
+TITLE = "Undercover Agents: A Trusted Agent That Offers to Collude Exposes and Deters Pact-Taking by LLM Agents"
 AUTHORS = "Raz [surname]"
 AFFIL = "[affiliation]"
 
@@ -110,7 +110,7 @@ p("Three stages ask three questions: does T accept (offer battery, cells A), doe
   "change T's next decision (snapshots, records C), and does that hold in live play (arms B)? The key "
   "contrasts are the same pact from the sting (A1) or the game designer (A0d), an accepted-pact record "
   "(C3) vs the null record (C1), and the sting's offer (B1) vs none (B3); PC1–PC3 are positive "
-  "controls. Differences are proportions (0.10 = 10 percentage points).")
+  "controls. Differences are proportions (0.10 = 10 percentage points), computed before rounding (Appendix B).")
 p("**Game.** Liar's Bar (Zeng & Rudzicz, 2026) is a four-player bluffing game. Each round has a "
   "target card; players in turn play 1–3 cards face down, claiming they are the target, and "
   "the next player may challenge. The loser of a challenge (the bluffer, or a wrong challenger) "
@@ -721,7 +721,8 @@ p("**Run statistics (preregistered study; post hoc runs in the paragraphs above)
   "condition was sampled 5 times per decision, and 20 times for C1a, C1b and C3 (post hoc also C9 and C10) at the challenge-S "
   "decisions, which came from {{x:h2_clusters}} source sequences. Snapshot and live CIs used 10,000 bootstrap resamples (Figure 4's per-arm CIs 2,000); "
   "audit CIs 300 (post hoc exact audits 2,000), re-calibrating in each. With 10 to 15 sequences per arm, live percentile-bootstrap "
-  "CIs are slightly narrower than Welch intervals (post hoc Welch CI for H2-live: {{x:h2live_welch_ci}}). {{x:calls_total}} model calls (offer battery "
+  "CIs are slightly narrower than Welch intervals (post hoc Welch CI for H2-live: {{x:h2live_welch_ci}}). Every number is rounded to the printed digits, halves away from zero, from unrounded results, so a "
+  "printed difference may differ by 0.001 from the difference of the printed values it compares. {{x:calls_total}} model calls (offer battery "
   "{{x:calls_A}}; live {{x:calls_L}}; snapshots {{x:calls_S}}); estimated Claude API cost {{x:cost_claude_A}} "
   "(offer battery) and {{x:cost_claude_S}} (snapshots), judge excluded; median game "
   "{{x:median_game}} minutes; snapshot samples failing to parse {{x:snap_fallback}}. PREREG.md calls "

@@ -28,7 +28,9 @@ H = R["health"]
 
 def f(x: float, d: int = 3, sign: bool = False) -> str:
     from decimal import Decimal, ROUND_HALF_UP
-    q = Decimal(repr(float(x))).quantize(Decimal(1).scaleb(-d), rounding=ROUND_HALF_UP)
+    # one rounding rule for every printed number: snap binary noise (e.g. 0.24749999999999997 -> 0.2475),
+    # then round half away from zero, so a value exactly halfway always rounds the same way
+    q = Decimal(repr(round(float(x), 10))).quantize(Decimal(1).scaleb(-d), rounding=ROUND_HALF_UP)
     s = f"{q:+.{d}f}" if sign else f"{q:.{d}f}"
     if float(s) == 0:
         s = s.lstrip("+-")
@@ -36,7 +38,7 @@ def f(x: float, d: int = 3, sign: bool = False) -> str:
 
 
 def pct(x: float, d: int = 1) -> str:
-    return f"{100 * x:.{d}f}%"
+    return f(100 * x, d) + "%"
 
 
 def ci3(est, lo, hi, d=3, sign=False) -> str:
@@ -94,13 +96,13 @@ def claim_ci(key: str, d: int = 3) -> str:
 
 
 def pp(x: float) -> str:
-    return f"{abs(100 * x):.0f}"
+    return f(abs(100 * x), 0)
 
 
 def claim_ppci(key: str) -> str:
     c = _full(key)
     lo, hi = sorted((abs(c["ci_low"]), abs(c["ci_high"])))
-    return f"{pp(c['value'])} percentage points (95% CI {100 * lo:.0f}–{100 * hi:.0f})"
+    return f"{pp(c['value'])} percentage points (95% CI {f(100 * lo, 0)}–{f(100 * hi, 0)})"
 
 
 # ---- tables -------------------------------------------------------------------------------
@@ -288,9 +290,9 @@ X = {
     "kappa_n": _kp.group(2),
     "kappa_parser": _kp.group(3),
     # budget (tables/budget.csv)
-    "cost_claude_A": f"${budget[(budget.stage == 'A') & (budget.model == 'claude-haiku-5.5')].cost_usd_estimate.iloc[0]:.2f}",
-    "cost_claude_S": f"${budget[(budget.stage == 'S') & (budget.model == 'claude-haiku-5.5')].cost_usd_estimate.iloc[0]:.2f}",
-    "cost_claude": f"${budget[budget.model == 'claude-haiku-5.5'].cost_usd_estimate.sum():.2f}",
+    "cost_claude_A": "$" + f(budget[(budget.stage == 'A') & (budget.model == 'claude-haiku-5.5')].cost_usd_estimate.iloc[0], 2),
+    "cost_claude_S": "$" + f(budget[(budget.stage == 'S') & (budget.model == 'claude-haiku-5.5')].cost_usd_estimate.iloc[0], 2),
+    "cost_claude": "$" + f(budget[budget.model == 'claude-haiku-5.5'].cost_usd_estimate.sum(), 2),
     "calls_total": f"{int(budget.calls.sum()):,}",
     # fallback range across arms (results.json -> health)
     "fallback_arm_lo": pct(min(H["fallback_rate_by_arm"].values())),
@@ -299,23 +301,23 @@ X = {
     # share of the pact's restraint an accepter must give up to reach it (snapshot means, chal_S)
     "thr_rate_m20": f(-curve.loc[20, "tau"], 2),
     "tie_m20": f(curve.loc[20, "tie_flag_prob"]),
-    "evade_share": (lambda c1, c3, thr: f"{100 * (thr - c3) / (c1 - c3):.0f}%")(
+    "evade_share": (lambda c1, c3, thr: f(100 * (thr - c3) / (c1 - c3), 0) + "%")(
         snap.loc[("llama-3.1-8b", "chal_S", "C3"), "mean_reference"],
         snap.loc[("llama-3.1-8b", "chal_S", "C3"), "mean_condition"], -curve.loc[20, "tau"]),
     "fpr_one_in": f"{round(1 / curve.loc[20, 'flag_C1b'])}",
     "benign_one_in": f"{round(1 / curve.loc[20, 'flag_C2'])}",
     "h2_clusters": str(int(snap.loc[("llama-3.1-8b", "chal_S", "C3"), "n_clusters"])),
     # cost of one offer plus a 20-decision audit at Claude Haiku 5.5 prices, from the Stage S per-call cost
-    "audit_cost": (lambda r: f"${21 * r.cost_usd_estimate / r.calls:.3f}")(
+    "audit_cost": (lambda r: "$" + f(21 * r.cost_usd_estimate / r.calls, 3))(
         budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),
-    "susp_diff_pp": f"{100 * (susp_pool.loc['T', 'rate'] - susp_pool.loc['O1/O2', 'rate']):.0f}",
+    "susp_diff_pp": f(100 * (susp_pool.loc['T', 'rate'] - susp_pool.loc['O1/O2', 'rate']), 0),
     "calls_A": f"{int(budget[budget.stage == 'A'].calls.sum()):,}",
     "calls_L": f"{int(budget[budget.stage == 'L'].calls.sum()):,}",
     "calls_S": f"{int(budget[budget.stage == 'S'].calls.sum()):,}",
     # round 7 additions
     "k_qwen_A2": acc("qwen2.5-7b", "A2"),
     "notice_direct_p": _p(live_c.loc["notice_vs_direct", "p_welch"]),
-    "den_parser_hi_pp": f"{100 * sc['hi']:.0f}",
+    "den_parser_hi_pp": f(100 * sc['hi'], 0),
     # sequences with no pre-offer T-on-S decision (no open circle in Figure 4)
     "no_pre": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())],
     "no_pre_cap": _NUM_WORD[sum(H["sequences_by_arm"].values()) - int(live_r.reset_index().query("measure == 'restraint' and period == 'pre'").n_seq.sum())].capitalize(),
@@ -330,7 +332,7 @@ X = {
     "h2live_welch_ci": _welch_ci("B1", "B3"),
     "frozen_hash_short": H["protocol"]["frozen_hash"][:8],
     "calib_calls": f"{_CALIB_CALLS:,}",
-    "calib_cost": (lambda r: f"${_CALIB_CALLS * r.cost_usd_estimate / r.calls:.2f}")(
+    "calib_cost": (lambda r: "$" + f(_CALIB_CALLS * r.cost_usd_estimate / r.calls, 2))(
         budget[(budget.stage == "S") & (budget.model == "claude-haiku-5.5")].iloc[0]),
 }
 _g2 = PH["gap2"]["contrasts"]
@@ -479,7 +481,7 @@ for _t, _tag in (("qw", "qwen"), ("cl", "claude")):
         if _v["n"]:
             X[f"e_{_t}_dl_{_arm}"] = f"{_v['flagged']}/{_v['n']}"
     if "B6_vs_B3_ITT" in _j["extra"]:
-        X[f"e_{_t}_B6_itt_pp"] = f"{abs(_j['extra']['B6_vs_B3_ITT']['estimate']) * 100:.0f}"
+        X[f"e_{_t}_B6_itt_pp"] = f(abs(_j['extra']['B6_vs_B3_ITT']['estimate']) * 100, 0)
     if (_j.get("detector_live") or {}).get("tau_rate") is not None:
         X[f"e_{_t}_tau"] = f(_j["detector_live"]["tau_rate"])
     if _j.get("balance_pre"):
@@ -526,10 +528,10 @@ for _t, _m in _MK.items():
     _eff = abs(_cc.loc[(_m, "K1-C1"), "estimate"])
     for _cn, _lab in (("(K2-K1)-(C10-C1)", "notice"), ("K3-K4", "warning")):
         _sh = max(0.0, _cc.loc[(_m, _cn), "ci_high"]) / _eff
-        X[f"co_{_t}_ub_{_lab}"] = f"{_sh * 100:.0f}%"
+        X[f"co_{_t}_ub_{_lab}"] = f(_sh * 100, 0) + "%"
         _shares.append(_sh)
-X["e_qw_benign_pp"] = f"{abs(pd.read_csv(EXT / 'qwen_live_contrasts.csv').set_index('key').loc['benign_vs_none', 'estimate']) * 100:.0f}"
-X["co_ub_max"] = f"{max(_shares) * 100:.0f}%"
+X["e_qw_benign_pp"] = f(abs(pd.read_csv(EXT / 'qwen_live_contrasts.csv').set_index('key').loc['benign_vs_none', 'estimate']) * 100, 0)
+X["co_ub_max"] = f(max(_shares) * 100, 0) + "%"
 X["tau_rate3"] = f(ls["detector_live"]["tau_rate"])
 assert all(_cj["verdicts"][_m]["coalition_formed"] for _m in _MK.values())
 assert not any(_cj["verdicts"][_m]["notice_disrupts"] or _cj["verdicts"][_m]["warning_disrupts_beyond_contact"]

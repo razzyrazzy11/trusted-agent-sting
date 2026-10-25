@@ -22,7 +22,7 @@ file noted there).
 | `ci:live.notice_vs_direct` | 0.297 [0.167, 0.422] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C2-C1` | −0.308 [−0.422, −0.197] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C3-C1` | −0.609 [−0.719, −0.490] |
-| `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.002 [−0.016, 0.009] |
+| `ci:snapshot.claude-haiku-5.5.chal_S.C5-C3` | −0.003 [−0.016, 0.009] |
 | `ci:snapshot.claude-haiku-5.5.chal_S.C7-C1` | −0.545 [−0.652, −0.428] |
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C3-C1` | 0.218 [0.134, 0.315] |
 | `ci:snapshot.claude-haiku-5.5.play_vs_S.C4-C1` | 0.292 [0.202, 0.385] |
@@ -30,7 +30,7 @@ file noted there).
 | `ci:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 [0.005, 0.108] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C3-C1` | −0.440 [−0.493, −0.387] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C8-C1` | −0.622 [−0.663, −0.581] |
-| `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.227 [−0.308, −0.143] |
+| `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.228 [−0.308, −0.143] |
 | `ci:snapshot.llama-3.1-8b.play_vs_S.C3-C1` | −0.065 [−0.138, 0.006] |
 | `pp:live.H2_live_ITT` | 41 |
 | `pp:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 |
@@ -83,7 +83,7 @@ file noted there).
 | `x:co_cl_K1C1` | −0.573 [−0.710, −0.433] |
 | `x:co_cl_K2K1C10C1` | 0.015 [−0.125, 0.155] |
 | `x:co_cl_K3K4` | −0.015 [−0.135, 0.103] |
-| `x:co_cl_K4K1` | 0.153 [−0.002, 0.305] |
+| `x:co_cl_K4K1` | 0.153 [−0.003, 0.305] |
 | `x:co_cl_m_C1` | 0.673 |
 | `x:co_cl_m_K1` | 0.100 |
 | `x:co_cl_m_K2` | 0.113 |
@@ -91,8 +91,8 @@ file noted there).
 | `x:co_cl_m_K4` | 0.253 |
 | `x:co_cl_ub_notice` | 27% |
 | `x:co_cl_ub_warning` | 18% |
-| `x:co_ll_K1C1` | −0.318 [−0.388, −0.247] |
-| `x:co_ll_K2K1C10C1` | −0.035 [−0.138, 0.067] |
+| `x:co_ll_K1C1` | −0.318 [−0.388, −0.248] |
+| `x:co_ll_K2K1C10C1` | −0.035 [−0.138, 0.068] |
 | `x:co_ll_K3K4` | −0.018 [−0.090, 0.060] |
 | `x:co_ll_m_C1` | 0.613 |
 | `x:co_ll_m_K1` | 0.295 |
@@ -107,7 +107,7 @@ file noted there).
 | `x:co_qw_K4K1` | 0.033 [0.005, 0.070] |
 | `x:co_qw_m_C1` | 0.520 |
 | `x:co_qw_m_K1` | 0.003 |
-| `x:co_qw_m_K2` | 0.017 |
+| `x:co_qw_m_K2` | 0.018 |
 | `x:co_qw_m_K3` | 0.045 |
 | `x:co_qw_m_K4` | 0.035 |
 | `x:co_qw_ub_notice` | 8% |
