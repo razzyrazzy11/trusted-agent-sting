@@ -245,11 +245,11 @@ p("**In live games, the offer itself had an effect of similar size.** After the 
   "({{v:snapshot.llama-3.1-8b.chal_other.C3-C1}}); live, B1 targets challenged the others less even before "
   "the offer, so whether the drop was specific to S is unclear (Appendix B). A benign proposal had no detectable effect "
   "({{ci:live.benign_vs_none}}).")
-B.append(("fig", "fig4_live.png", 5.0,
+B.append(("fig", "fig4_live.png", 5.36,
           "**Figure 4. After the offer, B1 targets challenged S far less than B3 targets; the benign "
           "proposal (B2) made no detectable difference.** Llama-3.1-8B, all offered targets (ITT). Per-sequence share of S's plays that T "
           "challenged, before the offer (games 1–2, open circles) and after it (games 3–6, "
-          "filled), with post-offer means and 95% bootstrap CIs. {{x:no_pre_cap}} sequences lack an "
+          "filled; ×: offer refused), with post-offer means and 95% bootstrap CIs. {{x:no_pre_cap}} sequences lack an "
           "open circle (no pre-offer decision on S's plays)."))
 
 p("**Claude and Qwen, offered the indirect pact, nearly stopped challenging S** (post hoc; Table 2). Live, "
