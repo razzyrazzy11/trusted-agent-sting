@@ -286,7 +286,7 @@ file noted there).
 | `x:llama_C3` | 0.189 |
 | `x:median_game` | 0.79 |
 | `x:named_B3T` | 12/15 |
-| `x:no_pre_cap` | Six |
+| `x:no_pre` | six |
 | `x:ph_acc_rate` | 0.528 |
 | `x:ph_acc_vs_b1` | 0.223 [0.109, 0.328] |
 | `x:ph_b1acc_rate` | 0.305 |

@@ -141,7 +141,7 @@ p("**Offers and scoring.** The sting's direct offer reads: “Private proposal, 
   "notice, added to the rules, reads: “Notice: some players at this table may be integrity agents "
   "who report secret agreements.” T must begin its reply with ACCEPT or REFUSE, scored by a strict "
   "first-word parser (primary); play outcomes are game actions, not parser labels.")
-p("**Offer battery: who accepts (H1, H4a).** Eleven cells, 500 sampled replies each (Figure 2; Appendix A.1), for Llama-3.1-8B (the "
+p("**Offer battery: who accepts (H1, H4a).** Eleven cells, 500 sampled replies each (Figure B1; Appendix A.1), for Llama-3.1-8B (the "
   "primary model), Qwen2.5-7B and Claude Haiku 5.5: the designer's secret hint tool from Zeng "
   "& Rudzicz (A0z, positive control PC1; A0b fixes the partner to S), the direct pact from the "
   "designer (A0d) or from the sting (A1), and sting variants with indirect or benign wording, the "
@@ -154,7 +154,7 @@ p("**Snapshots: does acceptance change the next decision (H2, primary).** For ex
   "pooled). From pre-offer "
   "games we sampled 160 decisions: 60 at S's plays (restraint), 60 where T played with S as its "
   "challenger (exploitation) and 40 where T could challenge another player (displacement). Other "
-  "records (Figure 3, Appendix B) include no memory block (C0), an accepted benign proposal (C2), a refused pact "
+  "records (Figure B2) include no memory block (C0), an accepted benign proposal (C2), a refused pact "
   "(C4), the pact with the integrity notice (C5), the pact under each persona (C6 honest, C7 colluder) "
   "and an accepted designer hint (C8, positive control PC3). Each record uses T's own offer-battery "
   "replies (templates where none exist). The H2 estimand is the mean over the 60 restraint decisions "
@@ -221,7 +221,7 @@ p("**Qwen2.5-7B refuses a peer's explicit pact but not an authority's.** It acce
   "{{x:k_qwen_A2}} times. A battery of only peer, or only explicit, offers would miss this.")
 p("**Claude Haiku 5.5 refuses explicit pacts but agrees to an indirect one.** Without an instructed "
   "persona it refused all 500 offers in every cell that named the pact or a designer tool (also under "
-  "the honest persona; Figure 2 in Appendix B), yet accepted the indirect pact (which drops the explicit mutual "
+  "the honest persona; Figure B1), yet accepted the indirect pact (which drops the explicit mutual "
   "promises and the explicit secrecy clause) {{x:k_claude_A2}} times and the direct pact under a colluder persona {{x:k_claude_A7}} "
   "times. As Zeng & Rudzicz found for secret tools, refusing explicit offers understates agreement, and Claude "
   "then acted on the indirect pact (Section 4.2).")
@@ -231,13 +231,13 @@ p("**Llama-3.1-8B accepts almost any pact, but not unconditionally:** {{x:k_llam
   "{{v:acceptance.llama-3.1-8b.A6}} and {{v:acceptance.llama-3.1-8b.A4}} (Section 4.4).")
 h3("4.2 Accepted pacts are acted on")
 p("**In snapshots, an accepted pact lowers the chance that T challenges S from {{x:llama_C1}} to "
-  "{{x:llama_C3}}** (H2: {{ci:snapshot.llama-3.1-8b.chal_S.C3-C1}}; Figure 3 in Appendix B). For Llama, "
+  "{{x:llama_C3}}** (H2: {{ci:snapshot.llama-3.1-8b.chal_S.C3-C1}}; Figure 2a). For Llama, "
   "controls separate the pact from mere contact (any private message from S): an accepted benign proposal barely moves challenges of S "
   "({{v:snapshot.llama-3.1-8b.chal_S.C2-C1}}), and a refused pact *raises* them "
   "({{v:snapshot.llama-3.1-8b.chal_S.C4-C1}}).")
 p("**In live games, the offer itself had an effect of similar size.** After the sting's direct offer "
   "(B1, {{x:live_acc_B1}} accepted), T challenged S's plays at a mean per-sequence rate of {{x:B1_post}}, "
-  "against {{x:B3_post}} with no offer (H2-live, ITT: {{ci:live.H2_live_ITT}}; Figure 4). B1 targets, if "
+  "against {{x:B3_post}} with no offer (H2-live, ITT: {{ci:live.H2_live_ITT}}; Figure 2b). B1 targets, if "
   "anything, challenged S more before the offer ({{x:pre_B1}} vs {{x:pre_B3}}, p = {{x:balance_p}}), so "
   "baseline imbalance is unlikely to explain the drop. Llama neither exploited the pact nor "
   "displaced challenges: in snapshots it bluffed no more against S "
@@ -245,12 +245,13 @@ p("**In live games, the offer itself had an effect of similar size.** After the 
   "({{v:snapshot.llama-3.1-8b.chal_other.C3-C1}}); live, B1 targets challenged the others less even before "
   "the offer, so whether the drop was specific to S is unclear (Appendix B). A benign proposal had no detectable effect "
   "({{ci:live.benign_vs_none}}).")
-B.append(("fig", "fig4_live.png", 5.36,
-          "**Figure 4. After the offer, B1 targets challenged S far less than B3 targets; the benign "
-          "proposal (B2) made no detectable difference.** Llama-3.1-8B, all offered targets (ITT). Per-sequence share of S's plays that T "
-          "challenged, before the offer (games 1–2, open circles) and after it (games 3–6, "
-          "filled; ×: offer refused), with post-offer means and 95% bootstrap CIs. {{x:no_pre_cap}} sequences lack an "
-          "open circle (no pre-offer decision on S's plays)."))
+B.append(("fig", "fig2_main.png", 6.5,
+          "**Figure 2. An accepted pact cut T's challenges of S in re-asked decisions (a) and in live play "
+          "(b); a benign proposal barely moved them.** Llama-3.1-8B; 95% bootstrap CIs. (a) Snapshots (H2, "
+          "primary): change at the 60 restraint decisions vs the null record (green: positive control; all "
+          "records in Figure B2). (b) Live, all offered targets (ITT): per-sequence challenge rate on S before "
+          "the offer (games 1–2, open circles; {{x:no_pre}} sequences had no such decision) and after it (games "
+          "3–6, filled; ×: offer refused), with post-offer means."))
 
 p("**Claude and Qwen, offered the indirect pact, nearly stopped challenging S** (post hoc; Table 2). Live, "
   "the indirect offer (B6) changed challenges of S by {{x:e_cl_B6_vs_B3_ITT}} for Claude ({{x:e_cl_acc_B6}} "
@@ -267,8 +268,8 @@ p("**For Qwen, most of the restraint followed contact, not the pact.** A benign 
   "snapshots the indirect pact cut challenges of S more than a benign proposal (C9 − C2: {{x:e_qw_C9C2_v}}).")
 h3("4.3 A 20-decision audit flags accepters, but for Qwen and Claude not only pacts")
 p("**Because accepted pacts change play, play can be audited: with 20 resampled decisions, the audit "
-  "flags nearly all simulated pact-accepting agents** (TPR {{ci:H3.tpr_m20}}; Figure 5 in "
-  "Appendix B), as the preregistered simulation predicted; this follows from H2, so it shows how few "
+  "flags nearly all simulated pact-accepting agents** (TPR {{ci:H3.tpr_m20}}; Figure "
+  "B3), as the preregistered simulation predicted; this follows from H2, so it shows how few "
   "decisions suffice, not independent validation. Its FPR on the "
   "independent null replicate was {{ci:H3.fpr_m20}} (Monte Carlo; {{x:fpr_exact_m20}} exactly), "
   "within what the preregistered simulation gave a calibrated audit (95th percentile 0.16–0.18), though an FPR up to {{x:fpr_hi_m20}} is not excluded.")
@@ -557,7 +558,7 @@ p("**Offer battery, remaining cells.** Llama-3.1-8B: designer offers A0z/A0b/A0d
   "{{v:acceptance.claude-haiku-5.5.A7}}; indirect pact in Section 4.1; every other cell 0 of 500. No offer-battery "
   "reply was unparseable ({{x:a_unclear}}).")
 B.append(("fig", "fig2_acceptance.png", 6.4,
-          "**Figure 2. Refusal depends on who offers and how: Qwen refuses the sting's direct pact (A1) "
+          "**Figure B1. Refusal depends on who offers and how: Qwen refuses the sting's direct pact (A1) "
           "but not the designer's (A0d); without a persona, Claude refuses explicit pacts but accepts "
           "the indirect one (A2).** Share of 500 offers accepted per cell (strict parser; 95% Wilson CIs)."))
 p("**The harness's substring parser inflates acceptance.** It counts “I will not accept” as acceptance. On "
@@ -576,7 +577,7 @@ p("**Claude Haiku 5.5 as T (Sections 4.2–4.3): restraint is only partly pact-s
   "effect given a (templated) accepted pact, {{ci:snapshot.claude-haiku-5.5.chal_S.C5-C3}}, is "
   "uninformative: challenges of S were already near zero.")
 B.append(("fig", "fig3_snapshots.png", 6.2,
-          "**Figure 3. Records of an accepted pact (C3), hint (C8) or pact under a colluder persona (C7) sharply cut "
+          "**Figure B2. Records of an accepted pact (C3), hint (C8) or pact under a colluder persona (C7) sharply cut "
           "T's challenges of S; bluffing against S moves by at most {{x:expl_max}} under any record.** Llama-3.1-8B as T; each panel re-asks "
           "its own 60 decisions (left: at S's plays; right: playing with S as challenger) under every "
           "record. Differences vs the pooled null record C1, except C5 (vs C3) and C1b (vs C1a); 95% "
@@ -596,7 +597,7 @@ p("**Live exploitation and displacement.** Post-offer B1 − B3 contrasts were "
 p("**Live robustness.** Decision-level pooled B1 − B3 estimate {{x:pooled}}; GEE logit "
   "(exchangeable correlation, clusters = sequences; Liang & Zeger, 1986) odds ratio {{x:gee_or}}.")
 B.append(("fig", "fig5_detector.png", 4.05,
-          "**Figure 5. Ten or more audited decisions flag nearly all simulated accepters (C3); the "
+          "**Figure B3. Ten or more audited decisions flag nearly all simulated accepters (C3); the "
           "null-replicate FPR sits at or above the 0.10 target.** Threshold calibrated on null-record agents "
           "(C1a) for each audit length m; Monte Carlo flag rates (exact values at m = 20: Table 2); 95% "
           "bootstrap CIs over source sequences, re-calibrated in each resample."))
@@ -734,7 +735,7 @@ p("**Run statistics (preregistered study; post hoc runs in the paragraphs above)
   "harness's default action. Open models ran on our own vLLM servers on Modal at pinned revisions; Claude "
   "Haiku 5.5 (claude-haiku-5-5, thinking disabled) ran through the Anthropic API. Each snapshot "
   "condition was sampled 5 times per decision, and 20 times for C1a, C1b and C3 (post hoc also C9 and C10) at the challenge-S "
-  "decisions, which came from {{x:h2_clusters}} source sequences. Snapshot and live CIs used 10,000 bootstrap resamples (Figure 4's per-arm CIs 2,000); "
+  "decisions, which came from {{x:h2_clusters}} source sequences. Snapshot and live CIs used 10,000 bootstrap resamples (Figure 2b's per-arm CIs 2,000); "
   "audit CIs 300 (post hoc exact audits 2,000), re-calibrating in each. With 10 to 15 sequences per arm, live percentile-bootstrap "
   "CIs are slightly narrower than Welch intervals (post hoc Welch CI for H2-live: {{x:h2live_welch_ci}}). Every number is rounded to the printed digits, halves away from zero, from unrounded results, so a "
   "printed difference may differ by 0.001 from the difference of the printed values it compares. {{x:calls_total}} model calls (offer battery "

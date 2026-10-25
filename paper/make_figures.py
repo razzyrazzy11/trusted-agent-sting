@@ -212,6 +212,65 @@ def fig4(tab: Path = TAB) -> bool:
     return True
 
 
+# ---- Figure 2 (main text): snapshots and live games side by side -------------------------------
+MAIN_C = [("C3", "C3 accepted pact"), ("C8", "C8 accepted hint"), ("C2", "C2 accepted benign"),
+          ("C4", "C4 refused pact")]
+MAIN_B = {"B0": "hint\n(PC2)", "B1": "direct\npact", "B2": "benign", "B3": "no offer", "B4": "pact +\nnotice"}
+
+
+def fig2_main(tab: Path = TAB) -> None:
+    """Main-text Figure 2. (a) The preregistered primary analysis (H2): change in T's challenge rate on
+    S's plays under each private record vs the null record (Llama, snapshot_contrasts.csv). (b) Live
+    games from live_seq_rates.csv, drawn exactly as figure 4 of the analysis (seed 0, same draw order,
+    2,000 bootstrap resamples), so its means and CIs are the published ones."""
+    t = pd.read_csv(tab / "snapshot_contrasts.csv")
+    t = t[(t["model"] == "llama-3.1-8b") & (t["point_type"] == "chal_S")].set_index("condition")
+    d = pd.read_csv(tab / "live_seq_rates.csv")
+    post, pre = d[d["period"] == "post"], d[d["period"] == "pre"]
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(6.5, 2.55), gridspec_kw={"width_ratios": [1, 1.7]})
+    for i, (c, _) in enumerate(MAIN_C):
+        r = t.loc[c]
+        col = BLUE if c == "C3" else (AQUA if c == "C8" else MUTED)
+        a1.errorbar(r["estimate"], i, xerr=err(r["estimate"], r["ci_low"], r["ci_high"]), fmt="o", ms=4,
+                    color=col, ecolor=col, elinewidth=1.2, capsize=0)
+    a1.axvline(0, color=AXIS, lw=0.9)
+    a1.set_yticks(range(len(MAIN_C))); a1.set_yticklabels([l for _, l in MAIN_C]); a1.invert_yaxis()
+    a1.set_ylim(len(MAIN_C) - 0.5, -0.6)
+    a1.set_xlim(-0.72, 0.3); a1.set_xticks([-0.6, -0.4, -0.2, 0.0, 0.2])
+    a1.set_xlabel("Change vs null record (C1)")
+    a1.set_title("(a) Snapshots: T challenges S", loc="left")
+    rng = np.random.default_rng(0)
+    arms = [a for a in MAIN_B if a in set(post["arm"])]
+    for i, arm in enumerate(arms):
+        p = post[post["arm"] == arm]
+        x = i + rng.uniform(-0.12, 0.12, size=len(p))
+        refused = (p["accepted"] == False).values  # noqa: E712  (B3 has no offer: NaN, drawn as filled)
+        a2.scatter(x[~refused], p["rate"].values[~refused], s=12, color=BLUE, alpha=0.8, zorder=3, lw=0,
+                   label="post-offer" if i == 0 else None)
+        if refused.any():
+            a2.scatter(x[refused], p["rate"].values[refused], s=16, color=BLUE, marker="x", zorder=3, lw=1.0,
+                       label="post-offer, refused")
+        if len(p) > 1:
+            boots = [p["rate"].values[rng.integers(0, len(p), len(p))].mean() for _ in range(2000)]
+            lo, hi = np.quantile(boots, [0.025, 0.975])
+            a2.errorbar(i + 0.28, p["rate"].mean(), yerr=err(p["rate"].mean(), lo, hi), fmt="D", ms=4,
+                        color=INK, ecolor=INK, elinewidth=1.2, capsize=0, zorder=4,
+                        label="post-offer mean, 95% CI" if i == 0 else None)
+        q = pre[pre["arm"] == arm]
+        a2.scatter(i - 0.32 + rng.uniform(-0.09, 0.09, size=len(q)), q["rate"], s=11, facecolors="none",
+                   edgecolors=MUTED, lw=0.7, zorder=2, label="pre-offer" if i == 0 else None)
+    a2.set_xticks(range(len(arms))); a2.set_xticklabels([f"{a}\n{MAIN_B[a]}" for a in arms])
+    a2.set_xlim(-0.6, len(arms) - 0.5); a2.set_ylim(-0.04, 1.04)
+    a2.set_ylabel("Challenge rate on S")
+    a2.set_title("(b) Live games: T challenges S", loc="left")
+    h, l = a2.get_legend_handles_labels()
+    order = [l.index(k) for k in ("pre-offer", "post-offer", "post-offer, refused", "post-offer mean, 95% CI") if k in l]
+    fig.legend([h[k] for k in order], [l[k] for k in order], loc="lower right", bbox_to_anchor=(0.995, 0.925),
+               ncol=4, frameon=False, handletextpad=0.1, columnspacing=0.8, borderaxespad=0.0)
+    fig.tight_layout(w_pad=1.2, rect=(0, 0, 1, 0.955))
+    save(fig, "fig2_main")
+
+
 def crop(src: Path, dst: Path, pad: int = 12):
     im = Image.open(src).convert("RGB")
     bg = Image.new("RGB", im.size, (255, 255, 255))
@@ -236,10 +295,7 @@ def drop_title(path: Path, pad: int = 6):
 
 
 if __name__ == "__main__":
-    fig1(); fig2(); fig3(); fig5()
-    if not fig4():
-        crop(RES / "figures" / "fig4_live.png", OUT / "fig4_live.png")
-        drop_title(OUT / "fig4_live.png")
-    for stale in ("fig2_acceptance.pdf",):
+    fig1(); fig2(); fig3(); fig5(); fig2_main()
+    for stale in ("fig2_acceptance.pdf", "fig4_live.png"):
         (OUT / stale).unlink(missing_ok=True)
     print(sorted(p.name for p in OUT.iterdir()))
