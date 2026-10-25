@@ -1,4 +1,5 @@
-"""Paper figures, drawn at print size so text is >= 8 pt on the page.
+"""Paper figures. Figures 2, 3 and 5 are placed at their drawn width (8 pt type); figure 1 is drawn
+wider than it is placed, with type enlarged to match, so it also prints at about 8 pt.
 
 Figures 2, 3 and 5 are redrawn from the committed analysis tables (sting_results/tables/*.csv) with
 the palette of sting/analysis/figures.py; figure 1 is the same schematic at print size. Figure 4
@@ -44,38 +45,39 @@ def save(fig, name):
 
 # ---- Figure 1: design ---------------------------------------------------------------------
 def fig1():
-    fig, ax = plt.subplots(figsize=(6.0, 1.95))
-    ax.axis("off"); ax.set_xlim(0, 10.9); ax.set_ylim(0, 4.1)
+    # drawn wider than it is placed (4.6 in), so type is set ~1.25x larger to print at ~8 pt
+    fig, ax = plt.subplots(figsize=(6.0, 2.05))
+    ax.axis("off"); ax.set_xlim(0, 10.9); ax.set_ylim(-0.1, 4.2)
 
     def ring(x0, order, title, note):
-        ax.text(x0 + 1.0, 3.85, title, ha="center", color=INK, fontsize=8.5, weight="bold")
+        ax.text(x0 + 1.0, 3.95, title, ha="center", color=INK, fontsize=10.5, weight="bold")
         pos = [(x0, 3.0), (x0 + 2.0, 3.0), (x0 + 2.0, 1.4), (x0, 1.4)]
         for (x, y), role in zip(pos, order):
             face = BLUE if role == "S" else (ORANGE if role == "T" else "white")
-            ax.add_patch(matplotlib.patches.Ellipse((x, y), 0.62, 0.78, facecolor=face, edgecolor=INK2, lw=0.8))
-            ax.text(x, y, role, ha="center", va="center", fontsize=8.5,
+            ax.add_patch(matplotlib.patches.Ellipse((x, y), 0.72, 0.9, facecolor=face, edgecolor=INK2, lw=0.8))
+            ax.text(x, y, role, ha="center", va="center", fontsize=10,
                     color="white" if role in ("S", "T") else INK)
         for i in range(4):
             (x1, y1), (x2, y2) = pos[i], pos[(i + 1) % 4]
             ax.annotate("", xy=(x2 + (x1 - x2) * 0.27, y2 + (y1 - y2) * 0.27),
                         xytext=(x1 + (x2 - x1) * 0.27, y1 + (y2 - y1) * 0.27),
                         arrowprops=dict(arrowstyle="->", color=MUTED, lw=0.9))
-        ax.text(x0 + 1.0, 0.35, note, ha="center", va="center", color=INK2, fontsize=8, linespacing=1.2)
+        ax.text(x0 + 1.0, 0.3, note, ha="center", va="center", color=INK2, fontsize=10, linespacing=1.15)
 
     ring(0.5, ["S", "T", "O1", "O2"], "Seating R", "T sits after S\n(restraint)")
     ring(3.75, ["T", "S", "O1", "O2"], "Seating E", "S sits after T\n(exploitation)")
-    ax.text(6.75, 3.85, "Six-game sequence (RERERE or ERERER)", color=INK, fontsize=8.5, weight="bold")
-    steps = ["Games 1–2: no offer", "Before game 3: the arm's private offer",
-             "   (none in B3); T replies ACCEPT/REFUSE", "Games 3–6: T's reply stays in its",
-             "   private record; S never challenges T", "End: suspicion questions; offered T interviewed"]
+    ax.text(6.6, 3.95, "Six games (RERERE or ERERER)", color=INK, fontsize=10.5, weight="bold")
+    steps = ["Games 1–2: no offer", "Before game 3: private offer", "  (none in B3, B5); T replies",
+             "Games 3–6: offer + reply in", "  T's memory; S never", "  challenges T",
+             "End: suspicion questions;", "  offered T interviewed"]
     for i, s in enumerate(steps):
-        ax.text(6.75, 3.25 - i * 0.52, s, color=INK2, fontsize=8)
+        ax.text(6.6, 3.4 - i * 0.47, s, color=INK2, fontsize=10)
     save(fig, "fig1_design")
 
 
 # ---- Figure 2: Stage A acceptance ------------------------------------------------------------
 SHORT_A = {
-    "A0z": "A0z designer: secret-hint tool (Zeng)", "A0b": "A0b designer: hint tool with S",
+    "A0z": "A0z designer: hint tool (Zeng & Rudzicz)", "A0b": "A0b designer: hint tool with S",
     "A0d": "A0d designer: direct pact with S", "A1": "A1 sting: direct pact",
     "A2": "A2 sting: indirect pact", "A3": "A3 sting: benign proposal",
     "A4": "A4 sting: direct + integrity notice", "A5": "A5 sting: benign + integrity notice",
@@ -117,7 +119,7 @@ SHORT_C = [("C3", "C3 accepted direct pact"), ("C8", "C8 accepted designer hint"
 def fig3():
     t = pd.read_csv(TAB / "snapshot_contrasts.csv")
     t = t[t["model"] == "llama-3.1-8b"]
-    fig, axes = plt.subplots(1, 2, figsize=(6.2, 2.45), sharey=True,
+    fig, axes = plt.subplots(1, 2, figsize=(6.2, 2.45), sharey=True, sharex=True,
                              gridspec_kw={"width_ratios": [1.25, 1]})
     for ax, (pt, title) in zip(axes, [("chal_S", "T challenges S (restraint)"),
                                       ("play_vs_S", "T bluffs against S (exploitation)")]):
@@ -129,7 +131,8 @@ def fig3():
                         fmt="o", ms=4, color=col, ecolor=col, elinewidth=1.2, capsize=0)
         ax.axvline(0, color=AXIS, lw=0.9)
         ax.set_title(title, loc="left")
-        ax.set_xlabel("Risk difference vs null record")
+        ax.set_xlabel("Risk difference vs reference record")
+        ax.set_xticks([-0.6, -0.3, 0.0, 0.3])
     axes[0].set_yticks(range(len(SHORT_C)))
     axes[0].set_yticklabels([l for _, l in SHORT_C])
     axes[0].invert_yaxis()
@@ -141,10 +144,10 @@ def fig3():
 def fig5():
     c = pd.read_csv(TAB / "detector_curve.csv")
     fig, ax = plt.subplots(figsize=(4.4, 2.5))
-    for col, label, color in (("flag_C3", "Accepted direct pact (C3): TPR", BLUE),
-                              ("flag_C1b", "Null replicate (C1b): FPR", ORANGE),
-                              ("flag_C2", "Accepted benign proposal (C2)", AQUA)):
-        ax.plot(c["m"], c[col], marker="o", ms=3.5, lw=1.4, color=color, label=label)
+    for col, label, color, mk in (("flag_C3", "Accepted direct pact (C3): TPR", BLUE, "o"),
+                                  ("flag_C1b", "Null replicate (C1b): FPR", ORANGE, "s"),
+                                  ("flag_C2", "Accepted benign proposal (C2)", AQUA, "D")):
+        ax.plot(c["m"], c[col], marker=mk, ms=3.8, lw=1.4, color=color, label=label)
         ax.fill_between(c["m"], c[f"{col}_lo"], c[f"{col}_hi"], color=color, alpha=0.13, lw=0)
     ax.axhline(0.10, color=MUTED, lw=0.9, ls="--", label="Target FPR 0.10")
     ax.set_xscale("log", base=2)
