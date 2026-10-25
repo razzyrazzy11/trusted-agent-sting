@@ -76,6 +76,28 @@ def _enter_lb_root():
         sys.path.insert(0, str(LB_ROOT))
 
 
+def preregistered_points(src: Path) -> dict:
+    """The preregistered snapshot decision points, rebuilt from the live logs by point_id (the selection is
+    not re-drawn), each checked against the prompt actually sent in the preregistered run (C1a call log)."""
+    import gzip
+    from . import stage_s
+    ids = [p["point_id"] for p in json.loads((src / "stageS" / "points.json").read_text())]
+    pool = stage_s.collect_points(src / "live", config.PRIMARY_MODEL,
+                                  {"chal_S": 10 ** 6, "play_vs_S": 10 ** 6, "chal_other": 10 ** 6})
+    by = {p["point_id"]: p for p in pool}
+    pts = [by[i] for i in ids if i in by]
+    sent = {}
+    with gzip.open(src / "stageS" / config.PRIMARY_MODEL / "calls.jsonl.gz", "rt", encoding="utf-8") as f:
+        for line in f:
+            c = json.loads(line)
+            key = c.get("meta_point_id")
+            if c.get("meta_condition") == "C1a" and key in by and key not in sent:
+                sent[key] = c["messages"][0]["content"]
+    match = sum(1 for p in pts if sent.get(p["point_id"]) == stage_s.build_prompt(p, "C1a", None))
+    return dict(points=pts, n_preregistered=len(ids), n_found=len(pts),
+                missing=[i for i in ids if i not in by], n_prompt_match=match)
+
+
 def cmd_snapshots(a) -> int:
     from .client import prepare_backends
     from .runinfo import keep_out_of_git
@@ -89,6 +111,14 @@ def cmd_snapshots(a) -> int:
         jobs += [(m, EXT_SNAPSHOT_CONDITIONS) for m in a.models]
     if not a.no_qwen:
         jobs.append((QWEN, QWEN_SNAPSHOT_CONDITIONS))
+    pre = preregistered_points(src)
+    print(f"preregistered points: {pre['n_found']}/{pre['n_preregistered']} found, "
+          f"{pre['n_prompt_match']} with the identical prompt", flush=True)
+    if pre["n_prompt_match"] != pre["n_preregistered"]:
+        print("ERROR: cannot rebuild every preregistered decision point exactly", file=sys.stderr)
+        return 1
+    from . import stage_s
+    stage_s.collect_points = lambda *args, **kw: pre["points"]     # re-ask exactly those points
     prepare_backends([m for m, _ in jobs], stub=a.stub)
     summary = {}
     for model, conds in jobs:

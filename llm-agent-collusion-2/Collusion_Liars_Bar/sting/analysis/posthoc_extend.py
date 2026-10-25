@@ -77,8 +77,12 @@ def committed_llama_threshold(res_root: Path):
 
 
 # ----------------------------------------------------------------------------------------- data
-def merged_snapshots(d0: Data, de: Data) -> pd.DataFrame:
-    return pd.concat([d0.S, de.S], ignore_index=True) if not de.S.empty else d0.S
+def merged_snapshots(d0: Data, de: Data, ids) -> pd.DataFrame:
+    """Extension rows restricted to the preregistered decision points (an earlier extension run also
+    sampled other points; those rows are not used)."""
+    if de.S.empty:
+        return d0.S
+    return pd.concat([d0.S, de.S[de.S["point_id"].isin(set(ids))]], ignore_index=True)
 
 
 def snapshot_results(Sall: pd.DataFrame, rng) -> pd.DataFrame:
@@ -316,7 +320,8 @@ def main(argv=None):
     out.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(ANALYSIS_SEED + 11)
 
-    Sall = merged_snapshots(d0, de)
+    pre_ids = [p["point_id"] for p in json.loads((runs / "stageS" / "points.json").read_text())]
+    Sall = merged_snapshots(d0, de, pre_ids)
     snap = snapshot_results(Sall, rng)
     llama_thr = committed_llama_threshold(res_root)
     det = {m: detector_model(Sall, m, rng, llama_thr) for m in (LLAMA, CLAUDE, QWEN)}
@@ -361,9 +366,10 @@ def main(argv=None):
                            denial_notice=L["probes"].get("denial_notice")) if L else None)
                 for tag, L in (("qwen", ql), ("claude", cl))},
              ablation=ab,
-             snapshot_points_same=bool(json.loads((runs / "stageS" / "points.json").read_text()) ==
-                                       json.loads((ext / "stageS" / "points.json").read_text()))
-             if (ext / "stageS" / "points.json").exists() else None)
+             snapshot_points_same=bool(pre_ids == [p["point_id"] for p in
+                                                   json.loads((ext / "stageS" / "points.json").read_text())])
+             if (ext / "stageS" / "points.json").exists() else None,
+             snapshot_rows_used=int(len(Sall) - len(d0.S)))
     (out / "ext.json").write_text(json.dumps(J, indent=2, default=lambda o: _f(o) if isinstance(o, (float, np.floating))
                                              else (int(o) if isinstance(o, np.integer) else str(o))))
     from .posthoc_gaps import _md
