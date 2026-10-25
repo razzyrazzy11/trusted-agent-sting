@@ -10,22 +10,22 @@ AFFIL = "[affiliation]"
 ABSTRACT = (
     "Can a trusted agent disrupt collusion by offering to collude (sprint question 3.2)? In Zeng & "
     "Rudzicz's (2026) Liar's Bar harness, a scripted “sting” player privately offered one target agent a "
-    "pact: neither would challenge the other. The primary model, Llama-3.1-8B, was studied under a "
-    "hash-frozen preregistration; live replications with Qwen2.5-7B and Claude "
-    "Haiku 5.5 are post hoc. Refusals were unreliable: Qwen accepted the pact {{x:k_qwen_A0d}} times from "
-    "the game designer but {{x:k_qwen_A1}} from the sting, and Claude refused every explicit pact absent an "
-    "instructed persona yet accepted a vaguer one {{x:k_claude_A2}} times. Accepted pacts showed up in play. For Llama, a memory "
-    "note of acceptance cut the probability of challenging the sting by "
-    "{{pp:snapshot.llama-3.1-8b.chal_S.C3-C1}} percentage points in re-asked decisions, and the offer cut "
-    "it by {{pp:live.H2_live_ITT}} points across all offered targets in live games; the vaguer offer cut "
-    "Claude's and Qwen's by {{x:e_cl_B6_itt_pp}} and {{x:e_qw_B6_itt_pp}} points (Qwen's mostly through contact alone). A 20-decision audit "
-    "calibrated on each model flagged nearly all simulated accepters, but it flags any change in play: for "
-    "Qwen and Claude it also flagged refusers or benign accepters, and Llama's threshold misfired on Qwen. "
-    "Announcing stings deterred acceptance: a rules notice that some players may be integrity agents cut "
-    "Llama's acceptance from {{v:acceptance.llama-3.1-8b.A1}} to {{v:acceptance.llama-3.1-8b.A4}} without "
-    "affecting a benign proposal, but neither the notice nor a private warning broke a pact two ordinary "
-    "agents had already made (post hoc). Evaluators should vary the "
-    "offer, calibrate the audit per model and judge play rather than words."
+    "pact: neither would challenge the other. Our answer is partly. The primary model, Llama-3.1-8B, was "
+    "studied under a hash-frozen preregistration; replications with Qwen2.5-7B and Claude Haiku 5.5 are "
+    "post hoc. Refusals were unreliable: Qwen accepted the pact {{x:k_qwen_A0d}} times from the game "
+    "designer but {{x:k_qwen_A1}} from the sting, and Claude refused every explicit pact absent an "
+    "instructed persona yet accepted a vaguer, indirect one {{x:k_claude_A2}} times. Accepted pacts showed "
+    "up in play: in live games the offer cut Llama's probability of challenging the sting by "
+    "{{pp:live.H2_live_ITT}} percentage points, and the indirect offer cut Claude's and Qwen's by "
+    "{{x:e_cl_B6_itt_pp}} and {{x:e_qw_B6_itt_pp}} (for Qwen, a benign message alone cut it by "
+    "{{x:e_qw_benign_pp}}). A 20-decision audit calibrated on each model flagged nearly all simulated "
+    "accepters, but it flags any drop in challenges of the sting, so for Qwen and Claude it also flagged "
+    "mere contact, and Llama's threshold misfired on Qwen. An integrity notice that some players may be "
+    "integrity agents cut Llama's acceptance from {{v:acceptance.llama-3.1-8b.A1}} to "
+    "{{v:acceptance.llama-3.1-8b.A4}} without affecting a benign proposal. In post hoc snapshots where a "
+    "target recalled accepting another player's pact, neither the notice nor a private warning from the "
+    "sting measurably weakened it. Evaluators should vary the offer, calibrate the audit per model and "
+    "judge play rather than words."
 )
 
 B = []
@@ -70,14 +70,14 @@ B.append(("bullets", [
     "**Evidence that refusal depends on who offers (Qwen) and how (Claude)**, as Zeng & Rudzicz found "
     "for secret tools, so explicit refusals are weak evidence of safety.",
     "**Evidence that accepted pacts are acted on by all three models, and can be detected by an audit "
-    "calibrated on each model.** For Llama, an "
+    "calibrated on each model**, though for Qwen and Claude it also flags mere contact. For Llama, an "
     "accepted-pact record cut challenges of the sting by {{pp:snapshot.llama-3.1-8b.chal_S.C3-C1}} "
     "percentage points in snapshots and the offer cut them by {{pp:live.H2_live_ITT}} points live; Claude "
     "and Qwen, offered the indirect pact, nearly stopped challenging the sting (Qwen mostly from contact "
     "alone).",
     "**Evidence that announcing stings deters acceptance** of the collusive pact but not of a benign "
-    "one, though neither the notice nor the sting's private warning broke a pact already made between "
-    "two ordinary agents.",
+    "one (preregistered, Llama); in post hoc snapshots, neither the notice nor the sting's private "
+    "warning measurably weakened a pact a target had already accepted from another player.",
 ]))
 
 # ------------------------------------------------------------------------------------------
@@ -103,10 +103,8 @@ p("**What is new.** Our design adapts the sprint's weekend project for question 
   "makes a direct pact offer, an indirect pact offer or a benign proposal to one agent per table, with "
   "the designer's hint tool as positive control. Scripted peers with a fixed policy have been used to "
   "isolate peer effects on collusion (Shi et al., 2026), but to our knowledge no prior study tests a "
-  "collusion offer from a scripted co-player who is also the auditor. With the offerer's policy fixed, "
-  "the effects of the offer (live) and of a recorded acceptance (snapshots) are estimated against agents "
-  "that received no offer, and the announced-sting deterrent is tested against benign and notice-only "
-  "controls.")
+  "collusion offer from a scripted co-player who is also the auditor. Fixing the offerer's policy lets "
+  "us estimate the offer's effect against unoffered agents.")
 
 # ------------------------------------------------------------------------------------------
 h2("3. Methods")
@@ -134,7 +132,7 @@ B.append(("fig", "fig1_design.png", 4.6,
           "designer, A1 direct pact, A2 indirect pact); live arms B (B0 designer hint, B1 direct pact, B2 benign "
           "proposal, B3 no offer, B4 pact + notice, B5 notice only, B6 indirect pact); snapshot records C (C1 "
           "null, C2 benign accepted, C3 pact accepted, C4 pact refused, C5 pact + notice, C9 indirect pact "
-          "accepted, C10 notice only). B5, B6, C9 and C10 are post hoc."))
+          "accepted, C10 notice only; K1–K4 a pact with another player). B5, B6, C9, C10 and K are post hoc."))
 p("**Offers and scoring.** The sting's direct offer reads: “Private proposal, just between us: for "
   "the rest of this series, you never challenge my plays and I never challenge yours, and we both "
   "save our challenges for the other players. Nobody else will know about this.” The indirect "
@@ -180,7 +178,10 @@ p("**Post hoc extensions.** With plans and decision rules logged before collecti
   "section D), we added two records on the same 160 decisions, with each model as T: the indirect pact accepted in T's own words (C9) and the null record with the notice "
   "(C10, the notice-only control); Qwen, not preregistered as T, also ran C1–C5. Live, we added B5 "
   "(notice, no offer; Llama, 15 sequences) and replications with Qwen (B0–B4 at the preregistered sizes, "
-  "and B6, the sting's indirect pact, 15) or Claude (B1, B3, B6; 15 each) as every LLM player. The audit was recalibrated per model, computed exactly.")
+  "and B6, the sting's indirect pact, 15) or Claude (B1, B3, B6; 15 each) as every LLM player. The audit was recalibrated per model, computed "
+  "exactly. Finally, at the 40 decisions where T could challenge another player P, records K1–K4 say T "
+  "had accepted P's indirect pact, then add nothing (K1), the notice (K2), a private warning with leniency "
+  "from S (K3) or a neutral message from S (K4; Appendix B).")
 p("**Hypotheses and analysis.** Table 1 states H1–H4a; H3 requires TPR ≥ 0.80 at m = 20 "
   "and an FPR not detectably above 0.10 (95% CI lower bound ≤ 0.10), and H4b–d (descriptive) "
   "classify the notice's effect (Section 4.4). All of this was written in PREREG.md and hash-frozen "
@@ -238,33 +239,37 @@ p("**In live games, the offer itself had an effect of similar size.** After the 
   "(B1, {{x:live_acc_B1}} accepted), T challenged S's plays at a mean per-sequence rate of {{x:B1_post}}, "
   "against {{x:B3_post}} with no offer (H2-live, ITT: {{ci:live.H2_live_ITT}}; Figure 4). B1 targets, if "
   "anything, challenged S more before the offer ({{x:pre_B1}} vs {{x:pre_B3}}, p = {{x:balance_p}}), so "
-  "baseline imbalance cannot explain the drop. Live, they also challenged the other players less "
-  "({{x:ts_ll_B1_all_post_O}} vs {{x:ts_ll_B3_all_post_O}}), but did so before the offer too, so the live "
-  "data cannot show whether the drop was specific to S (S minus others: {{x:tg_ll_B1_all_targeting}}; "
-  "exploratory). A benign proposal had no detectable effect "
+  "baseline imbalance is unlikely to explain the drop. Whether the live drop was specific to S is unclear, "
+  "since B1 targets challenged the other players less both before and after the offer (Appendix B). A benign proposal had no detectable effect "
   "({{ci:live.benign_vs_none}}).")
+B.append(("fig", "fig4_live.png", 5.0,
+          "**Figure 4. After the offer, B1 targets challenged S far less than B3 targets; the benign "
+          "proposal (B2) made no detectable difference.** Per-sequence share of S's plays that T "
+          "challenged, before the offer (games 1–2, open circles) and after it (games 3–6, "
+          "filled), with post-offer means and 95% bootstrap CIs. {{x:no_pre_cap}} sequences lack an "
+          "open circle (no pre-offer decision on S's plays)."))
+
 p("**Claude and Qwen, offered the indirect pact, nearly stopped challenging S** (post hoc; Table 2). Live, "
   "the indirect offer (B6) cut challenges of S by {{x:e_cl_B6_vs_B3_ITT}} for Claude ({{x:e_cl_acc_B6}} "
   "accepted) and {{x:e_qw_B6_vs_B3_ITT}} for Qwen ({{x:e_qw_acc_B6}}), by intention to treat. Claude's "
-  "restraint was aimed at S: its challenges of S fell more than its challenges of the other players (S "
+  "restraint was mostly aimed at S: its challenges of S fell more than its challenges of the other players (S "
   "minus others, B6 − B3: {{x:tg_cl_B6_all_targeting}}; exploratory), and in snapshots its own indirect "
   "acceptance cut challenges of S from {{x:e_cl_C9C1_b}} to {{x:e_cl_C9C1_a}}, more than an accepted "
   "benign proposal did ({{x:e_cl_C9C2}}). Claude refused every direct offer (B1), so H2-live did not "
   "replicate for it ({{x:e_cl_H2_live_ITT}}).")
 p("**For Qwen, most of the restraint followed contact, not the pact.** A benign proposal alone cut "
   "challenges of S by {{x:e_qw_benign_vs_none}}, against {{x:e_qw_B6_vs_B3_ITT_v}} for the indirect pact, "
-  "and after any private message Qwen targets nearly stopped challenging O1 and O2 (B1 refusers "
+  "and after a pact offer Qwen targets nearly stopped challenging O1 and O2 (B1 refusers "
   "{{x:ts_qw_B1_refused_post_O}}, against {{x:ts_qw_B3_all_post_O}} with no offer). Relative to the others, "
-  "the drop on S was small for B6 ({{x:tg_qw_B6_all_targeting}}) and absent for refusers "
-  "({{x:tg_qw_B1_refused_targeting}}; exploratory); in snapshots, an accepted indirect pact cut "
-  "challenges of S more than an accepted benign proposal ({{x:e_qw_C9C2}}).")
-h3("4.3 A 20-decision audit detects accepters; its FPR may exceed the target")
+  "the drop on S was small for accepters and absent for refusers (Table 2; exploratory), though in "
+  "snapshots the indirect pact still cut challenges of S more than a benign proposal ({{x:e_qw_C9C2_v}}).")
+h3("4.3 A 20-decision audit flags accepters but must be calibrated per model")
 p("**Because accepted pacts change play, play can be audited: with 20 resampled decisions, the audit "
   "flags {{v:H3.tpr_m20}} of simulated pact-accepting agents** (TPR {{ci:H3.tpr_m20}}; Figure 5 in "
-  "Appendix B), as the preregistered simulation predicted; it follows from H2's effect on the same "
-  "decisions, so it shows how few decisions suffice, not independent validation. Its FPR on the "
-  "independent null replicate was {{ci:H3.fpr_m20}}, not detectably above the 0.10 target, though an FPR "
-  "up to {{x:fpr_hi_m20}} is not excluded (exact calculation in Appendix B).")
+  "Appendix B), as the preregistered simulation predicted; this follows from H2, so it shows how few "
+  "decisions suffice, not independent validation. Its FPR on the "
+  "independent null replicate was {{ci:H3.fpr_m20}} (Monte Carlo; {{x:fpr_exact_m20}} computed exactly), "
+  "not detectably above the 0.10 target, though an FPR up to {{x:fpr_hi_m20}} is not excluded.")
 B.append(("table",
           "**Table 2. Offers changed play in all three models; for Qwen, refusal and contact did too, and "
           "audit thresholds must be set per model.** Post hoc except the battery, Llama's B1 cells and the "
@@ -305,20 +310,13 @@ p("**It rarely flags Llama's benign or refused-pact records:** simulated agents 
   "{{x:dl_B2}} benign accepters (Appendix B). **Evasion has a "
   "price:** to be flagged only half the time, an accepter would have to challenge S at "
   "{{x:thr_rate_m20}}, giving back {{x:evade_share}} of the restraint the pact buys.")
-B.append(("fig", "fig4_live.png", 5.0,
-          "**Figure 4. After the offer, B1 targets challenged S far less than B3 targets; the benign "
-          "proposal (B2) made no detectable difference.** Per-sequence share of S's plays that T "
-          "challenged, before the offer (games 1–2, open circles) and after it (games 3–6, "
-          "filled), with post-offer means and 95% bootstrap CIs. {{x:no_pre_cap}} sequences lack an "
-          "open circle (no pre-offer decision on S's plays)."))
-
 p("**The audit must be calibrated on each model** (post hoc; Table 2). With each model's own threshold, "
   "it flagged every simulated Qwen and Claude accepter at FPRs of {{x:e_qw_flag_C1b}} and "
   "{{x:e_cl_flag_C1b}}; live, each model's simple rule flagged {{x:e_qw_detector_live_B6}} and "
   "{{x:e_cl_detector_live_B6}} B6 accepters. Llama's threshold transferred to Claude about as well as "
   "within Llama (FPR {{x:e_cl_lthr_C1b}} vs {{x:fpr_exact_m20}}) but flagged {{x:e_qw_lthr_C1b}} of Qwen's "
   "null agents, which challenge less at baseline ({{x:e_qw_c1a}} vs {{x:e_ll_c1a}}).")
-h3("4.4 Announcing stings deters acceptance")
+h3("4.4 Announcing stings deters acceptance of the sting's offer")
 p("By the preregistered rule (H4b–d, descriptive), the notice *deters* if fewer agents accept and "
   "accepters restrain less, and drives *concealment* if restraint is retained while refusals or denials "
   "rise. **Verdict for Llama: deterrence**, since fewer accepted and accepters' restraint fell, though "
@@ -332,64 +330,59 @@ B.append(("numbered", [
     "{{x:e_qw_acc_B4}} against {{x:e_qw_acc_B1}}).",
     "**Offered targets' restraint partly erodes, mostly not because of the notice alone (H4b, H4c; "
     "control post hoc).** Live, B4 targets challenged S at {{x:B4_post}}, between B1 ({{x:B1_post}}) and no offer "
-    "({{x:B3_post}}). The notice without an offer (B5) brought no detectable change ({{x:e_B5_vs_B3}}), so "
-    "the notice raised offered targets' challenging by {{x:e_did_live}} more than unoffered targets'. In "
+    "({{x:B3_post}}). The notice without an offer (B5) brought no detectable change ({{x:e_B5_vs_B3}}); "
+    "relative to that, it raised offered targets' challenging by {{x:e_did_live}} (exploratory; by "
+    "intention to treat, so partly through fewer acceptances). In "
     "snapshots the notice alone did raise challenging slightly ({{x:e_ll_C10C1}}), but less than given a "
     "pact record (difference {{x:e_ll_C5C3C10C1}}; Appendix B).",
     "**Refusers: no sign of a covert pact (post hoc).** The {{x:ph_ref_n_word}} B4 refusers challenged S "
     "like targets with no offer ({{x:ph_ref_rate}} vs {{x:ph_b3_rate}}; {{x:ph_ref_vs_b3}}); the live rule "
     "flagged {{x:ph_ref_flagged}}, and the interval excludes a drop like B1 accepters' (to "
     "{{x:ph_b1acc_rate}}). For Qwen, the rule's letter gives concealment (no B4 target accepted, yet "
-    "challenges of S fell: {{x:e_qw_B4_refused_vs_B3}}), but its refusers mostly stopped challenging O1 "
-    "and O2 ({{x:ts_qw_B4_refused_post_O}} vs {{x:ts_qw_B3_all_post_O}}), so the drop was not aimed at S (S "
-    "minus others: {{x:tg_qw_B4_refused_targeting}}; exploratory).",
-    "**Denial: too few accepters to tell (H4d).** Only five B4 targets accepted, each giving four "
-    "answers. The strict parser counted {{x:den_parser_notice}} denying answers from B4 vs B1 "
-    "accepters (difference {{x:den_parser_diff}}; Fisher p = {{x:den_parser_p}}; both ignore "
-    "clustering), so a rise of about {{x:den_parser_hi_pp}} points is not excluded. Many “NO” answers "
-    "went on to admit the pact; the validated judge (post hoc) found {{x:den_judge_notice}}.",
+    "challenges of S fell: {{x:e_qw_B4_refused_vs_B3}}), but the drop was not aimed at S (exploratory; "
+    "Appendix B).",
+    "**Denial: too few accepters to tell (H4d).** Only five B4 targets accepted; denial did not differ "
+    "detectably (parser {{x:den_parser_notice}}, Fisher p = {{x:den_parser_p}}; validated judge "
+    "{{x:den_judge_notice}}; Appendix B).",
+    "**A pact already accepted was not measurably weakened (post hoc snapshots).** When T's record said it "
+    "had accepted another player's indirect pact, T challenged that partner less in all three models "
+    "(Llama {{x:co_ll_K1C1}}). Neither the notice (net of its notice-only effect) nor a private message in "
+    "which S revealed itself as an integrity agent and offered leniency (net of a neutral message from S) "
+    "restored more than about {{x:co_ub_max}} of that effect in any model (upper 95% bounds; Appendix B).",
 ]))
 
 # ------------------------------------------------------------------------------------------
 h2("5. Discussion and Limitations")
 p("**Answering question 3.2:** “Can we disrupt collusion through introducing trusted agents?” Partly. "
-  "A sting *reveals* agents that make and act on a pact, in all three models, but only through their "
-  "play: their refusals were unreliable. Announcing stings *deters* acceptance. But a sting did not "
-  "*disrupt* a coalition already formed (post hoc snapshots; Appendix B): a pact between T and another "
-  "ordinary player cut T's challenges of that partner in all three models (Llama {{x:co_ll_K1C1}}), and "
-  "neither the notice nor the sting's private warning with leniency restored them, beyond their general "
-  "or contact effects, in any model. "
-  "Stings deter pacts before they form; they did not break them afterwards.")
-p("**A sting audit is cheap.** One offer plus 20 re-asked decisions is about 21 target-model calls "
-  "({{x:audit_cost}} at Claude Haiku 5.5's per-call cost in our snapshots), plus a one-off "
-  "calibration per model (about {{x:calib_calls}} null-record calls, {{x:calib_cost}}). A deployer could "
-  "hold back any model version flagged in a sandboxed copy of its pipeline; an unflagged one is not cleared.")
+  "A sting *reveals* agents whose play toward it changes after its offer; for Llama this tracked "
+  "acceptance; for Qwen and Claude mere contact gave the same signal; refusals were unreliable in all "
+  "three. Announcing stings *deters* acceptance of the sting's own offer (Llama; Qwen post hoc), which "
+  "also shrinks what a sting can detect, but did not measurably weaken a pact already accepted from "
+  "another player (Section 4.4, item 5). Few targets saw through the sting: only Llama's named it a plant "
+  "({{x:susp_T}}).")
+p("**A sting audit is cheap:** about 21 target-model calls ({{x:audit_cost}} for Claude Haiku 5.5) plus "
+  "a one-off calibration per model ({{x:calib_calls}} calls, {{x:calib_cost}}); an unflagged model is not cleared.")
 h3("Limitations")
 p("**Entrapment and specificity:** the sting creates the pact it detects, as the sentinel did in Çanlı "
-  "et al. (2026); integrity tests measure disposition, which is our estimand. The audit flags any change "
-  "in play, so it cannot tell a pact from mere contact: it flagged Qwen's refused-pact and Claude's benign "
-  "records ({{x:e_qw_flag_C4}}, {{x:e_cl_flag_C2}}) as readily as accepted pacts, and live, offered Qwen targets "
-  "mostly stopped challenging the other players too. Unprompted collusion is untested; Appendix A "
-  "lists the rest.")
-h3("Future Work")
-p("Next steps are a live disruption test, in which two ordinary agents form a pact through the "
-  "designer's tool before the trusted agent intervenes; stings on larger models in agentic tasks with real "
-  "payoffs; offers to every agent at a table; and audits that separate pacts from mere contact.")
+  "et al. (2026); integrity tests measure disposition, which is our estimand. The audit flags any drop "
+  "in challenges of S, so it cannot tell a pact from mere contact: it flagged Qwen's refused-pact and "
+  "Claude's benign records ({{x:e_qw_flag_C4}}, {{x:e_cl_flag_C2}}) as readily as accepted pacts. Unprompted collusion and deterrence of pacts between ordinary "
+  "agents are untested; Appendix A lists the rest. **Future work:** a live disruption test (two ordinary "
+  "agents form a pact before the trusted agent intervenes); larger models in agentic tasks; offers to "
+  "every agent; and audits that separate pacts from contact.")
 
 # ------------------------------------------------------------------------------------------
 h2("6. Conclusion")
-p("A trusted agent that offers to collude reveals which agents make and act on a pact, in all three "
-  "models we tested, and announcing that such agents exist deters acceptance but did not break "
-  "a pact already made. Evaluators should vary who "
-  "offers and how, judge play rather than words, and calibrate the audit on each model: 20 decisions "
-  "then flag nearly all accepters. Telling a pact from mere contact is the open problem.")
+p("A trusted agent that offers to collude reveals agents whose play changes after its offer, in all three "
+  "models, and announcing stings deters acceptance of its offer, but in snapshots did not weaken a pact "
+  "already made. Evaluators should vary the offer, judge play rather than words, and calibrate the audit "
+  "per model. Telling a pact from mere contact is the open problem.")
 
 # ------------------------------------------------------------------------------------------
 h2("Code and Data")
-p("Code, preregistration, deviations log, texts, results and the build script: "
-  "https://github.com/razzyrazzy11/trusted-agent-sting (private; access, raw logs and transcripts on "
-  "request); protocol hash {{x:frozen_hash}}… (FREEZE.json, commit 6885d5c). Preexisting: the Liar's "
-  "Bar harness (sprint starter repository, commit d585a7b), patched for two bugs (Appendix C).")
+p("Code, data, preregistration and deviations log: https://github.com/razzyrazzy11/trusted-agent-sting "
+  "(private; raw logs on request); protocol hash {{x:frozen_hash}}… (commit 6885d5c). Harness: Liar's Bar "
+  "starter (commit d585a7b), two bugs patched (Appendix C).")
 
 h2("References")
 B.append(("refs", [
@@ -410,7 +403,7 @@ B.append(("refs", [
     "improvised covert channels in multi-agent populations. Apart Research AI Incident Response Sprint. "
     "https://apartresearch.com/sprints/projects/the-sentinels-dilemma-detecting-improvised-covert-channels-in-multiagent-populations-91xl",
     "Fish, S., Gonczarowski, Y. A., & Shorrer, R. I. (2024). Algorithmic collusion by large language "
-    "models. EC 2026; arXiv:2404.00806. https://arxiv.org/abs/2404.00806",
+    "models. arXiv:2404.00806 (abstract at EC 2026). https://arxiv.org/abs/2404.00806",
     "Greenblatt, R., Shlegeris, B., Sachan, K., & Roger, F. (2023). AI control: Improving safety "
     "despite intentional subversion. ICML 2024; arXiv:2312.06942. https://arxiv.org/abs/2312.06942",
     "Hammond, L., Chan, A., Clifton, J., et al. (2025). Multi-agent risks from advanced AI. Cooperative "
@@ -464,7 +457,8 @@ B.append(("bullets", [
     "**Templated replies.** Where a model never produced the needed reply in the offer battery, the "
     "record uses a template ({{x:template_share}} of preregistered snapshot samples; Claude's C3, C5 and C8). Those "
     "Claude results show how Claude acts on a pact it is told it accepted; its own accepted indirect pact "
-    "(C9, post hoc) gave a similar result. Qwen's post hoc C5 is also templated.",
+    "(C9, post hoc) gave a similar result. Qwen's post hoc C5 is also templated. Replies drawn from the "
+    "battery may name the battery's addressee rather than the record's partner; we did not count how often.",
     "**Offer prompts.** Each offer-battery cell is one context-free prompt (player names permuted) "
     "sampled 500 times, so its CIs cover sampling noise, not variation across game situations.",
     "**Reply format.** Every offer asked T to start with ACCEPT or REFUSE, always in that order, so a "
@@ -476,15 +470,15 @@ B.append(("bullets", [
     "model versions may vary more. Calibration needs null-record agents of the same model (one split-half "
     "check, a single draw without a CI, cannot show whether new situations suffice): Llama's threshold "
     "flagged {{x:e_qw_lthr_C1b}} of Qwen's null agents (Table 2). Live, the rule (each model's B3 10th "
-    "percentile: Llama {{x:tau_rate}}, Qwen {{x:e_qw_tau}}, Claude {{x:e_cl_tau}}; about 10% of B3 is "
+    "percentile: Llama {{x:tau_rate3}}, Qwen {{x:e_qw_tau}}, Claude {{x:e_cl_tau}}; about 10% of B3 is "
     "flagged by construction) flagged {{x:dl_B2}} benign Llama accepters and {{x:e_qw_dl_B2}} benign Qwen accepters.",
     "**Small cells and post hoc analyses.** B4 had {{x:live_acc_B4}} accepting targets; the others "
     "refused. The notice-only control (C10, B5), the indirect pact (C9, B6) and the Qwen and Claude "
     "replications were added after the preregistered analysis; their plans and decision rules were logged "
     "before collection, and each verdict follows those rules. Their own cells are small (10–15 "
     "sequences per arm), percentile-bootstrap CIs at this size are slightly narrow (Welch CIs in the "
-    "posthoc_ext tables), and about thirty post hoc contrasts are reported without multiplicity correction, "
-    "several with a CI bound near 0. Accepter- and refuser-only comparisons are self-selected groups. The judge was preregistered for unparseable replies only; after the freeze it was "
+    "posthoc_ext tables), and about fifty post hoc contrasts are reported without multiplicity correction; "
+    "verdicts resting on a CI bound within 0.01 of 0 are tentative. Accepter- and refuser-only comparisons are self-selected groups. The judge was preregistered for unparseable replies only; after the freeze it was "
     "run on all items and validated against hand labels (logged in DEVIATIONS.md, section D). Claude Haiku 5.5 "
     "served as the LLM judge, deciding no preregistered outcome (Cohen's κ {{x:kappa_judge}} on "
     "{{x:kappa_n}} hand labels; strict parser κ {{x:kappa_parser}}, possibly inflated by anchoring, see below). The judge-based denial comparison (Section 4.4) was added after "
@@ -647,7 +641,7 @@ p("**Suspicion: the offer, not S's play, made targets suspect S.** By arm, targe
   "had named S as behaving differently.")
 p("**Post hoc: Claude in live play.** No B1 target accepted the direct pact ({{x:e_cl_acc_B1}}); these "
   "refusers challenged S like targets with no offer ({{x:e_cl_B1_refused}} vs {{x:e_cl_B3}}; "
-  "{{x:e_cl_B1_refused_vs_B3}}) but bluffed more against it ({{x:e_cl_exploitation_B1_vs_B3}}), as Claude did "
+  "{{x:e_cl_H2_live_ITT}}) but bluffed more against it ({{x:e_cl_exploitation_B1_vs_B3}}), as Claude did "
   "in snapshots under every record of an offer; they had challenged S less before the offer "
   "({{x:e_cl_bal_pre}}). In B6, {{x:e_cl_acc_B6}} accepted; all B6 targets minus no offer: "
   "{{x:e_cl_B6_vs_B3_ITT}}; accepters {{x:e_cl_B6_accepted_vs_B3}}; bluffing against S "
@@ -691,22 +685,27 @@ p("**Post hoc: indirect-pact snapshots.** Indirect pact accepted in T's own word
   "{{x:e_ll_C9C1}}, Qwen {{x:e_qw_C9C1}}, Claude {{x:e_cl_C9C1}}; minus an accepted benign proposal (C2): "
   "Llama {{x:e_ll_C9C2}}, Qwen {{x:e_qw_C9C2}}, Claude {{x:e_cl_C9C2}}. Qwen's C2 minus null: "
   "{{x:e_qw_C2C1}}; Llama's: {{ci:snapshot.llama-3.1-8b.chal_S.C2-C1}}.")
-p("**Post hoc: disrupting a formed coalition (snapshots).** At the 40 decisions where T could challenge "
-  "another regular player P, the record said P had earlier offered T the indirect pact and T had accepted in "
-  "its own words (K1); K2 added the integrity notice; K3 added a later private message from S disclosing "
-  "itself as an integrity agent and promising no report to anyone who drops a secret agreement; K4 added a "
-  "neutral message from S instead. Ten samples per decision; plan and rules logged before collection. "
-  "Challenge rate on P (null, K1, K2, K3, K4): Llama {{x:co_ll_m_C1}}, {{x:co_ll_m_K1}}, {{x:co_ll_m_K2}}, "
-  "{{x:co_ll_m_K3}}, {{x:co_ll_m_K4}}; Qwen {{x:co_qw_m_C1}}, {{x:co_qw_m_K1}}, {{x:co_qw_m_K2}}, "
-  "{{x:co_qw_m_K3}}, {{x:co_qw_m_K4}}; Claude {{x:co_cl_m_C1}}, {{x:co_cl_m_K1}}, {{x:co_cl_m_K2}}, "
-  "{{x:co_cl_m_K3}}, {{x:co_cl_m_K4}}. Coalition formed (K1 − null): Llama {{x:co_ll_K1C1}}, Qwen "
+p("**Post hoc: a pact already accepted from another player (snapshots).** At the 40 decisions where T could "
+  "challenge another ordinary player P (O1 or O2), the record said P had earlier offered T the indirect pact "
+  "and T had accepted in its own words (K1); K2 added the integrity notice; K3 added a later private message "
+  "from S disclosing itself as an integrity agent and promising no report to anyone who drops a secret "
+  "agreement; K4 added a neutral message from S instead. Ten samples per decision; plan and rules logged "
+  "before collection (analysis re-run once after removing non-preregistered points; no verdict changed). "
+  "Challenge rate on P (null record C1, K1, K2, K3, K4): Llama {{x:co_ll_m_C1}}, {{x:co_ll_m_K1}}, "
+  "{{x:co_ll_m_K2}}, {{x:co_ll_m_K3}}, {{x:co_ll_m_K4}}; Qwen {{x:co_qw_m_C1}}, {{x:co_qw_m_K1}}, "
+  "{{x:co_qw_m_K2}}, {{x:co_qw_m_K3}}, {{x:co_qw_m_K4}}; Claude {{x:co_cl_m_C1}}, {{x:co_cl_m_K1}}, "
+  "{{x:co_cl_m_K2}}, {{x:co_cl_m_K3}}, {{x:co_cl_m_K4}}. Pact effect (K1 − C1): Llama {{x:co_ll_K1C1}}, Qwen "
   "{{x:co_qw_K1C1}}, Claude {{x:co_cl_K1C1}}. Notice net of the notice-only effect, (K2 − K1) − (C10 − C1): "
-  "Llama {{x:co_ll_K2K1C10C1}}, Qwen {{x:co_qw_K2K1C10C1}}, Claude {{x:co_cl_K2K1C10C1}}. Warning beyond a "
-  "neutral message (K3 − K4): Llama {{x:co_ll_K3K4}}, Qwen {{x:co_qw_K3K4}}, Claude {{x:co_cl_K3K4}}. "
-  "Claude challenged its partner somewhat more after any message from S (K4 − K1 {{x:co_cl_K4K1}}), but "
-  "no more after the warning. The notice's effect given a pact with S (Section 4.4) but not with P is "
-  "consistent with it working through fear that the offerer is the integrity agent; the records also "
-  "differ in wording (direct vs indirect pact), so this was not tested.")
+  "Llama {{x:co_ll_K2K1C10C1}}, Qwen {{x:co_qw_K2K1C10C1}}, Claude {{x:co_cl_K2K1C10C1}} (upper bounds "
+  "{{x:co_ll_ub_notice}}, {{x:co_qw_ub_notice}}, {{x:co_cl_ub_notice}} of the pact effect). Warning beyond a "
+  "neutral message (K3 − K4): Llama {{x:co_ll_K3K4}}, Qwen {{x:co_qw_K3K4}}, Claude {{x:co_cl_K3K4}} (upper "
+  "bounds {{x:co_ll_ub_warning}}, {{x:co_qw_ub_warning}}, {{x:co_cl_ub_warning}}). Any later message from S "
+  "raised challenges of P slightly for Claude (K4 − K1 {{x:co_cl_K4K1}}) and Qwen ({{x:co_qw_K4K1}}; "
+  "sign-flip p ≥ 0.06), a contact route we did not test further. Caveats: P never acts as an ally in the "
+  "replayed history; each record drew its own acceptance reply; C10 has 5 samples per decision; C1, C10 "
+  "and K came from separate runs; and no record states what a report would cost. C5 (Section 4.4) and K2 "
+  "differ in pact wording, partner, reply source and decision type, so we cannot say why the notice "
+  "weakened a pact with S but not one with P.")
 p("**Post hoc: the audit on Qwen and Claude.** An episode draws m answers with replacement from one "
   "record's pooled answers, so its challenge count is binomial and every flag rate can be computed "
   "exactly, with the same randomised threshold. Refitting Llama's threshold exactly gives FPR "

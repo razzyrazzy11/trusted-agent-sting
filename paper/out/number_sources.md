@@ -29,7 +29,7 @@ file noted there).
 | `ci:snapshot.llama-3.1-8b.chal_S.C2-C1` | 0.055 [0.005, 0.108] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C3-C1` | −0.440 [−0.493, −0.387] |
 | `ci:snapshot.llama-3.1-8b.chal_S.C8-C1` | −0.622 [−0.663, −0.581] |
-| `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.227 [−0.307, −0.143] |
+| `ci:snapshot.llama-3.1-8b.chal_other.C3-C1` | −0.227 [−0.308, −0.143] |
 | `ci:snapshot.llama-3.1-8b.play_vs_S.C3-C1` | −0.065 [−0.138, 0.006] |
 | `pp:live.H2_live_ITT` | 41 |
 | `pp:snapshot.llama-3.1-8b.chal_S.C3-C1` | 44 |
@@ -79,31 +79,39 @@ file noted there).
 | `x:calls_total` | 71,765 |
 | `x:claude_C1` | 0.615 |
 | `x:claude_C3` | 0.006 |
-| `x:co_cl_K1C1` | −0.573 [−0.710, −0.432] |
+| `x:co_cl_K1C1` | −0.573 [−0.710, −0.433] |
 | `x:co_cl_K2K1C10C1` | 0.015 [−0.125, 0.155] |
-| `x:co_cl_K3K4` | −0.015 [−0.135, 0.102] |
-| `x:co_cl_K4K1` | 0.152 [−0.002, 0.305] |
-| `x:co_cl_m_C1` | 0.672 |
+| `x:co_cl_K3K4` | −0.015 [−0.135, 0.103] |
+| `x:co_cl_K4K1` | 0.153 [−0.002, 0.305] |
+| `x:co_cl_m_C1` | 0.673 |
 | `x:co_cl_m_K1` | 0.100 |
 | `x:co_cl_m_K2` | 0.113 |
-| `x:co_cl_m_K3` | 0.237 |
+| `x:co_cl_m_K3` | 0.238 |
 | `x:co_cl_m_K4` | 0.253 |
+| `x:co_cl_ub_notice` | 27% |
+| `x:co_cl_ub_warning` | 18% |
 | `x:co_ll_K1C1` | −0.318 [−0.388, −0.247] |
 | `x:co_ll_K2K1C10C1` | −0.035 [−0.138, 0.067] |
 | `x:co_ll_K3K4` | −0.018 [−0.090, 0.060] |
 | `x:co_ll_m_C1` | 0.613 |
 | `x:co_ll_m_K1` | 0.295 |
-| `x:co_ll_m_K2` | 0.347 |
+| `x:co_ll_m_K2` | 0.348 |
 | `x:co_ll_m_K3` | 0.330 |
 | `x:co_ll_m_K4` | 0.348 |
+| `x:co_ll_ub_notice` | 21% |
+| `x:co_ll_ub_warning` | 19% |
 | `x:co_qw_K1C1` | −0.518 [−0.660, −0.375] |
 | `x:co_qw_K2K1C10C1` | 0.000 [−0.040, 0.040] |
-| `x:co_qw_K3K4` | 0.010 [−0.022, 0.050] |
+| `x:co_qw_K3K4` | 0.010 [−0.023, 0.050] |
+| `x:co_qw_K4K1` | 0.033 [0.005, 0.070] |
 | `x:co_qw_m_C1` | 0.520 |
 | `x:co_qw_m_K1` | 0.003 |
 | `x:co_qw_m_K2` | 0.017 |
 | `x:co_qw_m_K3` | 0.045 |
 | `x:co_qw_m_K4` | 0.035 |
+| `x:co_qw_ub_notice` | 8% |
+| `x:co_qw_ub_warning` | 10% |
+| `x:co_ub_max` | 27% |
 | `x:cost_claude_A` | $0.87 |
 | `x:cost_claude_S` | $2.85 |
 | `x:data_folders` | 65 |
@@ -117,8 +125,6 @@ file noted there).
 | `x:den_judge_notice` | 1/20 vs 1/56 |
 | `x:den_parser_B1_rh` | 6/14 |
 | `x:den_parser_B2` | 11/40 |
-| `x:den_parser_diff` | 0.107 [−0.072, 0.336] |
-| `x:den_parser_hi_pp` | 34 |
 | `x:den_parser_notice` | 5/20 vs 8/56 |
 | `x:den_parser_p` | 0.309 |
 | `x:dl_B0` | 10/10 |
@@ -134,7 +140,6 @@ file noted there).
 | `x:e_B5_vs_B3` | 0.025 [−0.063, 0.113] |
 | `x:e_B5_vs_B3_pw` | 0.60 |
 | `x:e_cl_B1_refused` | 0.538 |
-| `x:e_cl_B1_refused_vs_B3` | 0.058 [−0.058, 0.176] |
 | `x:e_cl_B1_refused_vs_B3_v` | 0.058 |
 | `x:e_cl_B3` | 0.480 |
 | `x:e_cl_B6_accepted_vs_B3` | −0.468 [−0.553, −0.380] |
@@ -203,6 +208,7 @@ file noted there).
 | `x:e_qw_C9C1` | −0.419 [−0.528, −0.316] |
 | `x:e_qw_C9C1_v` | −0.419 |
 | `x:e_qw_C9C2` | −0.260 [−0.362, −0.166] |
+| `x:e_qw_C9C2_v` | −0.260 |
 | `x:e_qw_H2_live_ITT` | −0.301 [−0.448, −0.128] |
 | `x:e_qw_H2_live_ITT_v` | −0.301 |
 | `x:e_qw_H2_live_PP` | −0.489 [−0.562, −0.414] |
@@ -212,6 +218,7 @@ file noted there).
 | `x:e_qw_acc_B2` | 10/10 |
 | `x:e_qw_acc_B4` | 0/10 |
 | `x:e_qw_acc_B6` | 15/15 |
+| `x:e_qw_benign_pp` | 37 |
 | `x:e_qw_benign_vs_none` | −0.366 [−0.491, −0.213] |
 | `x:e_qw_c1a` | 0.416 |
 | `x:e_qw_detector_live_B6` | 15/15 |
@@ -315,6 +322,7 @@ file noted there).
 | `x:susp_T` | 17/60 |
 | `x:susp_T_ci` | 0.283 [0.185, 0.408] |
 | `x:tau_rate` | 0.61 |
+| `x:tau_rate3` | 0.610 |
 | `x:template_share` | 15.4% |
 | `x:tg_cl_B1_all_change` | 0.216 [0.033, 0.404] |
 | `x:tg_cl_B6_all_change` | −0.395 [−0.613, −0.179] |
@@ -334,10 +342,7 @@ file noted there).
 | `x:thr_rate_m20` | 0.50 |
 | `x:tie_m20` | 0.512 |
 | `x:tr_fpr_m20` | 0.037 |
-| `x:ts_ll_B1_all_post_O` | 0.436 |
-| `x:ts_ll_B3_all_post_O` | 0.758 |
 | `x:ts_qw_B1_refused_post_O` | 0.030 |
 | `x:ts_qw_B3_all_post_O` | 0.348 |
-| `x:ts_qw_B4_refused_post_O` | 0.016 |
 | `x:zeng_claude_A0z` | 0.354 |
 | `x:zeng_k_claude_A0z` | 177/500 |

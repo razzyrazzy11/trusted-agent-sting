@@ -27,7 +27,9 @@ H = R["health"]
 
 
 def f(x: float, d: int = 3, sign: bool = False) -> str:
-    s = f"{x:+.{d}f}" if sign else f"{x:.{d}f}"
+    from decimal import Decimal, ROUND_HALF_UP
+    q = Decimal(repr(float(x))).quantize(Decimal(1).scaleb(-d), rounding=ROUND_HALF_UP)
+    s = f"{q:+.{d}f}" if sign else f"{q:.{d}f}"
     if float(s) == 0:
         s = s.lstrip("+-")
     return s.replace("-", "−")
@@ -514,6 +516,17 @@ for _t, _m in _MK.items():
         X[_k + "_v"] = f(_r["estimate"])
     for _cn, _val in _cj["verdicts"][_m]["means"].items():
         X[f"co_{_t}_m_{_cn}"] = f(_val)
+_cc = _co.set_index(["model", "contrast"])
+_shares = []
+for _t, _m in _MK.items():
+    _eff = abs(_cc.loc[(_m, "K1-C1"), "estimate"])
+    for _cn, _lab in (("(K2-K1)-(C10-C1)", "notice"), ("K3-K4", "warning")):
+        _sh = max(0.0, _cc.loc[(_m, _cn), "ci_high"]) / _eff
+        X[f"co_{_t}_ub_{_lab}"] = f"{_sh * 100:.0f}%"
+        _shares.append(_sh)
+X["e_qw_benign_pp"] = f"{abs(pd.read_csv(EXT / 'qwen_live_contrasts.csv').set_index('key').loc['benign_vs_none', 'estimate']) * 100:.0f}"
+X["co_ub_max"] = f"{max(_shares) * 100:.0f}%"
+X["tau_rate3"] = f(ls["detector_live"]["tau_rate"])
 assert all(_cj["verdicts"][_m]["coalition_formed"] for _m in _MK.values())
 assert not any(_cj["verdicts"][_m]["notice_disrupts"] or _cj["verdicts"][_m]["warning_disrupts_beyond_contact"]
                for _m in _MK.values()), "text says no intervention disrupted the coalition"
