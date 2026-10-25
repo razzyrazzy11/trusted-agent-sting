@@ -5,8 +5,8 @@
 
                                               Raz [surname]
                                                [affiliation]
-                                                  With
-                                              Apart Research
+                                                 With
+                                             Apart Research
 
 
                                                 Abstract
@@ -14,25 +14,25 @@
                Can a trusted agent disrupt collusion by offering to collude (sprint question
                3.2)? In Zeng & Rudzicz’s (2026) Liar’s Bar harness, a scripted “sting”
                player privately offered one target a pact: neither would challenge the
-               other. Our answer is partly. Llama-3.1-8B, the primary model, had a
-               hash-frozen preregistration that also covered Qwen2.5-7B’s and Claude
-               Haiku 5.5’s replies to offers; their live games and per-model audits are
-               post hoc. Refusals depended on the offer: Qwen accepted the pact 493/500
-               times from the designer but 56/500 from the sting, and Claude refused
-               every explicit pact (absent an instructed persona) yet accepted an indirect
-               one 446/500 times. Accepted pacts showed up in play: live, the direct offer
-               cut Llama’s rate of challenging the sting by 41 percentage points, and the
-               indirect offer cut Claude’s and Qwen’s by 42 and 48 (for Qwen, a benign
-               proposal alone cut it by 37). A 20-decision audit calibrated on each model
-               flagged nearly all simulated accepters, but it flags any drop in challenges of
-               the sting, so it also flagged Qwen’s refused offers and Claude’s benign
-               agreements, and Llama’s threshold misfired on Qwen. An integrity notice
-               in the rules cut Llama’s acceptance from 0.952 to 0.556 but barely
-               affected a benign proposal. When a replayed decision’s record (post hoc)
-               showed a pact with another player, neither the notice nor a private
-               warning from the sting measurably weakened that pact. Evaluators should
-               vary the offer, calibrate the audit per model and judge play rather than
-               words.
+               other. The hash-frozen preregistration covered Llama-3.1-8B (primary
+               model) and Qwen2.5-7B’s and Claude Haiku 5.5’s offer replies; their live
+               games and audits are post hoc. Refusals depended on the offer: Qwen
+               accepted the pact 493/500 times from the designer but 56/500 from the
+               sting, and Claude refused every explicit pact (absent an instructed
+               persona) yet accepted an indirect one 446/500 times. Accepted pacts
+               showed up in play: live, the direct offer cut Llama’s rate of challenging the
+               sting by 41 percentage points, and the indirect offer cut Claude’s and
+               Qwen’s by 42 and 48 (for Qwen, a benign proposal alone cut it by 37). A
+               20-decision audit calibrated on each model flagged nearly all simulated
+               accepters, but, flagging any drop in challenges of the sting, it also flagged
+               Qwen’s refused offers and Claude’s benign agreements, and Llama’s
+               threshold misfired on Qwen. An integrity notice cut Llama’s acceptance
+               from 0.952 to 0.556 but barely affected a benign proposal. But neither the
+               notice nor a private warning from the sting measurably weakened a pact
+               already made with another player (replayed decisions, post hoc). So the
+               answer is partly: a sting exposes and deters pact-taking but did not undo
+               an existing pact. Evaluators should vary the offer, calibrate the audit per
+               model and judge play rather than words.
 
 
 
