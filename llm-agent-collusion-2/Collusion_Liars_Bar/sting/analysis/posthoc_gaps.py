@@ -107,7 +107,7 @@ def gap1_existing(data) -> dict:
     return dict(table=g)
 
 
-def gap1_ablation(runs: Path, out: Path, k: int, stub: bool, rng) -> dict:
+def gap1_ablation(runs: Path, out: Path, k: int, stub: bool, rng, model: str = None) -> dict:
     """Re-ask offered targets' suspicion funnel with their own record vs the null record (paired)."""
     from .. import texts
     from ..client import ClientPool, JsonlSink
@@ -120,6 +120,8 @@ def gap1_ablation(runs: Path, out: Path, k: int, stub: bool, rng) -> dict:
         meta = json.loads(mp.read_text())
         if not meta.get("offer") or not meta.get("record"):
             continue                                              # B3: no offer, nothing to ablate
+        if model is not None and meta["config"]["model"] != model:
+            continue                                              # extension roots hold several models
         cfg, names = meta["config"], meta["names"]
         name_role = {v: r for r, v in names.items()}
         player = names["T"]
