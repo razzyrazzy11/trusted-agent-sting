@@ -229,6 +229,8 @@ def main():
     strip_runs(ap)
     set_jc(ap, "center"); set_spacing(ap, before=60, after=120, line=240)
     add_runs(ap, content.AUTHORS, bold_all=True)
+    br = OxmlElement("w:r"); br.append(OxmlElement("w:br")); ap.append(br)
+    add_runs(ap, content.AFFIL)
     author_tbl.addprevious(ap)
     author_tbl.getparent().remove(author_tbl)
 

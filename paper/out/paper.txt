@@ -3,7 +3,8 @@
 
 
 
-                                             Razvan Sacara
+                                            Razvan Sacara
+                                        Independent Researcher
                                                  With
                                              Apart Research
 
@@ -39,7 +40,6 @@
 LLM pricing agents autonomously reach supra-competitive prices (Fish et al., 2024), and in Zeng &
 Rudzicz’s (2026) Liar’s Bar study most of 12 models, including all four 7–8B models, accepted secret
 collusion tools offered by the game designer. As such agents trade for firms, their collusion would cost
-
 
 
 1 Research conducted at the AI Collusion Research Sprint, October 2026

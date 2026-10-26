@@ -5,6 +5,7 @@ Block kinds: ("h2", text) ("h3", text) ("p", text) ("bullets", [text]) ("numbere
 
 TITLE = "Undercover Agents: A Trusted Agent That Offers to Collude Partly Exposes and Deters Pact-Taking by LLM Agents"
 AUTHORS = "Razvan Sacara"
+AFFIL = "Independent Researcher"
 
 ABSTRACT = (
     "Can a trusted agent disrupt collusion by offering to collude? In Zeng & "
