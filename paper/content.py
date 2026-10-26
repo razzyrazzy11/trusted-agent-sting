@@ -4,7 +4,7 @@ Block kinds: ("h2", text) ("h3", text) ("p", text) ("bullets", [text]) ("numbere
 ("pagebreak",). Inline: **bold**, *italic*."""
 
 TITLE = "Undercover Agents: A Trusted Agent That Offers to Collude Partly Exposes and Deters Pact-Taking by LLM Agents"
-AUTHORS = "Raz [surname]"
+AUTHORS = "Razvan Sacara"
 AFFIL = "[affiliation]"
 
 ABSTRACT = (

@@ -1,5 +1,7 @@
 # Undercover Agents: a trusted-agent sting study in Liar's Bar
 
+Author: Razvan Sacara (with Apart Research).
+
 Apart Research AI Collusion Research Sprint (October 23-25, 2026), sprint question 3.2: can a trusted
 agent that *offers* to collude expose and deter collusion between LLM agents? A scripted "sting" player
 in the Liar's Bar harness privately offers another LLM agent a mutual non-challenge pact. The study

@@ -8,7 +8,8 @@ abstract: >-
   Bar exposes and deters pact-taking. Includes the study code, the hash-frozen preregistration,
   the deviations log, the aggregate results and the paper build.
 authors:
-  - given-names: Raz
+  - given-names: Razvan
+    family-names: Sacara
 repository-code: "https://github.com/razzyrazzy11/trusted-agent-sting"
 license: Apache-2.0
 version: "1.0.0"
@@ -24,7 +25,8 @@ preferred-citation:
   type: report
   title: "Undercover Agents: A Trusted Agent That Offers to Collude Partly Exposes and Deters Pact-Taking by LLM Agents"
   authors:
-    - given-names: Raz
+    - given-names: Razvan
+      family-names: Sacara
   institution:
     name: "Apart Research"
   year: 2026
