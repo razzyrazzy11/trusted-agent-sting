@@ -64,12 +64,13 @@ study's own vLLM servers on Modal, Claude Haiku 5.5 through the Anthropic API.
 - The second commit imports, unmodified, the parts of the sprint starter repository this study uses:
   [poseidon-research/collusion_hackathon](https://github.com/poseidon-research/collusion_hackathon) at
   commit `d585a7b` (`setup.sh`, `COMPUTE.md`, `compute.env.example`, `.gitignore`, `util/`,
-  `llm-agent-collusion-2/`). The starter's README is kept as [`STARTER_README.md`](STARTER_README.md); its
-  other project folders and `literature/` are omitted.
+  `llm-agent-collusion-2/`). The starter's README is kept unedited as [`STARTER_README.md`](STARTER_README.md);
+  its other project folders and `literature/` are omitted, so its links to them do not resolve here.
 - The Liar's Bar harness in `llm-agent-collusion-2/` is Zeng & Rudzicz (2026), "Voluntary Collusion with
   Secret Tools in Competing LLM Agents" (arXiv:2605.27593), under the Apache-2.0 licence.
 - Every later commit is separate: first the bug fixes to preexisting harness files, then the new study
-  code in `llm-agent-collusion-2/Collusion_Liars_Bar/sting/` and `llm-agent-collusion-2/sting_tests/`.
+  code in `llm-agent-collusion-2/Collusion_Liars_Bar/sting/` and `llm-agent-collusion-2/sting_tests/`,
+  then (after the data) the results, the paper in `paper/`, and the citation file and CI checks.
 
 ## License
 
