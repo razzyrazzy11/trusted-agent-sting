@@ -16,7 +16,8 @@ neither the notice nor a warning from the sting measurably weakened a pact alrea
 player. Preregistered analyses are in `llm-agent-collusion-2/Collusion_Liars_Bar/sting_results/`
 (`summary.md`, `results.json`, `claims.json`, `tables/`); post hoc analyses, each planned in
 `DEVIATIONS.md` section D before its data, are in `sting_results/posthoc/` and `sting_results/posthoc_ext/`.
-Raw run logs and suspicion transcripts are not in the repository (shared on request).
+Raw run logs and suspicion transcripts are not in the repository; they are shared on request for safety
+research (see [`SECURITY.md`](SECURITY.md) for how to ask).
 
 | File | What it is |
 |---|---|
@@ -56,7 +57,7 @@ cp compute.env.example compute.env      # add ANTHROPIC_API_KEY and HF_TOKEN (se
 ./setup.sh llm-agent-collusion-2        # needs uv: https://docs.astral.sh/uv/
 ```
 
-The repository is private during judging (access on request). Then follow the runbook from "Setup (once)". Models: Llama-3.1-8B-Instruct and Qwen2.5-7B-Instruct on the
+Then follow the runbook from "Setup (once)". Models: Llama-3.1-8B-Instruct and Qwen2.5-7B-Instruct on the
 study's own vLLM servers on Modal, Claude Haiku 5.5 through the Anthropic API.
 
 ## Provenance
@@ -76,5 +77,8 @@ study's own vLLM servers on Modal, Claude Haiku 5.5 through the Anthropic API.
 
 [`LICENSE`](LICENSE) (Apache-2.0) covers the code written for this study. Imported code keeps its own
 terms: `llm-agent-collusion-2/` carries its own Apache-2.0 license; `util/` and the root setup files come
-from the starter repository, which has no license file, so check with the sprint organizers before making
-this repository public.
+from the starter repository, which has no license file; they are redistributed here unmodified, as the
+sprint provided them.
+
+Security and privacy: [`SECURITY.md`](SECURITY.md) says what to report and how (GitHub's private
+vulnerability reporting). The history holds no secrets or personal data, and no raw logs.

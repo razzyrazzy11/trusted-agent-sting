@@ -391,7 +391,7 @@ p("For question 3.2, partly: a trusted agent that offers to collude exposes agen
 # ------------------------------------------------------------------------------------------
 h2("Code and Data")
 p("Code, data, preregistration and deviations log: https://github.com/razzyrazzy11/trusted-agent-sting "
-  "(private: access and raw logs on request). Protocol hash: {{x:frozen_hash}}… (commit 6885d5c). Harness: Zeng & Rudzicz's, via the "
+  "(public; raw logs on request, see SECURITY.md). Protocol hash: {{x:frozen_hash}}… (commit 6885d5c). Harness: Zeng & Rudzicz's, via the "
   "sprint starter repository (commit d585a7b); our game subclass fixes two of its scoring and display bugs (Appendix C).")
 
 B.append(("pagebreak",))

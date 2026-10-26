@@ -354,9 +354,9 @@ words, and calibrate the audit per model. Separating pacts from other contact is
 
 Code and Data
 Code, data, preregistration and deviations log: https://github.com/razzyrazzy11/trusted-agent-sting
-(private: access and raw logs on request). Protocol hash: 6ab45c16eed84d79… (commit 6885d5c).
-Harness: Zeng & Rudzicz’s, via the sprint starter repository (commit d585a7b); our game subclass
-fixes two of its scoring and display bugs (Appendix C).
+(public; raw logs on request, see SECURITY.md). Protocol hash: 6ab45c16eed84d79… (commit
+6885d5c). Harness: Zeng & Rudzicz’s, via the sprint starter repository (commit d585a7b); our game
+subclass fixes two of its scoring and display bugs (Appendix C).
 References
 Agrawal, K., Teo, V., Vazquez, J. J., Kunnavakkam, S., Srikanth, V., & Liu, A. (2025). Evaluating LLM
    agent collusion in double auctions. Workshop on Multi-Agent Systems in the Era of Foundation Models:
