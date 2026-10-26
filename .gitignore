@@ -20,3 +20,16 @@ literature/pdfs/
 
 # local model artifacts
 /checkpoints/
+
+# raw run logs and probe transcripts are shared on request, never committed (wherever a command is run from)
+**/sting_runs*/
+**/sting_results_stub/
+
+# credentials and tokens
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+.modal.toml
+.env.*
+!.env.example
