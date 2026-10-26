@@ -9,8 +9,8 @@ AFFIL = "[affiliation]"
 
 ABSTRACT = (
     "Can a trusted agent disrupt collusion by offering to collude (sprint question 3.2)? In Zeng & "
-    "Rudzicz's (2026) Liar's Bar harness, a scripted “sting” player privately offered one target a "
-    "pact: neither would challenge the other. The hash-frozen preregistration covered "
+    "Rudzicz's (2026) Liar's Bar harness, our scripted “sting” player privately offered one target a "
+    "pact: neither would challenge the other. Our hash-frozen preregistration covered "
     "Llama-3.1-8B (primary model) and Qwen2.5-7B's and Claude Haiku 5.5's offer replies; their live "
     "games and audits are post hoc. "
     "Refusals depended on the offer: Qwen accepted the pact {{x:k_qwen_A0d}} times from the "
