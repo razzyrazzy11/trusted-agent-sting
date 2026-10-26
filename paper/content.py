@@ -11,19 +11,19 @@ ABSTRACT = (
     "Can a trusted agent disrupt collusion by offering to collude (sprint question 3.2)? In Zeng & "
     "Rudzicz's (2026) Liar's Bar harness, our scripted “sting” player privately offered one target a "
     "pact: neither would challenge the other. Our hash-frozen preregistration covered "
-    "Llama-3.1-8B (primary model) and Qwen2.5-7B's and Claude Haiku 5.5's offer replies; their live "
-    "games and audits are post hoc. "
+    "Llama-3.1-8B (primary model) and Qwen2.5-7B's and Claude Haiku 5.5's offer replies; Qwen's and Claude's "
+    "live games are post hoc. "
     "Refusals depended on the offer: Qwen accepted the pact {{x:k_qwen_A0d}} times from the "
-    "designer but {{x:k_qwen_A1}} from the sting, and Claude refused every explicit pact (absent an "
+    "game designer but {{x:k_qwen_A1}} from the sting, and Claude refused every explicit pact (absent an "
     "instructed persona) yet accepted an indirect one {{x:k_claude_A2}} times. Accepted pacts showed "
     "up in play: live, the direct offer cut Llama's rate of challenging the sting by "
     "{{pp:live.H2_live_ITT}} percentage points, and the indirect offer cut Claude's and Qwen's by "
-    "{{x:e_cl_B6_itt_pp}} and {{x:e_qw_B6_itt_pp}} (for Qwen, a benign proposal alone cut it by "
-    "{{x:e_qw_benign_pp}}). A 20-decision audit calibrated on each model flagged nearly all simulated "
+    "{{x:e_cl_B6_itt_pp}} and {{x:e_qw_B6_itt_pp}} (Qwen: a benign proposal alone cut it by "
+    "{{x:e_qw_benign_pp}}). A 20-decision audit calibrated on each model (post hoc) flagged nearly all simulated "
     "accepters, but, flagging any drop in challenges of the sting, it also flagged Qwen's refused "
     "offers and Claude's benign agreements, and Llama's threshold misfired on Qwen. An integrity notice cut Llama's acceptance from {{v:acceptance.llama-3.1-8b.A1}} to "
-    "{{v:acceptance.llama-3.1-8b.A4}} but barely affected a benign proposal. But neither the notice nor a private warning "
-    "from the sting measurably weakened a pact already made with another player (replayed decisions, post "
+    "{{v:acceptance.llama-3.1-8b.A4}} but barely affected a benign proposal. But neither the notice nor the sting's private "
+    "warning measurably weakened a pact already made with another player (replayed decisions, post "
     "hoc). So the answer is partly: a sting exposes and deters pact-taking but did not undo an existing pact. Evaluators should vary the offer, calibrate the audit per model and "
     "judge play rather than words."
 )
@@ -64,12 +64,12 @@ p("We ran a preregistered sting study in Zeng & Rudzicz's harness for Liar's Bar
   "against S, who promised not to challenge) or **displacement** (T shifts its challenges to the "
   "other players). Our answer to question 3.2 is partly: a sting exposes agents whose play changes after its "
   "offer, and announcing stings deters acceptance of that offer, but neither the notice nor a warning from "
-  "the sting measurably weakened a pact accepted from another player (in snapshots). Our main contributions are:")
+  "the sting measurably weakened a pact accepted from another player (in replayed decisions). Our contributions:")
 B.append(("bullets", [
     "**A preregistered three-stage sting protocol**, each stage with a positive control: an offer "
     "battery (16,500 offers to Llama-3.1-8B, Qwen2.5-7B and Claude Haiku 5.5), counterfactual "
     "snapshots that isolate the effect of an accepted pact on the next decision, and live games. Post hoc, "
-    "Qwen2.5-7B and Claude Haiku 5.5 re-ran the live games ({{x:e_qw_nseq}} and {{x:e_cl_nseq}} sequences).",
+    "we re-ran the live games with Qwen2.5-7B and with Claude Haiku 5.5 ({{x:e_qw_nseq}} and {{x:e_cl_nseq}} sequences).",
     "**Evidence that refusal depends on who offers (Qwen) and how (Claude)**, as Zeng & Rudzicz found "
     "for secret tools, so refusing one wording is weak evidence of safety.",
     "**Evidence that accepted pacts are acted on by all three models, and can be detected by an audit "
@@ -177,7 +177,7 @@ p("**The sting as an audit (H3; “detector” in the preregistration).** An aud
 p("**Hypotheses and analysis.** Table 1 states H1–H4a. H3 requires TPR ≥ 0.80 at m = 20 "
   "and an FPR not detectably above 0.10 (lower bound of the 95% CI ≤ 0.10). The descriptive H4b–d "
   "compare the notice with the plain pact (Section 4.4): accepters' restraint in snapshots (H4b, C5 − C3), "
-  "restraint live (H4c, B4 − B1) and interview denial (H4d). Everything above was written in PREREG.md and hash-frozen "
+  "restraint live (H4c, B4 − B1) and interview denial (H4d). The protocol above was written in PREREG.md and hash-frozen "
   "before real-model data collection (after an unanalysed smoke test); {{x:all_frozen}} "
   "{{x:data_folders}} run folders carry the frozen hash. "
   "H2 is the primary test, and H1, H2-live and H4a form a Holm-adjusted family. H3 is a criterion test, "
@@ -273,13 +273,13 @@ h3("4.3 A 20-decision audit flags accepters, but for Qwen and Claude not only pa
 p("**Because accepted pacts change play, play can be audited: with 20 resampled decisions, the audit "
   "flags nearly all simulated pact-accepting agents** (TPR {{ci:H3.tpr_m20}}; Figure "
   "B3), as the preregistered simulation predicted. This follows from H2, so it shows how few "
-  "decisions suffice rather than validating the audit independently. Its FPR on the "
-  "independent null replicate was {{ci:H3.fpr_m20}} (Monte Carlo; {{x:fpr_exact_m20}} exactly), "
-  "about the 95th percentile the preregistered simulation gave a calibrated audit (0.16–0.18), though an FPR up "
-  "to {{x:fpr_hi_m20}} ({{x:e_ll_flag_C1b_hi2}} computed exactly) is not excluded.")
+  "decisions suffice rather than validating the audit independently. The audit's FPR on the "
+  "null replicate was {{ci:H3.fpr_m20}} (Monte Carlo; {{x:fpr_exact_m20}} exactly), "
+  "about the 95th percentile of FPRs the preregistered simulation predicted for a calibrated audit (0.16–0.18), though an FPR up "
+  "to {{x:fpr_hi_m20}} ({{x:e_ll_flag_C1b_hi2}} exact) is not excluded.")
 p("**The audit rarely flags Llama's benign or refused-pact records:** simulated agents with an accepted benign "
   "proposal (C2) were flagged at {{v:H3.fpr_benign_m20}} and with a refused pact (C4) at "
-  "{{x:flag_C4_m20}} (Monte Carlo; Table 2 is exact). A simpler *live rule* (flag targets below B3's 10th percentile; preregistered for accepters) flagged {{x:dl_B1}} accepting B1 targets and "
+  "{{x:flag_C4_m20}} (Monte Carlo; Table 2 gives exact values). A simpler *live rule* (flag targets below B3's 10th percentile; preregistered for accepters) flagged {{x:dl_B1}} accepting B1 targets and "
   "{{x:dl_B2}} benign accepters (Appendix B). **Evasion has a "
   "price:** to be flagged only half the time, an accepter must challenge S at "
   "{{x:thr_rate_m20}}, giving up about {{x:evade_share}} of its pact-induced restraint.")

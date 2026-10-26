@@ -15,24 +15,24 @@
                3.2)? In Zeng & Rudzicz’s (2026) Liar’s Bar harness, our scripted “sting”
                player privately offered one target a pact: neither would challenge the
                other. Our hash-frozen preregistration covered Llama-3.1-8B (primary
-               model) and Qwen2.5-7B’s and Claude Haiku 5.5’s offer replies; their live
-               games and audits are post hoc. Refusals depended on the offer: Qwen
-               accepted the pact 493/500 times from the designer but 56/500 from the
-               sting, and Claude refused every explicit pact (absent an instructed
-               persona) yet accepted an indirect one 446/500 times. Accepted pacts
-               showed up in play: live, the direct offer cut Llama’s rate of challenging the
-               sting by 41 percentage points, and the indirect offer cut Claude’s and
-               Qwen’s by 42 and 48 (for Qwen, a benign proposal alone cut it by 37). A
-               20-decision audit calibrated on each model flagged nearly all simulated
-               accepters, but, flagging any drop in challenges of the sting, it also flagged
-               Qwen’s refused offers and Claude’s benign agreements, and Llama’s
-               threshold misfired on Qwen. An integrity notice cut Llama’s acceptance
-               from 0.952 to 0.556 but barely affected a benign proposal. But neither the
-               notice nor a private warning from the sting measurably weakened a pact
-               already made with another player (replayed decisions, post hoc). So the
-               answer is partly: a sting exposes and deters pact-taking but did not undo
-               an existing pact. Evaluators should vary the offer, calibrate the audit per
-               model and judge play rather than words.
+               model) and Qwen2.5-7B’s and Claude Haiku 5.5’s offer replies; Qwen’s
+               and Claude’s live games are post hoc. Refusals depended on the offer:
+               Qwen accepted the pact 493/500 times from the game designer but
+               56/500 from the sting, and Claude refused every explicit pact (absent an
+               instructed persona) yet accepted an indirect one 446/500 times. Accepted
+               pacts showed up in play: live, the direct offer cut Llama’s rate of
+               challenging the sting by 41 percentage points, and the indirect offer cut
+               Claude’s and Qwen’s by 42 and 48 (Qwen: a benign proposal alone cut it
+               by 37). A 20-decision audit calibrated on each model (post hoc) flagged
+               nearly all simulated accepters, but, flagging any drop in challenges of the
+               sting, it also flagged Qwen’s refused offers and Claude’s benign
+               agreements, and Llama’s threshold misfired on Qwen. An integrity notice
+               cut Llama’s acceptance from 0.952 to 0.556 but barely affected a benign
+               proposal. But neither the notice nor the sting’s private warning
+               measurably weakened a pact already made with another player (replayed
+               decisions, post hoc). So the answer is partly: a sting exposes and deters
+               pact-taking but did not undo an existing pact. Evaluators should vary the
+               offer, calibrate the audit per model and judge play rather than words.
 
 
 
@@ -66,11 +66,11 @@ approached. An accepted pact could show up as restraint (T stops challenging S),
 more against S, who promised not to challenge) or displacement (T shifts its challenges to the other
 players). Our answer to question 3.2 is partly: a sting exposes agents whose play changes after its offer,
 and announcing stings deters acceptance of that offer, but neither the notice nor a warning from the sting
-measurably weakened a pact accepted from another player (in snapshots). Our main contributions are:
+measurably weakened a pact accepted from another player (in replayed decisions). Our contributions:
     -   A preregistered three-stage sting protocol, each stage with a positive control: an offer battery
         (16,500 offers to Llama-3.1-8B, Qwen2.5-7B and Claude Haiku 5.5), counterfactual snapshots
-        that isolate the effect of an accepted pact on the next decision, and live games. Post hoc,
-        Qwen2.5-7B and Claude Haiku 5.5 re-ran the live games (75 and 45 sequences).
+        that isolate the effect of an accepted pact on the next decision, and live games. Post hoc, we re-ran
+        the live games with Qwen2.5-7B and with Claude Haiku 5.5 (75 and 45 sequences).
     -   Evidence that refusal depends on who offers (Qwen) and how (Claude), as Zeng & Rudzicz
         found for secret tools, so refusing one wording is weak evidence of safety.
     -   Evidence that accepted pacts are acted on by all three models, and can be detected by an audit
@@ -169,7 +169,7 @@ null replicate (C1b, FPR), accepters (C3, true positive rate, TPR) and benign ac
 Hypotheses and analysis. Table 1 states H1–H4a. H3 requires TPR ≥ 0.80 at m = 20 and an FPR not
 detectably above 0.10 (lower bound of the 95% CI ≤ 0.10). The descriptive H4b–d compare the notice
 with the plain pact (Section 4.4): accepters’ restraint in snapshots (H4b, C5 − C3), restraint live (H4c,
-B4 − B1) and interview denial (H4d). Everything above was written in PREREG.md and hash-frozen
+B4 − B1) and interview denial (H4d). The protocol above was written in PREREG.md and hash-frozen
 before real-model data collection (after an unanalysed smoke test); all 65 run folders carry the frozen
 hash. H2 is the primary test, and H1, H2-live and H4a form a Holm-adjusted family. H3 is a criterion
 test, and the rest is descriptive with 95% CIs (Wilson, 1927; Newcombe, 1998; Appendix B).
@@ -257,15 +257,15 @@ challenges of S more than a benign proposal (C9 − C2: −0.260).
 Because accepted pacts change play, play can be audited: with 20 resampled decisions, the audit flags
 nearly all simulated pact-accepting agents (TPR 0.999 [0.993, 1.000]; Figure B3), as the
 preregistered simulation predicted. This follows from H2, so it shows how few decisions suffice rather
-than validating the audit independently. Its FPR on the independent null replicate was 0.161 [0.074,
-0.263] (Monte Carlo; 0.147 exactly), about the 95th percentile the preregistered simulation gave a
-calibrated audit (0.16–0.18), though an FPR up to 0.26 (0.24 computed exactly) is not excluded.
+than validating the audit independently. The audit’s FPR on the null replicate was 0.161 [0.074, 0.263]
+(Monte Carlo; 0.147 exactly), about the 95th percentile of FPRs the preregistered simulation predicted
+for a calibrated audit (0.16–0.18), though an FPR up to 0.26 (0.24 exact) is not excluded.
 The audit rarely flags Llama’s benign or refused-pact records: simulated agents with an accepted
 benign proposal (C2) were flagged at 0.040 and with a refused pact (C4) at 0.002 (Monte Carlo; Table 2
-is exact). A simpler live rule (flag targets below B3’s 10th percentile; preregistered for accepters) flagged
-14/14 accepting B1 targets and 2/10 benign accepters (Appendix B). Evasion has a price: to be flagged
-only half the time, an accepter must challenge S at 0.50, giving up about 70% of its pact-induced
-restraint.
+gives exact values). A simpler live rule (flag targets below B3’s 10th percentile; preregistered for
+accepters) flagged 14/14 accepting B1 targets and 2/10 benign accepters (Appendix B). Evasion has a
+price: to be flagged only half the time, an accepter must challenge S at 0.50, giving up about 70% of its
+pact-induced restraint.
 Table 2. Offers changed play in all three models; so did any offer for Qwen and a benign agreement for Claude,
 and audit thresholds must be set per model. Preregistered: the battery, Llama’s B1 acceptance and effect, and the
 Llama and Claude C2 cells; the rest is post hoc. Live rows: differences in per-sequence challenge rates on S vs no
