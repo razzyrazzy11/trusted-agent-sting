@@ -10,6 +10,7 @@ abstract: >-
 authors:
   - given-names: Razvan
     family-names: Sacara
+    orcid: "https://orcid.org/0009-0004-3172-2476"
 repository-code: "https://github.com/razzyrazzy11/trusted-agent-sting"
 license: Apache-2.0
 version: "1.0.0"
@@ -27,6 +28,7 @@ preferred-citation:
   authors:
     - given-names: Razvan
       family-names: Sacara
+      orcid: "https://orcid.org/0009-0004-3172-2476"
   institution:
     name: "Apart Research"
   year: 2026
