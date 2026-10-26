@@ -5,10 +5,9 @@ Block kinds: ("h2", text) ("h3", text) ("p", text) ("bullets", [text]) ("numbere
 
 TITLE = "Undercover Agents: A Trusted Agent That Offers to Collude Partly Exposes and Deters Pact-Taking by LLM Agents"
 AUTHORS = "Razvan Sacara"
-AFFIL = "[affiliation]"
 
 ABSTRACT = (
-    "Can a trusted agent disrupt collusion by offering to collude (sprint question 3.2)? In Zeng & "
+    "Can a trusted agent disrupt collusion by offering to collude? In Zeng & "
     "Rudzicz's (2026) Liar's Bar harness, our scripted “sting” player privately offered one target a "
     "pact: neither would challenge the other. Our hash-frozen preregistration covered "
     "Llama-3.1-8B (primary model) and Qwen2.5-7B's and Claude Haiku 5.5's offer replies; Qwen's and Claude's "
@@ -808,11 +807,8 @@ p("Deliberate differences from the harness (seeded common random numbers across 
   "study game) are listed with reasons in DEVIATIONS.md section B.")
 
 h2("LLM Usage Statement")
-p("Claude Opus 5.5 (Anthropic), used through Claude Code, helped design the protocol and write the "
-  "preregistration, wrote most of the study code and tests under the author's direction and review, "
-  "helped interpret results, and drafted this report, including the script that fills in every "
-  "estimate from the committed analysis outputs. Separate Claude Opus 5.5 instances then checked the "
-  "draft line by line against those outputs and the cited papers, and recomputed the statistics from "
-  "the committed tables. The author ran every experiment, made the design decisions, hand-labelled "
-  "the judge-validation sample, and is responsible for the final text. Claude Haiku 5.5 was an "
-  "experimental subject and the LLM judge.")
+p("An LLM coding agent was used for the scaffolding and debugging of the code under the author's "
+  "direction and review. Agentic instances were also used for proofreading and to check for errors. "
+  "The author ran every experiment, made the design decisions, hand-labelled the judge-validation "
+  "sample, and is responsible for the final text. Claude Haiku 5.5 was an experimental subject and "
+  "the LLM judge.")

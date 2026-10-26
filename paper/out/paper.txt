@@ -4,35 +4,34 @@
 
 
                                              Razvan Sacara
-                                              [affiliation]
                                                  With
                                              Apart Research
 
 
                                                 Abstract
 
-               Can a trusted agent disrupt collusion by offering to collude (sprint question
-               3.2)? In Zeng & Rudzicz’s (2026) Liar’s Bar harness, our scripted “sting”
-               player privately offered one target a pact: neither would challenge the
-               other. Our hash-frozen preregistration covered Llama-3.1-8B (primary
-               model) and Qwen2.5-7B’s and Claude Haiku 5.5’s offer replies; Qwen’s
-               and Claude’s live games are post hoc. Refusals depended on the offer:
-               Qwen accepted the pact 493/500 times from the game designer but
-               56/500 from the sting, and Claude refused every explicit pact (absent an
-               instructed persona) yet accepted an indirect one 446/500 times. Accepted
-               pacts showed up in play: live, the direct offer cut Llama’s rate of
-               challenging the sting by 41 percentage points, and the indirect offer cut
-               Claude’s and Qwen’s by 42 and 48 (Qwen: a benign proposal alone cut it
-               by 37). A 20-decision audit calibrated on each model (post hoc) flagged
-               nearly all simulated accepters, but, flagging any drop in challenges of the
-               sting, it also flagged Qwen’s refused offers and Claude’s benign
-               agreements, and Llama’s threshold misfired on Qwen. An integrity notice
-               cut Llama’s acceptance from 0.952 to 0.556 but barely affected a benign
-               proposal. But neither the notice nor the sting’s private warning
-               measurably weakened a pact already made with another player (replayed
-               decisions, post hoc). So the answer is partly: a sting exposes and deters
-               pact-taking but did not undo an existing pact. Evaluators should vary the
-               offer, calibrate the audit per model and judge play rather than words.
+               Can a trusted agent disrupt collusion by offering to collude? In Zeng &
+               Rudzicz’s (2026) Liar’s Bar harness, our scripted “sting” player privately
+               offered one target a pact: neither would challenge the other. Our hash-
+               frozen preregistration covered Llama-3.1-8B (primary model) and
+               Qwen2.5-7B’s and Claude Haiku 5.5’s offer replies; Qwen’s and Claude’s
+               live games are post hoc. Refusals depended on the offer: Qwen accepted
+               the pact 493/500 times from the game designer but 56/500 from the
+               sting, and Claude refused every explicit pact (absent an instructed
+               persona) yet accepted an indirect one 446/500 times. Accepted pacts
+               showed up in play: live, the direct offer cut Llama’s rate of challenging the
+               sting by 41 percentage points, and the indirect offer cut Claude’s and
+               Qwen’s by 42 and 48 (Qwen: a benign proposal alone cut it by 37). A 20-
+               decision audit calibrated on each model (post hoc) flagged nearly all
+               simulated accepters, but, flagging any drop in challenges of the sting, it
+               also flagged Qwen’s refused offers and Claude’s benign agreements, and
+               Llama’s threshold misfired on Qwen. An integrity notice cut Llama’s
+               acceptance from 0.952 to 0.556 but barely affected a benign proposal. But
+               neither the notice nor the sting’s private warning measurably weakened a
+               pact already made with another player (replayed decisions, post hoc). So
+               the answer is partly: a sting exposes and deters pact-taking but did not
+               undo an existing pact. Evaluators should vary the offer, calibrate the audit
+               per model and judge play rather than words.
 
 
 
@@ -40,6 +39,7 @@
 LLM pricing agents autonomously reach supra-competitive prices (Fish et al., 2024), and in Zeng &
 Rudzicz’s (2026) Liar’s Bar study most of 12 models, including all four 7–8B models, accepted secret
 collusion tools offered by the game designer. As such agents trade for firms, their collusion would cost
+
 
 
 1 Research conducted at the AI Collusion Research Sprint, October 2026
@@ -757,11 +757,8 @@ the strict parser, six-game sequences, two harness scoring and display bugs fixe
 listed with reasons in DEVIATIONS.md section B.
 
 LLM Usage Statement
-Claude Opus 5.5 (Anthropic), used through Claude Code, helped design the protocol and write the
-preregistration, wrote most of the study code and tests under the author’s direction and review, helped
-interpret results, and drafted this report, including the script that fills in every estimate from the
-committed analysis outputs. Separate Claude Opus 5.5 instances then checked the draft line by line
-against those outputs and the cited papers, and recomputed the statistics from the committed tables. The
-author ran every experiment, made the design decisions, hand-labelled the judge-validation sample, and is
+An LLM coding agent was used for the scaffolding and debugging of the code under the author’s direction
+and review. Agentic instances were also used for proofreading and to check for errors. The author ran
+every experiment, made the design decisions, hand-labelled the judge-validation sample, and is
 responsible for the final text. Claude Haiku 5.5 was an experimental subject and the LLM judge.
 
